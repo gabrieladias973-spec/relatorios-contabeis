@@ -33,8 +33,14 @@
   --amber-bg: #FEF3C7;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--b900);min-height:100vh;}
-a{text-decoration:none;}
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--off);
+  color: var(--b900);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
 
 /* ── HEADER ── */
 .hdr{background:var(--b900);padding:22px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--r600);position:sticky;top:0;z-index:200;}
@@ -56,7 +62,11 @@ a{text-decoration:none;}
 
 /* ── PANELS ── */
 .panel{display:none;padding:32px 40px;max-width:1500px;margin:0 auto;animation:fadeIn .25s ease;}
-.panel.active{display:block;}
+.panel.active {
+  display: block;
+  flex: 1 0 auto; /* O segredo está aqui: permite crescer, mas proíbe achatar! */
+  width: 100%;    /* Garante que a largura se mantém correta */
+}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── CO HEADER ── */
@@ -96,7 +106,7 @@ a{text-decoration:none;}
 .full{margin-bottom:24px;}
 
 /* ── TABLE CARD ── */
-.tc{background:#fff;border-radius:10px;border:1px solid var(--gray3);overflow:hidden;}
+.tc{background:#fff;border-radius:10px;border:1px solid var(--gray3);overflow-x: auto;}
 .tc-hdr{background:var(--b900);padding:12px 18px;font-size:11px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.8px;display:flex;justify-content:space-between;align-items:center;}
 .tc-hdr .cols{display:flex;gap:32px;font-size:9px;color:var(--b400);}
 table{width:100%;border-collapse:collapse;}
@@ -154,7 +164,7 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 .tco-tab.active{background:var(--b900);color:#fff;border-color:var(--b900);}
 .tco-tab:hover:not(.active){border-color:var(--b600);color:var(--b600);}
 
-.tax-table-wrap{background:#fff;border-radius:10px;border:1px solid var(--gray3);overflow:hidden;}
+.tax-table-wrap{background:#fff;border-radius:10px;border:1px solid var(--gray3);overflow-x: auto;}
 .tax-table-hdr{background:var(--b900);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
 .tax-table-hdr h3{font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.8px;}
 .tax-table-hdr .cnpj-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--b400);}
@@ -179,8 +189,45 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 .tax-sum-row:last-child{border:none;font-weight:700;color:var(--b800);padding-top:8px;margin-top:4px;}
 .tax-sum-row span:last-child{font-family:'JetBrains Mono',monospace;font-weight:600;}
 
+/* ── BOTÃO PDF E IMPRESSÃO ── */
+.btn-pdf {
+  background: var(--b600);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-pdf:hover {
+  background: var(--b700);
+}
+
+/* Esconde elementos desnecessários na hora de salvar o PDF */
+@media print {
+  .hdr, .nav, .btn-pdf, .footer { display: none !important; }
+  body { background: #fff; }
+  .panel { display: block !important; padding: 0 !important; max-width: 100%; animation: none; }
+  /* Garante que as cores de fundo apareçam no PDF */
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+
 /* ── FOOTER ── */
-.footer{background:var(--b900);text-align:center;padding:16px;margin-top:40px;font-size:10px;color:var(--b400);letter-spacing:1px;}
+.footer {
+  background: var(--b900);
+  text-align: center;
+  padding: 16px;
+  margin-top: auto; 
+  font-size: 10px;
+  color: var(--b400);
+  letter-spacing: 1px;
+}
 
 /* ── UTIL ── */
 .note{font-size:10px;color:var(--amber);background:var(--amber-bg);border:1px solid #FDE68A;padding:6px 12px;border-radius:5px;margin-bottom:16px;display:inline-block;}
@@ -215,7 +262,8 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 </div>
 
 <div class="nav">
-  <div class="tab active" onclick="show('cota')">Transportes</div>
+  <div class="tab active" onclick="show('geral')">Visão Geral</div>
+  <div class="tab" onclick="show('cota')">Transportes</div>
   <div class="tab" onclick="show('montemar')">Monte Mar</div>
   <div class="tab" onclick="show('agro')">JE Agropecuária</div>
   <div class="tab" onclick="show('part')">Participações</div>
@@ -223,8 +271,80 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
   <div class="tab tax-tab" onclick="show('impostos')">⚡ Impostos</div>
 </div>
 
+<!-- ════════════════════ VISÃO GERAL ════════════════════ -->
+<div class="panel active" id="panel-geral">
+  <div class="co-head">
+    <div>
+      <div class="co-name">Visão Geral</div>
+      <div class="co-sector">Grupo Centro Oeste</div>
+    </div>
+    <div class="co-period">
+      <button class="btn-pdf" onclick="exportarPDF()">📄 Exportar para PDF</button>
+    </div>
+  </div>
+
+  <div class="sec">Resultados 2025</div>
+  <div class="full tc">
+    <div class="tc-hdr">CONSOLIDADO<div class="cols"><span>Valores em R$</span></div></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Empresa</th>
+          <th>Faturamento</th>
+          <th>CMV</th>
+          <th>Desp. Operacionais</th>
+          <th>IRPJ / CSLL</th>
+          <th>Lucro Líquido</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Transportes</td>
+          <td>8.531.702</td>
+          <td>(10.708.100)</td>
+          <td>(7.723.675)</td>
+          <td>(267.037)</td>
+          <td class="pos">540.991</td>
+        </tr>
+        <tr>
+          <td>Monte Mar</td>
+          <td>354.306.982</td>
+          <td>(225.702.726)</td>
+          <td>(15.126.842)</td>
+          <td>(5.089.806)</td>
+          <td class="pos">10.082.170</td>
+        </tr>
+        <tr>
+          <td>JE Agropecuária</td>
+          <td>156.734.672</td>
+          <td>(150.866.774)</td>
+          <td>(3.522.820)</td>
+          <td>(2.936.010)</td>
+          <td class="neg">(590.932)</td>
+        </tr>
+        <tr>
+          <td>Participações <small>(mil)</small></td>
+          <td>—</td>
+          <td>—</td>
+          <td>(38.293.951)</td>
+          <td>(320.697)</td>
+          <td class="neg">(38.923.951)</td>
+        </tr>
+        <tr>
+          <td>Tatico <small>(mil)</small></td>
+          <td>3.037.433</td>
+          <td>(2.609.710)</td>
+          <td>(401.955)</td>
+          <td>(12.222)</td>
+          <td class="pos">13.546</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <!-- ════════════════════ CENTRO OESTE TRANSPORTES ════════════════════ -->
-<div class="panel active" id="panel-cota">
+<div class="panel" id="panel-cota">
   <div class="co-head">
     <div>
       <div class="co-name">Centro Oeste Serviços<br>e Transportes de Cargas</div>
@@ -929,6 +1049,12 @@ function showTaxCo(id) {
   document.querySelectorAll('.tco-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('taxco-' + id).classList.add('active');
   event.currentTarget.classList.add('active');
+}
+
+function exportarPDF() {
+  // O window.print() abre a tela de impressão do navegador.
+  // Graças ao nosso @media print no CSS, ele formata tudo perfeitamente para salvar como PDF!
+  window.print();
 }
 </script>
 </body>
