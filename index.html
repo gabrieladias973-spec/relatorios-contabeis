@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grupo Centro Oeste — Dashboard Financeiro 2024 | 2025</title>
+<title>Grupo Centro Oeste</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -204,7 +205,7 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 
 <div class="hdr">
   <div class="hdr-brand">
-    <h1>Grupo Centro Oeste — Dashboard Financeiro</h1>
+    <h1>Centro Oeste</h1>
     <p>Análise Comparativa · Balanço · DRE · Impostos</p>
   </div>
   <div class="hdr-years">
@@ -217,7 +218,7 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
   <div class="tab active" onclick="show('cota')">Transportes</div>
   <div class="tab" onclick="show('montemar')">Monte Mar</div>
   <div class="tab" onclick="show('agro')">JE Agropecuária</div>
-  <div class="tab" onclick="show('part')">CO Participações</div>
+  <div class="tab" onclick="show('part')">Participações</div>
   <div class="tab" onclick="show('alim')">Tatico</div>
   <div class="tab tax-tab" onclick="show('impostos')">⚡ Impostos</div>
 </div>
@@ -226,17 +227,17 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 <div class="panel active" id="panel-cota">
   <div class="co-head">
     <div>
-      <div class="co-name">Centro Oeste Transportes<br>e Serviços de Cargas</div>
+      <div class="co-name">Centro Oeste Serviços<br>e Transportes de Cargas</div>
       <div class="co-cnpj">CNPJ: 35.081.412/0001-88</div>
-      <div class="co-sector">Transporte de Cargas</div>
+      <div class="co-sector">Transportadora</div>
     </div>
     <div class="co-period"><span>Período</span><strong>2024 — 2025</strong></div>
   </div>
 
   <div class="kpi-row">
-    <div class="kpi ck"><div class="kpi-lbl">Receita Líquida (Período)</div><div class="kpi-v">R$ 8.531.702</div><div class="kpi-v2">2024: R$ 1.341.102</div><div class="badge up">▲ 536%</div></div>
-    <div class="kpi gk"><div class="kpi-lbl">Lucro Bruto (Período)</div><div class="kpi-v">R$ 10.708.100</div><div class="kpi-v2">2024: R$ 1.785.585</div><div class="badge up">▲ 500%</div></div>
-    <div class="kpi dk"><div class="kpi-lbl">Resultado Líquido</div><div class="kpi-v">R$ 540.991</div><div class="kpi-v2">2024: (R$ 573.051)</div><div class="badge up">▲ Superávit</div></div>
+    <div class="kpi ck"><div class="kpi-lbl">Faturamento</div><div class="kpi-v">R$ 8.531.702</div><div class="kpi-v2">2024: R$ 1.341.102</div><div class="badge up">▲ 536%</div></div>
+    <div class="kpi gk"><div class="kpi-lbl">CMV</div><div class="kpi-v">R$ 10.708.100</div><div class="kpi-v2">2024: R$ 1.785.585</div><div class="badge up">▲ 500%</div></div>
+    <div class="kpi dk"><div class="kpi-lbl">Lucro Líquido</div><div class="kpi-v">R$ 540.991</div><div class="kpi-v2">2024: (R$ 573.051)</div><div class="badge up">▲ Superávit</div></div>
     <div class="kpi rk"><div class="kpi-lbl">Patrimônio Líquido</div><div class="kpi-v">R$ 1.000.000</div><div class="kpi-v2">2024: R$ 1.412.968</div><div class="badge dn">▼ 29%</div></div>
   </div>
 
@@ -274,10 +275,10 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
     </div>
   </div>
 
-  <div class="sec">Demonstração do Resultado (DRE) — Período</div>
+  <div class="sec">Demonstração do Resultado do Exercício</div>
   <div class="full tc">
-    <div class="tc-hdr">DRE — Período findo 31/12/2025 vs 31/12/2024<div class="cols"><span>Período 2025</span><span>Período 2024</span><span>Q4 2025</span><span>Q4 2024</span></div></div>
-    <table><thead><tr><th>Descrição</th><th>2025 Período</th><th>2024 Período</th><th>Δ%</th><th>Q4 2025</th><th>Q4 2024</th></tr></thead>
+    <div class="tc-hdr">Em 31 de dezembro de 2025 e 2024<div class="cols"><span>Anual 2025</span><span>Anual 2024</span><span>4T2025</span><span>4T2024</span></div></div>
+    <table><thead><tr><th>Descrição</th><th>2025</th><th>2024</th><th>Δ%</th><th>4T2025</th><th>4T2024</th></tr></thead>
     <tbody>
       <tr class="sub"><td>Receita Operacional Líquida</td><td>8.531.702</td><td>1.341.102</td><td class="pos">+536%</td><td>2.605.123</td><td>1.363.902</td></tr>
       <tr class="sub"><td>Lucro Bruto</td><td>10.708.100</td><td>1.785.585</td><td class="pos">+500%</td><td>3.194.062</td><td>1.785.585</td></tr>
@@ -287,13 +288,13 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <tr><td>&nbsp;&nbsp;Resultado financeiro</td><td>(728.262)</td><td>3.401</td><td class="neg">-21514%</td><td>(310.468)</td><td>5.139</td></tr>
       <tr class="sub"><td>Total Desp. Operacionais</td><td>(7.723.675)</td><td>(1.901.415)</td><td class="neg">-306%</td><td>(2.291.878)</td><td>(1.630.625)</td></tr>
       <tr class="sub"><td>Result. antes tributação</td><td>808.027</td><td>(560.313)</td><td class="pos">+244%</td><td>313.245</td><td>(266.723)</td></tr>
-      <tr><td>&nbsp;&nbsp;Provisão IRPJ</td><td>(191.176)</td><td>(7.961)</td><td class="neg">−</td><td>(69.028)</td><td>330</td></tr>
-      <tr><td>&nbsp;&nbsp;Provisão CSLL</td><td>(75.861)</td><td>(4.777)</td><td class="neg">−</td><td>(27.802)</td><td>198</td></tr>
-      <tr class="tot"><td>Resultado Líquido</td><td>540.991</td><td>(573.051)</td><td class="pos">▲ Virada</td><td>216.415</td><td>(266.195)</td></tr>
+      <tr><td>&nbsp;&nbsp;IRPJ</td><td>(191.176)</td><td>(7.961)</td><td class="neg">−</td><td>(69.028)</td><td>330</td></tr>
+      <tr><td>&nbsp;&nbsp;CSLL</td><td>(75.861)</td><td>(4.777)</td><td class="neg">−</td><td>(27.802)</td><td>198</td></tr>
+      <tr class="tot"><td>Lucro Líquido</td><td>540.991</td><td>(573.051)</td><td class="pos">▲ Virada</td><td>216.415</td><td>(266.195)</td></tr>
     </tbody></table>
   </div>
 
-  <div class="sec">Indicadores & Estrutura</div>
+  <div class="sec">Indicadores</div>
   <div class="three">
     <div class="ind"><div class="ind-ttl">Liquidez</div>
       <div class="ind-row"><span>Corrente</span><div class="ind-vals"><span class="iv">1,16</span><span class="yt">2025</span><span class="iv old">1,29</span><span class="yt">2024</span></div></div>
@@ -319,15 +320,15 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
     <div>
       <div class="co-name">Monte Mar Distribuidor<br>Atacadista Ltda</div>
       <div class="co-cnpj">CNPJ: 05.589.952/0001-06</div>
-      <div class="co-sector">Distribuição Atacadista</div>
+      <div class="co-sector">Atacadista</div>
     </div>
     <div class="co-period"><span>Período</span><strong>2024 — 2025</strong></div>
   </div>
 
   <div class="kpi-row">
-    <div class="kpi ck"><div class="kpi-lbl">Receita Bruta</div><div class="kpi-v">R$ 354.306.982</div><div class="kpi-v2">2024: R$ 267.783.380</div><div class="badge up">▲ 32%</div></div>
-    <div class="kpi gk"><div class="kpi-lbl">Receita Líquida</div><div class="kpi-v">R$ 231.943.250</div><div class="kpi-v2">2024: R$ 176.348.574</div><div class="badge up">▲ 32%</div></div>
-    <div class="kpi dk"><div class="kpi-lbl">Resultado Líquido</div><div class="kpi-v">R$ 10.082.170</div><div class="kpi-v2">2024: R$ 4.706.535</div><div class="badge up">▲ 114%</div></div>
+    <div class="kpi ck"><div class="kpi-lbl">Faturamento</div><div class="kpi-v">R$ 354.306.982</div><div class="kpi-v2">2024: R$ 267.783.380</div><div class="badge up">▲ 32%</div></div>
+    <div class="kpi gk"><div class="kpi-lbl">CMV</div><div class="kpi-v">R$ 122.363.732</div><div class="kpi-v2">2024: R$ 91.434.807</div><div class="badge up">▲ 34%</div></div>
+    <div class="kpi dk"><div class="kpi-lbl">Lucro Líquido</div><div class="kpi-v">R$ 10.082.170</div><div class="kpi-v2">2024: R$ 4.706.535</div><div class="badge up">▲ 114%</div></div>
     <div class="kpi ck"><div class="kpi-lbl">Patrimônio Líquido</div><div class="kpi-v">R$ 40.946.121</div><div class="kpi-v2">2024: R$ 32.489.730</div><div class="badge up">▲ 26%</div></div>
   </div>
 
@@ -367,12 +368,12 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
     </div>
   </div>
 
-  <div class="sec">DRE — Período findo 31/12</div>
+  <div class="sec">Demonstração do Resultado do Exercício</div>
   <div class="full tc">
-    <div class="tc-hdr">DRE Monte Mar — Período vs Q4<div class="cols"><span>Período 2025</span><span>Período 2024</span><span>Q4 2025</span><span>Q4 2024</span></div></div>
-    <table><thead><tr><th>Descrição</th><th>2025 Período</th><th>2024 Período</th><th>Δ%</th><th>Q4 2025</th><th>Q4 2024</th></tr></thead>
+    <div class="tc-hdr">Em 31 de dezembro de 2025 e 2024<div class="cols"><span>Período 2025</span><span>Período 2024</span><span> 4T2025</span><span>4T2024</span></div></div>
+    <table><thead><tr><th>Descrição</th><th>2025 Período</th><th>2024 Período</th><th>Δ%</th><th>4T2025</th><th>4T2024</th></tr></thead>
     <tbody>
-      <tr class="sub"><td>Receita Bruta</td><td>354.306.982</td><td>267.783.380</td><td class="pos">+32%</td><td>101.739.986</td><td>69.067.774</td></tr>
+      <tr class="sub"><td>Faturamento</td><td>354.306.982</td><td>267.783.380</td><td class="pos">+32%</td><td>101.739.986</td><td>69.067.774</td></tr>
       <tr><td>&nbsp;&nbsp;Deduções de venda</td><td>(122.363.732)</td><td>(91.434.807)</td><td class="neg">-34%</td><td>(34.531.541)</td><td>(23.772.590)</td></tr>
       <tr class="sub"><td>Receita Líquida</td><td>231.943.250</td><td>176.348.574</td><td class="pos">+32%</td><td>67.208.445</td><td>45.295.184</td></tr>
       <tr><td>&nbsp;&nbsp;CMV</td><td>(225.702.726)</td><td>(173.525.163)</td><td class="neg">-30%</td><td>(65.784.931)</td><td>(45.016.196)</td></tr>
@@ -381,8 +382,8 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <tr><td>&nbsp;&nbsp;Despesas gerais e adm.</td><td>(14.751.265)</td><td>(15.157.820)</td><td class="pos">-3%</td><td>(7.775.464)</td><td>(8.141.501)</td></tr>
       <tr><td>&nbsp;&nbsp;Resultado financeiro</td><td>26.069.369</td><td>22.375.832</td><td class="pos">+17%</td><td>6.911.520</td><td>7.272.225</td></tr>
       <tr class="sub"><td>Result. antes tributação</td><td>15.171.976</td><td>7.864.641</td><td class="pos">+93%</td><td>(105.780)</td><td>(1.440.383)</td></tr>
-      <tr><td>&nbsp;&nbsp;IR + CSLL diferidos</td><td>(5.089.806)</td><td>(3.158.105)</td><td class="neg">-61%</td><td>—</td><td>—</td></tr>
-      <tr class="tot"><td>Resultado Líquido</td><td>10.082.170</td><td>4.706.535</td><td class="pos">+114%</td><td>(105.780)</td><td>(1.440.383)</td></tr>
+      <tr><td>&nbsp;&nbsp;IRPJ/CSLL</td><td>(5.089.806)</td><td>(3.158.105)</td><td class="neg">-61%</td><td>—</td><td>—</td></tr>
+      <tr class="tot"><td>Lucro Líquido</td><td>10.082.170</td><td>4.706.535</td><td class="pos">+114%</td><td>(105.780)</td><td>(1.440.383)</td></tr>
     </tbody></table>
   </div>
 
@@ -417,8 +418,8 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 
   <div class="kpi-row">
     <div class="kpi ck"><div class="kpi-lbl">Receita Líquida</div><div class="kpi-v">R$ 156.734.672</div><div class="kpi-v2">2024: R$ 42.797.414</div><div class="badge up">▲ 266%</div></div>
-    <div class="kpi rk"><div class="kpi-lbl">Lucro Bruto</div><div class="kpi-v">R$ 5.867.898</div><div class="kpi-v2">2024: (R$ 1.205.593)</div><div class="badge up">▲ Virada</div></div>
-    <div class="kpi rk"><div class="kpi-lbl">Resultado Líquido</div><div class="kpi-v">(R$ 590.932)</div><div class="kpi-v2">2024: (R$ 4.756.803)</div><div class="badge up">▲ Melhora</div></div>
+    <div class="kpi rk"><div class="kpi-lbl">CMV</div><div class="kpi-v">R$ 5.867.898</div><div class="kpi-v2">2024: (R$ 1.205.593)</div><div class="badge up">▲ Virada</div></div>
+    <div class="kpi rk"><div class="kpi-lbl">Lucro Líquido</div><div class="kpi-v">(R$ 590.932)</div><div class="kpi-v2">2024: (R$ 4.756.803)</div><div class="badge up">▲ Melhora</div></div>
     <div class="kpi ck"><div class="kpi-lbl">Patrimônio Líquido</div><div class="kpi-v">R$ 546.970</div><div class="kpi-v2">2024: (R$ 1.238.858)</div><div class="badge up">▲ Positivo</div></div>
   </div>
 
@@ -457,9 +458,9 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
     </div>
   </div>
 
-  <div class="sec">DRE</div>
+  <div class="sec">Demonstração do Resultado do Exercício</div>
   <div class="full tc">
-    <div class="tc-hdr">DRE JE Agropecuária — 31/12/2025 vs 31/12/2024</div>
+    <div class="tc-hdr">Em 31 de dezembro de 2025 e 2024</div>
     <table><thead><tr><th>Descrição</th><th>2025</th><th>2024</th></tr></thead>
     <tbody>
       <tr class="sub"><td>Receita Operacional Líquida</td><td>156.734.672</td><td>42.797.414</td></tr>
@@ -473,9 +474,9 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <tr><td>&nbsp;&nbsp;Outras receitas operacionais</td><td>380.807</td><td>173.140</td></tr>
       <tr class="sub"><td>Total Desp. Operacionais</td><td>(3.522.820)</td><td>(649.902)</td></tr>
       <tr class="sub"><td>Result. antes tributação</td><td>2.345.078</td><td>(1.855.495)</td></tr>
-      <tr><td>&nbsp;&nbsp;IR diferido</td><td>(2.157.243)</td><td>(2.130.139)</td></tr>
-      <tr><td>&nbsp;&nbsp;CSLL diferido</td><td>(778.767)</td><td>(771.170)</td></tr>
-      <tr class="tot"><td>Resultado Líquido</td><td>(590.932)</td><td>(4.756.803)</td></tr>
+      <tr><td>&nbsp;&nbsp;IRPJ</td><td>(2.157.243)</td><td>(2.130.139)</td></tr>
+      <tr><td>&nbsp;&nbsp;CSLL</td><td>(778.767)</td><td>(771.170)</td></tr>
+      <tr class="tot"><td>Lucro Líquido</td><td>(590.932)</td><td>(4.756.803)</td></tr>
     </tbody></table>
   </div>
 
@@ -503,7 +504,7 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
     <div>
       <div class="co-name">Centro Oeste Participações<br>Societárias e Imobiliárias Ltda</div>
       <div class="co-cnpj">CNPJ: 36.357.595/0001-84</div>
-      <div class="co-sector">Participações & Imobiliária</div>
+      <div class="co-sector">Holding</div>
     </div>
     <div class="co-period"><span>Período</span><strong>2024 — 2025</strong><br><small style="font-size:10px;color:var(--gray5)">(Em milhares de reais)</small></div>
   </div>
@@ -548,8 +549,26 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       </tbody></table>
     </div>
   </div>
+  
+  
+    <div class="sec">Demonstração do Resultado do Exercício</div>
+  <div class="full tc">
+    <div class="tc-hdr">Em 31 de dezembro de 2025 e 2024</div>
+    <table><thead><tr><th>Descrição</th><th>2025</th><th>2024</th></tr></thead>
+    <tbody>
+      <tr class="sub"><td>Receita (despesas) operacionais</td><td></td><td></td></tr>
+      <tr><td>&nbsp;&nbsp;Serviços com terceiros</td><td>(87.505)</td><td>(51.540)</td></tr>
+      <tr><td>&nbsp;&nbsp;Despesas gerais e adm.</td><td>(27.034)</td><td>—</td></tr>
+      <tr><td>&nbsp;&nbsp;Despesas tributárias</td><td>(320.697)</td><td>(2.120)</td></tr>
+	  <tr><td>&nbsp;&nbsp;Equivalência Patrimonial</td><td>24.789.354</td><td>—</td></tr>
+      <tr><td>&nbsp;&nbsp;Resultado financeiro</td><td>(10.208.364)</td><td>(671.332)</td></tr>
+      <tr><td>&nbsp;&nbsp;Outras receitas operacionais</td><td>(50.448.131)</td><td>12.023.153</td></tr>
+      <tr class="sub"><td>Total Desp. Operacionais</td><td>(38.293.951)</td><td>8.889.919</td></tr>
+      <tr class="tot"><td>Lucro Líquido</td><td>(38.923.951)</td><td>8.889.919</td></tr>
+    </tbody></table>
+  </div>
 
-  <div class="sec">Indicadores Patrimoniais</div>
+  <div class="sec">Indicadores</div>
   <div class="three">
     <div class="ind"><div class="ind-ttl">Composição do Ativo</div>
       <div class="ind-row"><span>Investimentos / Ativo</span><div class="ind-vals"><span class="iv">79,7%</span><span class="yt">2025</span></div></div>
@@ -579,9 +598,9 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
   </div>
 
   <div class="kpi-row">
-    <div class="kpi ck"><div class="kpi-lbl">Receita Líquida</div><div class="kpi-v">R$ 3.037.433 mil</div><div class="kpi-v2">2024: R$ 2.611.393 mil</div><div class="badge up">▲ 16%</div></div>
-    <div class="kpi rk"><div class="kpi-lbl">Lucro Bruto</div><div class="kpi-v">R$ 427.723 mil</div><div class="kpi-v2">2024: R$ 465.282 mil</div><div class="badge dn">▼ 8%</div></div>
-    <div class="kpi gk"><div class="kpi-lbl">Resultado Líquido</div><div class="kpi-v">R$ 13.546 mil</div><div class="kpi-v2">2024: R$ 15.464 mil</div><div class="badge dn">▼ 12%</div></div>
+    <div class="kpi ck"><div class="kpi-lbl">Faturamento</div><div class="kpi-v">R$ 3.037.433 mil</div><div class="kpi-v2">2024: R$ 2.611.393 mil</div><div class="badge up">▲ 16%</div></div>
+    <div class="kpi rk"><div class="kpi-lbl">CMV</div><div class="kpi-v">R$ 2.609.710 mil</div><div class="kpi-v2">2024: R$ 2.146.111 mil</div><div class="badge dn">▲ 22%</div></div>
+    <div class="kpi gk"><div class="kpi-lbl">Lucro Líquido</div><div class="kpi-v">R$ 13.546 mil</div><div class="kpi-v2">2024: R$ 15.464 mil</div><div class="badge dn">▼ 12%</div></div>
     <div class="kpi ck"><div class="kpi-lbl">Patrimônio Líquido</div><div class="kpi-v">R$ 260.549 mil</div><div class="kpi-v2">2024: R$ 254.482 mil</div><div class="badge up">▲ 2%</div></div>
   </div>
 
@@ -627,10 +646,10 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
     </div>
   </div>
 
-  <div class="sec">DRE — Período findo 31/12</div>
+  <div class="sec">Demonstração do Resultado do Exercício</div>
   <div class="full tc">
-    <div class="tc-hdr">DRE Tatico — Período vs Q4 (em milhares de R$)<div class="cols"><span>Período 2025</span><span>Período 2024</span><span>Q4 2025</span><span>Q4 2024</span></div></div>
-    <table><thead><tr><th>Descrição</th><th>2025 Período</th><th>2024 Período</th><th>Δ%</th><th>Q4 2025</th><th>Q4 2024</th></tr></thead>
+    <div class="tc-hdr">Em 31 de dezembro de 2025 e 2024)<div class="cols"><span>Período 2025</span><span>Período 2024</span><span>4T2025</span><span>4T2024</span></div></div>
+    <table><thead><tr><th>Descrição</th><th>2025 Período</th><th>2024 Período</th><th>Δ%</th><th>4T2025</th><th>4T2024</th></tr></thead>
     <tbody>
       <tr class="sub"><td>Receita Operacional Líquida</td><td>3.037.433</td><td>2.611.393</td><td class="pos">+16%</td><td>816.793</td><td>734.856</td></tr>
       <tr><td>&nbsp;&nbsp;CMV</td><td>(2.609.710)</td><td>(2.146.111)</td><td class="neg">-22%</td><td>(694.145)</td><td>(613.944)</td></tr>
@@ -641,8 +660,8 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <tr><td>&nbsp;&nbsp;Resultado financeiro</td><td>29.463</td><td>23.424</td><td class="pos">+26%</td><td>5.163</td><td>7.659</td></tr>
       <tr class="sub"><td>Total Desp. Operacionais</td><td>(401.955)</td><td>(403.373)</td><td class="pos">0%</td><td>(122.319)</td><td>(109.842)</td></tr>
       <tr class="sub"><td>Result. antes tributação</td><td>25.768</td><td>61.909</td><td class="neg">-58%</td><td>329</td><td>11.070</td></tr>
-      <tr><td>&nbsp;&nbsp;IR + CSLL diferidos</td><td>(12.222)</td><td>(46.445)</td><td class="pos">-74%</td><td>(6.362)</td><td>(12.132)</td></tr>
-      <tr class="tot"><td>Resultado Líquido</td><td>13.546</td><td>15.464</td><td class="neg">-12%</td><td>(6.033)</td><td>(1.062)</td></tr>
+      <tr><td>&nbsp;&nbsp;IRPJ/CSLL</td><td>(12.222)</td><td>(46.445)</td><td class="pos">-74%</td><td>(6.362)</td><td>(12.132)</td></tr>
+      <tr class="tot"><td>Lucro Líquido</td><td>13.546</td><td>15.464</td><td class="neg">-12%</td><td>(6.033)</td><td>(1.062)</td></tr>
     </tbody></table>
   </div>
 
@@ -851,10 +870,10 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 
   <!-- RESUMO CONSOLIDADO -->
   <br>
-  <div class="sec">Resumo Comparativo Grupo — 2025 vs 2024</div>
+  <div class="sec">Resumo</div>
   <div class="tax-sum-grid">
     <div class="tax-sum-card">
-      <h4>IRPJ + CSLL 2025</h4>
+      <h4>IRPJ/CSLL 2025</h4>
       <div class="tax-sum-row"><span>Tatico</span><span>7.872.427</span></div>
       <div class="tax-sum-row"><span>Monte Mar</span><span>6.432.102</span></div>
       <div class="tax-sum-row"><span>Transportes</span><span>198.497</span></div>
@@ -881,7 +900,7 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <div class="tax-sum-row"><span><strong>TOTAL</strong></span><span><strong>26.138.475</strong></span></div>
     </div>
     <div class="tax-sum-card">
-      <h4>PIS + COFINS 2025</h4>
+      <h4>PIS/COFINS 2025</h4>
       <div class="tax-sum-row"><span>Tatico</span><span>15.937.414</span></div>
       <div class="tax-sum-row"><span>Monte Mar</span><span>—</span></div>
       <div class="tax-sum-row"><span>Transportes</span><span>423.847</span></div>
@@ -894,7 +913,7 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 </div><!-- /panel-impostos -->
 
 <div class="footer">
-  Grupo Centro Oeste · Dashboard Financeiro Consolidado · Demonstrações 2024 &amp; 2025 · Em Reais (R$) salvo indicado em contrário
+  Grupo Centro Oeste · Informações Financeiros · Demonstrações 2024 &amp; 2025 · Elaborado pela Contabilidade
 </div>
 
 <script>
