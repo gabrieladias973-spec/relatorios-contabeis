@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grupo Centro Oeste</title>
+<title>Painel Financeiro</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -64,8 +63,8 @@ body {
 .panel{display:none;padding:32px 40px;max-width:1500px;margin:0 auto;animation:fadeIn .25s ease;}
 .panel.active {
   display: block;
-  flex: 1 0 auto; /* O segredo está aqui: permite crescer, mas proíbe achatar! */
-  width: 100%;    /* Garante que a largura se mantém correta */
+  flex: 1 0 auto;
+  width: 100%;
 }
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
@@ -135,22 +134,7 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 .iv.old{color:var(--gray5);font-weight:400;font-size:11px;}
 .yt{font-size:9px;color:var(--gray5);font-family:'JetBrains Mono',monospace;}
 
-/* ── BAR CHART ── */
-.bc{background:#fff;border-radius:10px;border:1px solid var(--gray3);padding:18px 20px;}
-.bar-row{margin-bottom:10px;}
-.bar-lbl{display:flex;justify-content:space-between;margin-bottom:4px;font-size:11px;}
-.bar-lbl span:first-child{color:var(--gray7);}
-.bar-lbl span:last-child{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--b800);}
-.bar-track{height:5px;background:var(--gray1);border-radius:3px;overflow:hidden;}
-.bf{height:100%;border-radius:3px;transition:width 1s ease;}
-.bf.b{background:var(--b600);}
-.bf.r{background:var(--r600);}
-.bf.g{background:var(--g600);}
-.bf.l{background:var(--b400);}
-
-/* ══════════════════════════════════════════
-   TAX DASHBOARD
-══════════════════════════════════════════ */
+/* ── TAX DASHBOARD ── */
 .tax-grid-top{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px;}
 .tax-kpi{background:#fff;border-radius:10px;border:1px solid var(--gray3);padding:16px 18px;position:relative;overflow:hidden;}
 .tax-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--amber);}
@@ -205,16 +189,13 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
   align-items: center;
   gap: 8px;
 }
-.btn-pdf:hover {
-  background: var(--b700);
-}
+.btn-pdf:hover { background: var(--b700); }
 
-/* Esconde elementos desnecessários na hora de salvar o PDF */
 @media print {
   .hdr, .nav, .btn-pdf, .footer { display: none !important; }
-  body { background: #fff; }
-  .panel { display: block !important; padding: 0 !important; max-width: 100%; animation: none; }
-  /* Garante que as cores de fundo apareçam no PDF */
+  body { background: #fff; display: block; }
+  .panel { display: none !important; } 
+  .panel.active { display: block !important; padding: 0 !important; max-width: 100%; animation: none; } 
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 }
 
@@ -231,8 +212,6 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 
 /* ── UTIL ── */
 .note{font-size:10px;color:var(--amber);background:var(--amber-bg);border:1px solid #FDE68A;padding:6px 12px;border-radius:5px;margin-bottom:16px;display:inline-block;}
-
-/* Scrollbar */
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-track{background:var(--off);}
 ::-webkit-scrollbar-thumb{background:var(--b600);border-radius:3px;}
@@ -253,7 +232,7 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 <div class="hdr">
   <div class="hdr-brand">
     <h1>Centro Oeste</h1>
-    <p>Análise Comparativa · Balanço · DRE · Impostos</p>
+    <p>Balanço · DRE · Impostos</p>
   </div>
   <div class="hdr-years">
     <div class="ybadge y25">2025</div>
@@ -263,19 +242,18 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 
 <div class="nav">
   <div class="tab active" onclick="show('geral')">Visão Geral</div>
-  <div class="tab" onclick="show('cota')">Transportes</div>
+  <div class="tab" onclick="show('alim')">Tatico</div>
   <div class="tab" onclick="show('montemar')">Monte Mar</div>
+  <div class="tab" onclick="show('cota')">Transportes</div> 
   <div class="tab" onclick="show('agro')">JE Agropecuária</div>
   <div class="tab" onclick="show('part')">Participações</div>
-  <div class="tab" onclick="show('alim')">Tatico</div>
   <div class="tab tax-tab" onclick="show('impostos')">⚡ Impostos</div>
 </div>
 
-<!-- ════════════════════ VISÃO GERAL ════════════════════ -->
 <div class="panel active" id="panel-geral">
   <div class="co-head">
     <div>
-      <div class="co-name">Visão Geral</div>
+      <div class="co-name">Geral</div>
       <div class="co-sector">Grupo Centro Oeste</div>
     </div>
     <div class="co-period">
@@ -300,50 +278,286 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <tbody>
         <tr>
           <td>Transportes</td>
-          <td>8.531.702</td>
-          <td>(10.708.100)</td>
-          <td>(7.723.675)</td>
-          <td>(267.037)</td>
-          <td class="pos">540.991</td>
+          <td id="vg-trans-fat"></td>
+          <td id="vg-trans-cmv"></td>
+          <td id="vg-trans-desp"></td>
+          <td id="vg-trans-irpj"></td>
+          <td id="vg-trans-lucro" class="pos"></td>
         </tr>
         <tr>
           <td>Monte Mar</td>
-          <td>354.306.982</td>
-          <td>(225.702.726)</td>
-          <td>(15.126.842)</td>
-          <td>(5.089.806)</td>
-          <td class="pos">10.082.170</td>
+          <td id="vg-mm-fat"></td>
+          <td id="vg-mm-cmv"></td>
+          <td id="vg-mm-desp"></td>
+          <td id="vg-mm-irpj"></td>
+          <td id="vg-mm-lucro" class="pos"></td>
         </tr>
         <tr>
           <td>JE Agropecuária</td>
-          <td>156.734.672</td>
-          <td>(150.866.774)</td>
-          <td>(3.522.820)</td>
-          <td>(2.936.010)</td>
-          <td class="neg">(590.932)</td>
+          <td id="vg-agro-fat"></td>
+          <td id="vg-agro-cmv"></td>
+          <td id="vg-agro-desp"></td>
+          <td id="vg-agro-irpj"></td>
+          <td id="vg-agro-lucro" class="neg"></td>
         </tr>
         <tr>
-          <td>Participações <small>(mil)</small></td>
-          <td>—</td>
-          <td>—</td>
-          <td>(38.293.951)</td>
-          <td>(320.697)</td>
-          <td class="neg">(38.923.951)</td>
+          <td>Participações</td>
+          <td id="vg-part-fat"></td>
+          <td id="vg-part-cmv"></td>
+          <td id="vg-part-desp"></td>
+          <td id="vg-part-irpj"></td>
+          <td id="vg-part-lucro" class="neg"></td>
         </tr>
         <tr>
-          <td>Tatico <small>(mil)</small></td>
-          <td>3.037.433</td>
-          <td>(2.609.710)</td>
-          <td>(401.955)</td>
-          <td>(12.222)</td>
-          <td class="pos">13.546</td>
+          <td>Tatico</td>
+          <td id="vg-tat-fat"></td>
+          <td id="vg-tat-cmv"></td>
+          <td id="vg-tat-desp"></td>
+          <td id="vg-tat-irpj"></td>
+          <td id="vg-tat-lucro" class="pos"></td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <br>
+  <div class="sec">Resumo de Impostos</div>
+  <div class="tax-sum-grid">
+    <div class="tax-sum-card">
+      <h4>IRPJ/CSLL 2025</h4>
+      <div class="tax-sum-row"><span>Tatico</span><span>7.872.427</span></div>
+      <div class="tax-sum-row"><span>Monte Mar</span><span>5.089.805</span></div>
+      <div class="tax-sum-row"><span>Transportes</span><span>198.497</span></div>
+      <div class="tax-sum-row"><span>JE Agropecuária</span><span>2.936.010</span></div>
+      <div class="tax-sum-row"><span>J&E Brasil</span><span>4.213</span></div>
+      <div class="tax-sum-row"><span><strong>TOTAL</strong></span><span><strong>16.100.952</strong></span></div>
+    </div>
+    <div class="tax-sum-card">
+      <h4>ICMS 2025</h4>
+      <div class="tax-sum-row"><span>Tatico</span><span>75.546.547</span></div>
+      <div class="tax-sum-row"><span>Monte Mar</span><span>3.177.807</span></div>
+      <div class="tax-sum-row"><span>Transportes</span><span>1.042.014</span></div>
+      <div class="tax-sum-row"><span>JE Agropecuária</span><span>—</span></div>
+      <div class="tax-sum-row"><span>J&E Brasil</span><span>—</span></div> 
+      <div class="tax-sum-row"><span><strong>TOTAL</strong></span><span><strong>79.766.368</strong></span></div>
+    </div>
+    <div class="tax-sum-card">
+      <h4>INSS 2025</h4>
+      <div class="tax-sum-row"><span>Tatico</span><span>25.492.129</span></div>
+      <div class="tax-sum-row"><span>Monte Mar</span><span>76.839</span></div>
+      <div class="tax-sum-row"><span>Transportes</span><span>563.942</span></div>
+      <div class="tax-sum-row"><span>JE Agropecuária</span><span>5.565</span></div>
+      <div class="tax-sum-row"><span>J&E Brasil</span><span>—</span></div> 
+      <div class="tax-sum-row"><span><strong>TOTAL</strong></span><span><strong>26.138.475</strong></span></div>
+    </div>
+    <div class="tax-sum-card">
+      <h4>PIS/COFINS 2025</h4>
+      <div class="tax-sum-row"><span>Tatico</span><span>15.937.414</span></div>
+      <div class="tax-sum-row"><span>Monte Mar</span><span>—</span></div>
+      <div class="tax-sum-row"><span>Transportes</span><span>423.847</span></div>
+      <div class="tax-sum-row"><span>JE Agropecuária</span><span>—</span></div>
+      <div class="tax-sum-row"><span>J&E Brasil</span><span>1.624</span></div>
+      <div class="tax-sum-row"><span><strong>TOTAL</strong></span><span><strong>16.362.885</strong></span></div>
+    </div>
+  </div>
+</div> 
+
+<div class="panel" id="panel-alim">
+  <div class="co-head">
+    <div>
+      <div class="co-name">Centro Oeste Comercial<br>de Alimentos Ltda</div>
+      <div class="co-cnpj">CNPJ: 24.447.350/0001-69</div>
+      <div class="co-sector">Tatico</div>
+    </div>
+    <div class="co-period">
+      <span>Período</span><strong>2024 — 2025</strong><br>
+      <small style="font-size:10px;color:var(--gray5)">(Em milhares de reais)</small><br>
+      <button class="btn-pdf" style="margin-top: 8px;" onclick="exportarPDF()">📄 Exportar para PDF</button>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi ck"><div class="kpi-lbl">Faturamento</div><div class="kpi-v" id="tat-kpi-fat"></div><div class="kpi-v2">2024: R$ 2.611.393 mil</div><div class="badge up">▲ 16%</div></div>
+    <div class="kpi rk"><div class="kpi-lbl">CMV</div><div class="kpi-v" id="tat-kpi-cmv"></div><div class="kpi-v2">2024: R$ 2.146.111 mil</div><div class="badge dn">▲ 22%</div></div>
+    <div class="kpi gk"><div class="kpi-lbl">Lucro Líquido</div><div class="kpi-v" id="tat-kpi-lucro"></div><div class="kpi-v2">2024: R$ 15.464 mil</div><div class="badge dn">▼ 12%</div></div>
+    <div class="kpi ck"><div class="kpi-lbl">Patrimônio Líquido</div><div class="kpi-v" id="tat-kpi-pl"></div><div class="kpi-v2">2024: R$ 254.482 mil</div><div class="badge up">▲ 2%</div></div>
+  </div>
+
+  <div class="sec">Balanço Patrimonial (em milhares de R$)</div>
+  <div class="two">
+    <div class="tc">
+      <div class="tc-hdr">Ativo<div class="cols"><span>2025</span><span>2024</span><span>Δ%</span></div></div>
+      <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
+      <tbody>
+        <tr class="sub"><td>Circulante</td><td id="tat-bp-atv-circ"></td><td>186.529</td><td class="pos">+5%</td></tr>
+        <tr><td>  Caixa e equivalentes</td><td id="tat-bp-atv-cx"></td><td>20.250</td><td class="pos">+2%</td></tr>
+        <tr><td>  Cartões a receber</td><td id="tat-bp-atv-cart"></td><td>19.529</td><td class="neg">-2%</td></tr>
+        <tr><td>  Estoques</td><td id="tat-bp-atv-est"></td><td>134.173</td><td class="pos">+7%</td></tr>
+        <tr><td>  Outros créditos</td><td id="tat-bp-atv-outr"></td><td>7.312</td><td class="pos">+40%</td></tr>
+        <tr><td>  Impostos a recuperar</td><td id="tat-bp-atv-imp"></td><td>2.667</td><td class="pos">+10%</td></tr>
+        <tr class="sub"><td>Não Circulante</td><td id="tat-bp-atv-ncirc"></td><td>625.774</td><td class="pos">+7%</td></tr>
+        <tr><td>  Transações partes relac.</td><td id="tat-bp-atv-trans"></td><td>232.849</td><td class="pos">+11%</td></tr>
+        <tr><td>  Ativo fiscal diferido</td><td id="tat-bp-atv-fisc"></td><td>55.258</td><td class="pos">+29%</td></tr>
+        <tr><td>  Intangível – Direito de Uso</td><td id="tat-bp-atv-int"></td><td>106.120</td><td class="neg">-3%</td></tr>
+        <tr><td>  Imobilizado</td><td id="tat-bp-atv-imob"></td><td>213.565</td><td class="pos">+1%</td></tr>
+        <tr class="tot"><td>Total do Ativo</td><td id="tat-bp-atv-tot"></td><td>812.303</td><td class="pos">+7%</td></tr>
+      </tbody></table>
+    </div>
+    <div class="tc">
+      <div class="tc-hdr">Passivo + PL<div class="cols"><span>2025</span><span>2024</span><span>Δ%</span></div></div>
+      <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
+      <tbody>
+        <tr class="sub"><td>Circulante</td><td id="tat-bp-pas-circ"></td><td>314.334</td><td class="neg">+5%</td></tr>
+        <tr><td>  Fornecedores</td><td id="tat-bp-pas-forn"></td><td>174.761</td><td class="pos">-4%</td></tr>
+        <tr><td>  Empréstimos e financ.</td><td id="tat-bp-pas-emp"></td><td>27.636</td><td class="pos">-26%</td></tr>
+        <tr><td>  Obrigações fiscais</td><td id="tat-bp-pas-fisc"></td><td>39.245</td><td class="neg">+2%</td></tr>
+        <tr><td>  Obrig. trabalhistas</td><td id="tat-bp-pas-trab"></td><td>39.133</td><td class="neg">+33%</td></tr>
+        <tr><td>  Outras contas a pagar</td><td id="tat-bp-pas-outr"></td><td>29.071</td><td class="neg">+59%</td></tr>
+        <tr class="sub"><td>Não Circulante</td><td id="tat-bp-pas-ncirc"></td><td>243.487</td><td class="neg">+13%</td></tr>
+        <tr><td>  Empréstimos LP</td><td id="tat-bp-pas-emplp"></td><td>12.608</td><td class="neg">+35%</td></tr>
+        <tr><td>  Arrendamento mercantil LP</td><td id="tat-bp-pas-arr"></td><td>107.933</td><td class="pos">-7%</td></tr>
+        <tr><td>  Provisões trabalhistas</td><td id="tat-bp-pas-prov"></td><td>24.761</td><td class="neg">+138%</td></tr>
+        <tr class="sub"><td>Patrimônio Líquido</td><td id="tat-bp-pl-tot"></td><td>254.482</td><td class="pos">+2%</td></tr>
+        <tr><td>  Reserva Incentivo Fiscal</td><td id="tat-bp-pl-res"></td><td>387.256</td><td class="neg">-35%</td></tr>
+        <tr><td>  Lucros/Prejuízos Acum.</td><td id="tat-bp-pl-luc"></td><td>(130.267)</td><td class="pos">▲ Virada</td></tr>
+        <tr class="tot"><td>Total Passivo + PL</td><td id="tat-bp-pas-tot"></td><td>812.303</td><td class="pos">+7%</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="sec">Demonstração do Resultado do Exercício</div>
+  <div class="full tc">
+    <div class="tc-hdr">Em 31 de dezembro de 2025 e 2024<div class="cols"><span>Período 2025</span><span>Período 2024</span><span>4T2025</span><span>4T2024</span></div></div>
+    <table><thead><tr><th>Descrição</th><th>2025 Período</th><th>2024 Período</th><th>Δ%</th><th>4T2025</th><th>4T2024</th></tr></thead>
+    <tbody>
+      <tr class="sub"><td>Receita Operacional Líquida</td><td id="tat-dre-rec"></td><td>2.611.393</td><td class="pos">+16%</td><td>816.793</td><td>734.856</td></tr>
+      <tr><td>  CMV</td><td id="tat-dre-cmv"></td><td>(2.146.111)</td><td class="neg">-22%</td><td>(694.145)</td><td>(613.944)</td></tr>
+      <tr class="sub"><td>Lucro Bruto</td><td id="tat-dre-bruto"></td><td>465.282</td><td class="neg">-8%</td><td>122.648</td><td>120.912</td></tr>
+      <tr><td>  Despesas pessoal</td><td id="tat-dre-dpess"></td><td>(134.529)</td><td class="neg">-31%</td><td>(50.156)</td><td>(37.501)</td></tr>
+      <tr><td>  Despesas gerais e adm.</td><td id="tat-dre-dgeral"></td><td>(156.131)</td><td class="neg">-3%</td><td>(39.118)</td><td>(38.608)</td></tr>
+      <tr><td>  Serviços com terceiros</td><td id="tat-dre-serv"></td><td>(64.031)</td><td class="neg">-39%</td><td>(28.657)</td><td>(17.734)</td></tr>
+      <tr><td>  Resultado financeiro</td><td id="tat-dre-rfin"></td><td>23.424</td><td class="pos">+26%</td><td>5.163</td><td>7.659</td></tr>
+      <tr class="sub"><td>Total Desp. Operacionais</td><td id="tat-dre-dtot"></td><td>(403.373)</td><td class="pos">0%</td><td>(122.319)</td><td>(109.842)</td></tr>
+      <tr class="sub"><td>Result. antes tributação</td><td id="tat-dre-rantes"></td><td>61.909</td><td class="neg">-58%</td><td>329</td><td>11.070</td></tr>
+      <tr><td>  IRPJ/CSLL</td><td id="tat-dre-irpj"></td><td>(46.445)</td><td class="pos">-74%</td><td>(6.362)</td><td>(12.132)</td></tr>
+      <tr class="tot"><td>Lucro Líquido</td><td id="tat-dre-lucro"></td><td>15.464</td><td class="neg">-12%</td><td>(6.033)</td><td>(1.062)</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="sec">Indicadores</div>
+  <div class="three">
+    <div class="ind"><div class="ind-ttl">Liquidez</div>
+      <div class="ind-row"><span>Corrente</span><div class="ind-vals"><span class="iv neg">0,59</span><span class="yt">2025</span><span class="iv old">0,59</span><span class="yt">2024</span></div></div>
+      <div class="ind-row"><span>Imediata</span><div class="ind-vals"><span class="iv neg">0,06</span><span class="yt">2025</span></div></div>
+    </div>
+    <div class="ind"><div class="ind-ttl">Endividamento</div>
+      <div class="ind-row"><span>Passivo / Ativo</span><div class="ind-vals"><span class="iv neg">69,9%</span><span class="yt">2025</span><span class="iv old">68,7%</span><span class="yt">2024</span></div></div>
+      <div class="ind-row"><span>Fornec. / Passivo Circ.</span><div class="ind-vals"><span class="iv">50,5%</span><span class="yt">2025</span></div></div>
+    </div>
+    <div class="ind"><div class="ind-ttl">Rentabilidade</div>
+      <div class="ind-row"><span>Margem Bruta</span><div class="ind-vals"><span class="iv">14,1%</span><span class="yt">2025</span><span class="iv old">17,8%</span><span class="yt">2024</span></div></div>
+      <div class="ind-row"><span>Margem Líquida</span><div class="ind-vals"><span class="iv">0,45%</span><span class="yt">2025</span><span class="iv old">0,59%</span><span class="yt">2024</span></div></div>
+      <div class="ind-row"><span>ROE</span><div class="ind-vals"><span class="iv">5,2%</span><span class="yt">2025</span><span class="iv old">6,1%</span><span class="yt">2024</span></div></div>
+    </div>
+  </div>
 </div>
 
-<!-- ════════════════════ CENTRO OESTE TRANSPORTES ════════════════════ -->
+<div class="panel" id="panel-montemar">
+  <div class="co-head">
+    <div>
+      <div class="co-name">Monte Mar Distribuidor<br>Atacadista Ltda</div>
+      <div class="co-cnpj">CNPJ: 05.589.952/0001-06</div>
+      <div class="co-sector">Atacadista</div>
+    </div>
+    <div class="co-period">
+      <span>Período</span><strong>2024 — 2025</strong><br>
+      <button class="btn-pdf" style="margin-top: 8px;" onclick="exportarPDF()">📄 Exportar para PDF</button>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi ck"><div class="kpi-lbl">Faturamento</div><div class="kpi-v" id="mm-kpi-fat"></div><div class="kpi-v2">2024: R$ 267.783.380</div><div class="badge up">▲ 32%</div></div>
+    <div class="kpi gk"><div class="kpi-lbl">CMV</div><div class="kpi-v" id="mm-kpi-cmv"></div><div class="kpi-v2">2024: R$ 91.434.807</div><div class="badge up">▲ 34%</div></div>
+    <div class="kpi dk"><div class="kpi-lbl">Lucro Líquido</div><div class="kpi-v" id="mm-kpi-lucro"></div><div class="kpi-v2">2024: R$ 4.706.535</div><div class="badge up">▲ 114%</div></div>
+    <div class="kpi ck"><div class="kpi-lbl">Patrimônio Líquido</div><div class="kpi-v" id="mm-kpi-pl"></div><div class="kpi-v2">2024: R$ 32.489.730</div><div class="badge up">▲ 26%</div></div>
+  </div>
+
+  <div class="sec">Balanço Patrimonial</div>
+  <div class="two">
+    <div class="tc">
+      <div class="tc-hdr">Ativo<div class="cols"><span>2025</span><span>2024</span><span>Δ%</span></div></div>
+      <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
+      <tbody>
+        <tr class="sub"><td>Circulante</td><td id="mm-bp-atv-circ"></td><td>49.014.048</td><td class="pos">+44%</td></tr>
+        <tr><td>  Caixa e equivalentes</td><td id="mm-bp-atv-cx"></td><td>57.414</td><td class="pos">+430%</td></tr>
+        <tr><td>  Créditos / Outros créditos</td><td id="mm-bp-atv-cred"></td><td>40.751.084</td><td class="pos">+46%</td></tr>
+        <tr><td>  Impostos a recuperar</td><td id="mm-bp-atv-imp"></td><td>7.479.261</td><td class="pos">+36%</td></tr>
+        <tr><td>  Estoques</td><td id="mm-bp-atv-est"></td><td>726.290</td><td class="pos">+5%</td></tr>
+        <tr class="sub"><td>Não Circulante</td><td id="mm-bp-atv-ncirc"></td><td>6.933.234</td><td class="pos">+18%</td></tr>
+        <tr><td>  Realizável LP</td><td id="mm-bp-atv-rlp"></td><td>6.182.672</td><td class="neg">-82%</td></tr>
+        <tr><td>  Intangível</td><td id="mm-bp-atv-int"></td><td>—</td><td class="pos">Novo</td></tr>
+        <tr><td>  Imobilizado</td><td id="mm-bp-atv-imob"></td><td>735.016</td><td class="pos">+23%</td></tr>
+        <tr class="tot"><td>Total do Ativo</td><td id="mm-bp-atv-tot"></td><td>55.947.282</td><td class="pos">+41%</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="tc">
+      <div class="tc-hdr">Passivo + PL<div class="cols"><span>2025</span><span>2024</span><span>Δ%</span></div></div>
+      <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
+      <tbody>
+        <tr class="sub"><td>Circulante</td><td id="mm-bp-pas-circ"></td><td>22.284.620</td><td class="neg">+34%</td></tr>
+        <tr><td>  Fornecedores</td><td id="mm-bp-pas-forn"></td><td>19.732.526</td><td class="neg">+33%</td></tr>
+        <tr><td>  Obrigações fiscais</td><td id="mm-bp-pas-fisc"></td><td>1.642.462</td><td class="neg">+4%</td></tr>
+        <tr><td>  Outras obrigações</td><td id="mm-bp-pas-outr"></td><td>668.001</td><td class="neg">+119%</td></tr>
+        <tr class="sub"><td>Não Circulante</td><td id="mm-bp-pas-ncirc"></td><td>1.172.932</td><td class="neg">+602%</td></tr>
+        <tr><td>  Passivo arrendamento LP</td><td id="mm-bp-pas-arr"></td><td>—</td><td class="neg">Novo</td></tr>
+        <tr><td>  Outras obrig. LP</td><td id="mm-bp-pas-outrlp"></td><td>204.483</td><td class="neg">+634%</td></tr>
+        <tr class="sub"><td>Patrimônio Líquido</td><td id="mm-bp-pl-tot"></td><td>32.489.730</td><td class="pos">+26%</td></tr>
+        <tr><td>  Lucros Acumulados</td><td id="mm-bp-pl-luc"></td><td>5.605.455</td><td class="pos">+151%</td></tr>
+        <tr class="tot"><td>Total Passivo + PL</td><td id="mm-bp-pas-tot"></td><td>55.947.282</td><td class="pos">+41%</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="sec">Demonstração do Resultado do Exercício</div>
+  <div class="full tc">
+    <div class="tc-hdr">Em 31 de dezembro de 2025 e 2024<div class="cols"><span>Período 2025</span><span>Período 2024</span><span> 4T2025</span><span>4T2024</span></div></div>
+    <table>
+      <thead><tr><th>Descrição</th><th>2025 Período</th><th>2024 Período</th><th>Δ%</th><th>4T2025</th><th>4T2024</th></tr></thead>
+      <tbody>
+        <tr class="sub"><td>Faturamento</td><td id="mm-dre-fat"></td><td>267.783.380</td><td class="pos">+32%</td><td>101.739.986</td><td>69.067.774</td></tr>
+        <tr><td>  Deduções de venda</td><td id="mm-dre-ded"></td><td>(91.434.807)</td><td class="neg">-34%</td><td>(34.531.541)</td><td>(23.772.590)</td></tr>
+        <tr class="sub"><td>Receita Líquida</td><td id="mm-dre-rec"></td><td>176.348.574</td><td class="pos">+32%</td><td>67.208.445</td><td>45.295.184</td></tr>
+        <tr><td>  CMV</td><td id="mm-dre-cmv"></td><td>(173.525.163)</td><td class="neg">-30%</td><td>(65.784.931)</td><td>(45.016.196)</td></tr>
+        <tr class="sub"><td>Lucro Bruto</td><td id="mm-dre-bruto"></td><td>2.823.411</td><td class="pos">+121%</td><td>1.423.514</td><td>278.988</td></tr>
+        <tr><td>  Despesas pessoal</td><td id="mm-dre-dpess"></td><td>(410.259)</td><td class="pos">-8%</td><td>(97.105)</td><td>(116.162)</td></tr>
+        <tr><td>  Despesas gerais e adm.</td><td id="mm-dre-dgeral"></td><td>(15.157.820)</td><td class="pos">-3%</td><td>(7.775.464)</td><td>(8.141.501)</td></tr>
+        <tr><td>  Resultado financeiro</td><td id="mm-dre-rfin"></td><td>22.375.832</td><td class="pos">+17%</td><td>6.911.520</td><td>7.272.225</td></tr>
+        <tr class="sub"><td>Result. antes tributação</td><td id="mm-dre-rantes"></td><td>7.864.641</td><td class="pos">+93%</td><td>(105.780)</td><td>(1.440.383)</td></tr>
+        <tr><td>  IRPJ/CSLL</td><td id="mm-dre-irpj"></td><td>(3.158.105)</td><td class="neg">-61%</td><td>—</td><td>—</td></tr>
+        <tr class="tot"><td>Lucro Líquido</td><td id="mm-dre-lucro"></td><td>4.706.535</td><td class="pos">+114%</td><td>(105.780)</td><td>(1.440.383)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec">Indicadores</div>
+  <div class="three">
+    <div class="ind"><div class="ind-ttl">Liquidez</div>
+      <div class="ind-row"><span>Corrente</span><div class="ind-vals"><span class="iv pos">2,37</span><span class="yt">2025</span><span class="iv old">2,20</span><span class="yt">2024</span></div></div>
+      <div class="ind-row"><span>Geral</span><div class="ind-vals"><span class="iv">2,05</span><span class="yt">2025</span><span class="iv old">2,10</span><span class="yt">2024</span></div></div>
+    </div>
+    <div class="ind"><div class="ind-ttl">Endividamento</div>
+      <div class="ind-row"><span>3ºs / PL</span><div class="ind-vals"><span class="iv">93%</span><span class="yt">2025</span><span class="iv old">72%</span><span class="yt">2024</span></div></div>
+      <div class="ind-row"><span>Passivo / Ativo</span><div class="ind-vals"><span class="iv">48,1%</span><span class="yt">2025</span><span class="iv old">41,9%</span><span class="yt">2024</span></div></div>
+    </div>
+    <div class="ind"><div class="ind-ttl">Rentabilidade</div>
+      <div class="ind-row"><span>Margem Bruta</span><div class="ind-vals"><span class="iv">2,7%</span><span class="yt">2025</span><span class="iv old">1,6%</span><span class="yt">2024</span></div></div>
+      <div class="ind-row"><span>Margem Líquida</span><div class="ind-vals"><span class="iv pos">4,3%</span><span class="yt">2025</span><span class="iv old">2,7%</span><span class="yt">2024</span></div></div>
+      <div class="ind-row"><span>ROE</span><div class="ind-vals"><span class="iv pos">24,6%</span><span class="yt">2025</span><span class="iv old">14,5%</span><span class="yt">2024</span></div></div>
+    </div>
+  </div>
+</div>
+
 <div class="panel" id="panel-cota">
   <div class="co-head">
     <div>
@@ -351,7 +565,10 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <div class="co-cnpj">CNPJ: 35.081.412/0001-88</div>
       <div class="co-sector">Transportadora</div>
     </div>
-    <div class="co-period"><span>Período</span><strong>2024 — 2025</strong></div>
+    <div class="co-period">
+      <span>Período</span><strong>2024 — 2025</strong><br>
+      <button class="btn-pdf" style="margin-top: 8px;" onclick="exportarPDF()">📄 Exportar para PDF</button>
+    </div>
   </div>
 
   <div class="kpi-row">
@@ -368,12 +585,12 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
       <tbody>
         <tr class="sub"><td>Circulante</td><td>2.254.420</td><td>1.537.435</td><td class="pos">+47%</td></tr>
-        <tr><td>&nbsp;&nbsp;Caixa e equivalentes</td><td>182.546</td><td>1.009.005</td><td class="neg">-82%</td></tr>
-        <tr><td>&nbsp;&nbsp;Clientes</td><td>764.918</td><td>527.401</td><td class="pos">+45%</td></tr>
-        <tr><td>&nbsp;&nbsp;Adiantamentos</td><td>1.306.956</td><td>500</td><td class="pos">+261k%</td></tr>
+        <tr><td>  Caixa e equivalentes</td><td>182.546</td><td>1.009.005</td><td class="neg">-82%</td></tr>
+        <tr><td>  Clientes</td><td>764.918</td><td>527.401</td><td class="pos">+45%</td></tr>
+        <tr><td>  Adiantamentos</td><td>1.306.956</td><td>500</td><td class="pos">+261k%</td></tr>
         <tr class="sub"><td>Não Circulante</td><td>2.886.462</td><td>1.666.064</td><td class="pos">+73%</td></tr>
-        <tr><td>&nbsp;&nbsp;Imobilizado</td><td>2.865.154</td><td>1.662.387</td><td class="pos">+72%</td></tr>
-        <tr><td>&nbsp;&nbsp;Investimentos</td><td>4.852</td><td>3.677</td><td class="pos">+32%</td></tr>
+        <tr><td>  Imobilizado</td><td>2.865.154</td><td>1.662.387</td><td class="pos">+72%</td></tr>
+        <tr><td>  Investimentos</td><td>4.852</td><td>3.677</td><td class="pos">+32%</td></tr>
         <tr class="tot"><td>Total do Ativo</td><td>5.140.882</td><td>3.203.499</td><td class="pos">+60%</td></tr>
       </tbody></table>
     </div>
@@ -382,13 +599,13 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
       <tbody>
         <tr class="sub"><td>Circulante</td><td>1.945.742</td><td>1.194.189</td><td class="neg">+63%</td></tr>
-        <tr><td>&nbsp;&nbsp;Fornecedores</td><td>741.400</td><td>706.152</td><td class="neg">+5%</td></tr>
-        <tr><td>&nbsp;&nbsp;Emp. e financiamentos</td><td>580.865</td><td>—</td><td class="neg">Novo</td></tr>
-        <tr><td>&nbsp;&nbsp;Obrigações fiscais</td><td>210.383</td><td>172.275</td><td class="neg">+22%</td></tr>
-        <tr><td>&nbsp;&nbsp;Obrig. trabalhistas</td><td>403.360</td><td>310.835</td><td class="neg">+30%</td></tr>
+        <tr><td>  Fornecedores</td><td>741.400</td><td>706.152</td><td class="neg">+5%</td></tr>
+        <tr><td>  Emp. e financiamentos</td><td>580.865</td><td>—</td><td class="neg">Novo</td></tr>
+        <tr><td>  Obrigações fiscais</td><td>210.383</td><td>172.275</td><td class="neg">+22%</td></tr>
+        <tr><td>  Obrig. trabalhistas</td><td>403.360</td><td>310.835</td><td class="neg">+30%</td></tr>
         <tr class="sub"><td>Não Circulante</td><td>2.195.139</td><td>596.342</td><td class="neg">+268%</td></tr>
-        <tr><td>&nbsp;&nbsp;Emp. financiamentos LP</td><td>1.598.566</td><td>—</td><td class="neg">Novo</td></tr>
-        <tr><td>&nbsp;&nbsp;Outras obrig. LP</td><td>596.573</td><td>596.342</td><td class="neu">0%</td></tr>
+        <tr><td>  Emp. financiamentos LP</td><td>1.598.566</td><td>—</td><td class="neg">Novo</td></tr>
+        <tr><td>  Outras obrig. LP</td><td>596.573</td><td>596.342</td><td class="neu">0%</td></tr>
         <tr class="sub"><td>Patrimônio Líquido</td><td>1.000.000</td><td>1.412.968</td><td class="neg">-29%</td></tr>
         <tr class="tot"><td>Total Passivo + PL</td><td>5.140.882</td><td>3.203.499</td><td class="pos">+60%</td></tr>
       </tbody></table>
@@ -402,14 +619,14 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
     <tbody>
       <tr class="sub"><td>Receita Operacional Líquida</td><td>8.531.702</td><td>1.341.102</td><td class="pos">+536%</td><td>2.605.123</td><td>1.363.902</td></tr>
       <tr class="sub"><td>Lucro Bruto</td><td>10.708.100</td><td>1.785.585</td><td class="pos">+500%</td><td>3.194.062</td><td>1.785.585</td></tr>
-      <tr><td>&nbsp;&nbsp;Serviços com terceiros</td><td>(870.392)</td><td>(141.286)</td><td class="neg">-516%</td><td>(336.871)</td><td>(129.055)</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesa com pessoal</td><td>(3.580.044)</td><td>(805.889)</td><td class="neg">-344%</td><td>(1.004.479)</td><td>(753.941)</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesas gerais</td><td>(2.683.391)</td><td>(545.193)</td><td class="neg">-392%</td><td>(684.739)</td><td>(528.487)</td></tr>
-      <tr><td>&nbsp;&nbsp;Resultado financeiro</td><td>(728.262)</td><td>3.401</td><td class="neg">-21514%</td><td>(310.468)</td><td>5.139</td></tr>
+      <tr><td>  Serviços com terceiros</td><td>(870.392)</td><td>(141.286)</td><td class="neg">-516%</td><td>(336.871)</td><td>(129.055)</td></tr>
+      <tr><td>  Despesa com pessoal</td><td>(3.580.044)</td><td>(805.889)</td><td class="neg">-344%</td><td>(1.004.479)</td><td>(753.941)</td></tr>
+      <tr><td>  Despesas gerais</td><td>(2.683.391)</td><td>(545.193)</td><td class="neg">-392%</td><td>(684.739)</td><td>(528.487)</td></tr>
+      <tr><td>  Resultado financeiro</td><td>(728.262)</td><td>3.401</td><td class="neg">-21514%</td><td>(310.468)</td><td>5.139</td></tr>
       <tr class="sub"><td>Total Desp. Operacionais</td><td>(7.723.675)</td><td>(1.901.415)</td><td class="neg">-306%</td><td>(2.291.878)</td><td>(1.630.625)</td></tr>
       <tr class="sub"><td>Result. antes tributação</td><td>808.027</td><td>(560.313)</td><td class="pos">+244%</td><td>313.245</td><td>(266.723)</td></tr>
-      <tr><td>&nbsp;&nbsp;IRPJ</td><td>(191.176)</td><td>(7.961)</td><td class="neg">−</td><td>(69.028)</td><td>330</td></tr>
-      <tr><td>&nbsp;&nbsp;CSLL</td><td>(75.861)</td><td>(4.777)</td><td class="neg">−</td><td>(27.802)</td><td>198</td></tr>
+      <tr><td>  IRPJ</td><td>(191.176)</td><td>(7.961)</td><td class="neg">−</td><td>(69.028)</td><td>330</td></tr>
+      <tr><td>  CSLL</td><td>(75.861)</td><td>(4.777)</td><td class="neg">−</td><td>(27.802)</td><td>198</td></tr>
       <tr class="tot"><td>Lucro Líquido</td><td>540.991</td><td>(573.051)</td><td class="pos">▲ Virada</td><td>216.415</td><td>(266.195)</td></tr>
     </tbody></table>
   </div>
@@ -434,98 +651,6 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
   </div>
 </div>
 
-<!-- ════════════════════ MONTE MAR ════════════════════ -->
-<div class="panel" id="panel-montemar">
-  <div class="co-head">
-    <div>
-      <div class="co-name">Monte Mar Distribuidor<br>Atacadista Ltda</div>
-      <div class="co-cnpj">CNPJ: 05.589.952/0001-06</div>
-      <div class="co-sector">Atacadista</div>
-    </div>
-    <div class="co-period"><span>Período</span><strong>2024 — 2025</strong></div>
-  </div>
-
-  <div class="kpi-row">
-    <div class="kpi ck"><div class="kpi-lbl">Faturamento</div><div class="kpi-v">R$ 354.306.982</div><div class="kpi-v2">2024: R$ 267.783.380</div><div class="badge up">▲ 32%</div></div>
-    <div class="kpi gk"><div class="kpi-lbl">CMV</div><div class="kpi-v">R$ 122.363.732</div><div class="kpi-v2">2024: R$ 91.434.807</div><div class="badge up">▲ 34%</div></div>
-    <div class="kpi dk"><div class="kpi-lbl">Lucro Líquido</div><div class="kpi-v">R$ 10.082.170</div><div class="kpi-v2">2024: R$ 4.706.535</div><div class="badge up">▲ 114%</div></div>
-    <div class="kpi ck"><div class="kpi-lbl">Patrimônio Líquido</div><div class="kpi-v">R$ 40.946.121</div><div class="kpi-v2">2024: R$ 32.489.730</div><div class="badge up">▲ 26%</div></div>
-  </div>
-
-  <div class="sec">Balanço Patrimonial</div>
-  <div class="two">
-    <div class="tc">
-      <div class="tc-hdr">Ativo<div class="cols"><span>2025</span><span>2024</span><span>Δ%</span></div></div>
-      <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
-      <tbody>
-        <tr class="sub"><td>Circulante</td><td>70.765.091</td><td>49.014.048</td><td class="pos">+44%</td></tr>
-        <tr><td>&nbsp;&nbsp;Caixa e equivalentes</td><td>304.061</td><td>57.414</td><td class="pos">+430%</td></tr>
-        <tr><td>&nbsp;&nbsp;Créditos / Outros créditos</td><td>59.547.668</td><td>40.751.084</td><td class="pos">+46%</td></tr>
-        <tr><td>&nbsp;&nbsp;Impostos a recuperar</td><td>10.149.316</td><td>7.479.261</td><td class="pos">+36%</td></tr>
-        <tr><td>&nbsp;&nbsp;Estoques</td><td>764.045</td><td>726.290</td><td class="pos">+5%</td></tr>
-        <tr class="sub"><td>Não Circulante</td><td>8.213.513</td><td>6.933.234</td><td class="pos">+18%</td></tr>
-        <tr><td>&nbsp;&nbsp;Realizável LP</td><td>1.120.751</td><td>6.182.672</td><td class="neg">-82%</td></tr>
-        <tr><td>&nbsp;&nbsp;Intangível</td><td>6.171.764</td><td>—</td><td class="pos">Novo</td></tr>
-        <tr><td>&nbsp;&nbsp;Imobilizado</td><td>902.894</td><td>735.016</td><td class="pos">+23%</td></tr>
-        <tr class="tot"><td>Total do Ativo</td><td>78.978.604</td><td>55.947.282</td><td class="pos">+41%</td></tr>
-      </tbody></table>
-    </div>
-    <div class="tc">
-      <div class="tc-hdr">Passivo + PL<div class="cols"><span>2025</span><span>2024</span><span>Δ%</span></div></div>
-      <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
-      <tbody>
-        <tr class="sub"><td>Circulante</td><td>29.800.344</td><td>22.284.620</td><td class="neg">+34%</td></tr>
-        <tr><td>&nbsp;&nbsp;Fornecedores</td><td>26.274.809</td><td>19.732.526</td><td class="neg">+33%</td></tr>
-        <tr><td>&nbsp;&nbsp;Obrigações fiscais</td><td>1.707.751</td><td>1.642.462</td><td class="neg">+4%</td></tr>
-        <tr><td>&nbsp;&nbsp;Outras obrigações</td><td>1.463.509</td><td>668.001</td><td class="neg">+119%</td></tr>
-        <tr class="sub"><td>Não Circulante</td><td>8.232.139</td><td>1.172.932</td><td class="neg">+602%</td></tr>
-        <tr><td>&nbsp;&nbsp;Passivo arrendamento LP</td><td>6.258.133</td><td>—</td><td class="neg">Novo</td></tr>
-        <tr><td>&nbsp;&nbsp;Outras obrig. LP</td><td>1.500.862</td><td>204.483</td><td class="neg">+634%</td></tr>
-        <tr class="sub"><td>Patrimônio Líquido</td><td>40.946.121</td><td>32.489.730</td><td class="pos">+26%</td></tr>
-        <tr><td>&nbsp;&nbsp;Lucros Acumulados</td><td>14.061.846</td><td>5.605.455</td><td class="pos">+151%</td></tr>
-        <tr class="tot"><td>Total Passivo + PL</td><td>78.978.604</td><td>55.947.282</td><td class="pos">+41%</td></tr>
-      </tbody></table>
-    </div>
-  </div>
-
-  <div class="sec">Demonstração do Resultado do Exercício</div>
-  <div class="full tc">
-    <div class="tc-hdr">Em 31 de dezembro de 2025 e 2024<div class="cols"><span>Período 2025</span><span>Período 2024</span><span> 4T2025</span><span>4T2024</span></div></div>
-    <table><thead><tr><th>Descrição</th><th>2025 Período</th><th>2024 Período</th><th>Δ%</th><th>4T2025</th><th>4T2024</th></tr></thead>
-    <tbody>
-      <tr class="sub"><td>Faturamento</td><td>354.306.982</td><td>267.783.380</td><td class="pos">+32%</td><td>101.739.986</td><td>69.067.774</td></tr>
-      <tr><td>&nbsp;&nbsp;Deduções de venda</td><td>(122.363.732)</td><td>(91.434.807)</td><td class="neg">-34%</td><td>(34.531.541)</td><td>(23.772.590)</td></tr>
-      <tr class="sub"><td>Receita Líquida</td><td>231.943.250</td><td>176.348.574</td><td class="pos">+32%</td><td>67.208.445</td><td>45.295.184</td></tr>
-      <tr><td>&nbsp;&nbsp;CMV</td><td>(225.702.726)</td><td>(173.525.163)</td><td class="neg">-30%</td><td>(65.784.931)</td><td>(45.016.196)</td></tr>
-      <tr class="sub"><td>Lucro Bruto</td><td>6.240.524</td><td>2.823.411</td><td class="pos">+121%</td><td>1.423.514</td><td>278.988</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesas pessoal</td><td>(375.577)</td><td>(410.259)</td><td class="pos">-8%</td><td>(97.105)</td><td>(116.162)</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesas gerais e adm.</td><td>(14.751.265)</td><td>(15.157.820)</td><td class="pos">-3%</td><td>(7.775.464)</td><td>(8.141.501)</td></tr>
-      <tr><td>&nbsp;&nbsp;Resultado financeiro</td><td>26.069.369</td><td>22.375.832</td><td class="pos">+17%</td><td>6.911.520</td><td>7.272.225</td></tr>
-      <tr class="sub"><td>Result. antes tributação</td><td>15.171.976</td><td>7.864.641</td><td class="pos">+93%</td><td>(105.780)</td><td>(1.440.383)</td></tr>
-      <tr><td>&nbsp;&nbsp;IRPJ/CSLL</td><td>(5.089.806)</td><td>(3.158.105)</td><td class="neg">-61%</td><td>—</td><td>—</td></tr>
-      <tr class="tot"><td>Lucro Líquido</td><td>10.082.170</td><td>4.706.535</td><td class="pos">+114%</td><td>(105.780)</td><td>(1.440.383)</td></tr>
-    </tbody></table>
-  </div>
-
-  <div class="sec">Indicadores</div>
-  <div class="three">
-    <div class="ind"><div class="ind-ttl">Liquidez</div>
-      <div class="ind-row"><span>Corrente</span><div class="ind-vals"><span class="iv pos">2,37</span><span class="yt">2025</span><span class="iv old">2,20</span><span class="yt">2024</span></div></div>
-      <div class="ind-row"><span>Geral</span><div class="ind-vals"><span class="iv">2,05</span><span class="yt">2025</span><span class="iv old">2,10</span><span class="yt">2024</span></div></div>
-    </div>
-    <div class="ind"><div class="ind-ttl">Endividamento</div>
-      <div class="ind-row"><span>3ºs / PL</span><div class="ind-vals"><span class="iv">93%</span><span class="yt">2025</span><span class="iv old">72%</span><span class="yt">2024</span></div></div>
-      <div class="ind-row"><span>Passivo / Ativo</span><div class="ind-vals"><span class="iv">48,1%</span><span class="yt">2025</span><span class="iv old">41,9%</span><span class="yt">2024</span></div></div>
-    </div>
-    <div class="ind"><div class="ind-ttl">Rentabilidade</div>
-      <div class="ind-row"><span>Margem Bruta</span><div class="ind-vals"><span class="iv">2,7%</span><span class="yt">2025</span><span class="iv old">1,6%</span><span class="yt">2024</span></div></div>
-      <div class="ind-row"><span>Margem Líquida</span><div class="ind-vals"><span class="iv pos">4,3%</span><span class="yt">2025</span><span class="iv old">2,7%</span><span class="yt">2024</span></div></div>
-      <div class="ind-row"><span>ROE</span><div class="ind-vals"><span class="iv pos">24,6%</span><span class="yt">2025</span><span class="iv old">14,5%</span><span class="yt">2024</span></div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════ JE AGROPECUÁRIA ════════════════════ -->
 <div class="panel" id="panel-agro">
   <div class="co-head">
     <div>
@@ -533,7 +658,10 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <div class="co-cnpj">CNPJ: 37.116.939/0001-26</div>
       <div class="co-sector">Agropecuária</div>
     </div>
-    <div class="co-period"><span>Período</span><strong>2024 — 2025</strong></div>
+    <div class="co-period">
+      <span>Período</span><strong>2024 — 2025</strong><br>
+      <button class="btn-pdf" style="margin-top: 8px;" onclick="exportarPDF()">📄 Exportar para PDF</button>
+    </div>
   </div>
 
   <div class="kpi-row">
@@ -550,13 +678,13 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th></tr></thead>
       <tbody>
         <tr class="sub"><td>Circulante</td><td>19.112.512</td><td>11.209.273</td></tr>
-        <tr><td>&nbsp;&nbsp;Caixa e equivalentes</td><td>311.483</td><td>8.204</td></tr>
-        <tr><td>&nbsp;&nbsp;Outros créditos</td><td>705.084</td><td>7.694.145</td></tr>
-        <tr><td>&nbsp;&nbsp;Ativo biológico</td><td>18.095.945</td><td>3.506.924</td></tr>
+        <tr><td>  Caixa e equivalentes</td><td>311.483</td><td>8.204</td></tr>
+        <tr><td>  Outros créditos</td><td>705.084</td><td>7.694.145</td></tr>
+        <tr><td>  Ativo biológico</td><td>18.095.945</td><td>3.506.924</td></tr>
         <tr class="sub"><td>Não Circulante</td><td>3.903</td><td>—</td></tr>
-        <tr><td>&nbsp;&nbsp;Investimentos</td><td>1.421</td><td>—</td></tr>
-        <tr><td>&nbsp;&nbsp;Imobilizado</td><td>2.252</td><td>—</td></tr>
-        <tr><td>&nbsp;&nbsp;Crédito com interligadas</td><td>230</td><td>—</td></tr>
+        <tr><td>  Investimentos</td><td>1.421</td><td>—</td></tr>
+        <tr><td>  Imobilizado</td><td>2.252</td><td>—</td></tr>
+        <tr><td>  Crédito com interligadas</td><td>230</td><td>—</td></tr>
         <tr class="tot"><td>Total do Ativo</td><td>19.116.415</td><td>11.209.273</td></tr>
       </tbody></table>
     </div>
@@ -565,14 +693,14 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th></tr></thead>
       <tbody>
         <tr class="sub"><td>Circulante</td><td>12.295.148</td><td>5.933.252</td></tr>
-        <tr><td>&nbsp;&nbsp;Fornecedores</td><td>362.502</td><td>2.740.193</td></tr>
-        <tr><td>&nbsp;&nbsp;Outras contas a pagar</td><td>6.095.309</td><td>291.751</td></tr>
-        <tr><td>&nbsp;&nbsp;Obrigações fiscais</td><td>5.837.337</td><td>2.901.308</td></tr>
+        <tr><td>  Fornecedores</td><td>362.502</td><td>2.740.193</td></tr>
+        <tr><td>  Outras contas a pagar</td><td>6.095.309</td><td>291.751</td></tr>
+        <tr><td>  Obrigações fiscais</td><td>5.837.337</td><td>2.901.308</td></tr>
         <tr class="sub"><td>Não Circulante</td><td>6.274.297</td><td>6.514.879</td></tr>
-        <tr><td>&nbsp;&nbsp;Outras contas a pagar LP</td><td>6.274.297</td><td>6.514.879</td></tr>
+        <tr><td>  Outras contas a pagar LP</td><td>6.274.297</td><td>6.514.879</td></tr>
         <tr class="sub"><td>Patrimônio Líquido</td><td>546.970</td><td>(1.238.858)</td></tr>
-        <tr><td>&nbsp;&nbsp;Capital Social a integralizar</td><td>2.000.000</td><td>—</td></tr>
-        <tr><td>&nbsp;&nbsp;Lucros/Prejuízos Acumulados</td><td>(1.453.030)</td><td>(1.238.858)</td></tr>
+        <tr><td>  Capital Social a integralizar</td><td>2.000.000</td><td>—</td></tr>
+        <tr><td>  Lucros/Prejuízos Acumulados</td><td>(1.453.030)</td><td>(1.238.858)</td></tr>
         <tr class="tot"><td>Total Passivo + PL</td><td>19.116.415</td><td>11.209.273</td></tr>
       </tbody></table>
     </div>
@@ -584,18 +712,18 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
     <table><thead><tr><th>Descrição</th><th>2025</th><th>2024</th></tr></thead>
     <tbody>
       <tr class="sub"><td>Receita Operacional Líquida</td><td>156.734.672</td><td>42.797.414</td></tr>
-      <tr><td>&nbsp;&nbsp;CMV</td><td>(150.866.774)</td><td>(44.003.007)</td></tr>
+      <tr><td>  CMV</td><td>(150.866.774)</td><td>(44.003.007)</td></tr>
       <tr class="sub"><td>Lucro Bruto</td><td>5.867.898</td><td>(1.205.593)</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesa com pessoal</td><td>(69.369)</td><td>—</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesas de terceiros</td><td>(1.315.058)</td><td>—</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesas gerais e adm.</td><td>(2.987.580)</td><td>(237.910)</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesas tributárias</td><td>(126.825)</td><td>—</td></tr>
-      <tr><td>&nbsp;&nbsp;Resultado financeiro</td><td>595.205</td><td>—</td></tr>
-      <tr><td>&nbsp;&nbsp;Outras receitas operacionais</td><td>380.807</td><td>173.140</td></tr>
+      <tr><td>  Despesa com pessoal</td><td>(69.369)</td><td>—</td></tr>
+      <tr><td>  Despesas de terceiros</td><td>(1.315.058)</td><td>—</td></tr>
+      <tr><td>  Despesas gerais e adm.</td><td>(2.987.580)</td><td>(237.910)</td></tr>
+      <tr><td>  Despesas tributárias</td><td>(126.825)</td><td>—</td></tr>
+      <tr><td>  Resultado financeiro</td><td>595.205</td><td>—</td></tr>
+      <tr><td>  Outras receitas operacionais</td><td>380.807</td><td>173.140</td></tr>
       <tr class="sub"><td>Total Desp. Operacionais</td><td>(3.522.820)</td><td>(649.902)</td></tr>
       <tr class="sub"><td>Result. antes tributação</td><td>2.345.078</td><td>(1.855.495)</td></tr>
-      <tr><td>&nbsp;&nbsp;IRPJ</td><td>(2.157.243)</td><td>(2.130.139)</td></tr>
-      <tr><td>&nbsp;&nbsp;CSLL</td><td>(778.767)</td><td>(771.170)</td></tr>
+      <tr><td>  IRPJ</td><td>(2.157.243)</td><td>(2.130.139)</td></tr>
+      <tr><td>  CSLL</td><td>(778.767)</td><td>(771.170)</td></tr>
       <tr class="tot"><td>Lucro Líquido</td><td>(590.932)</td><td>(4.756.803)</td></tr>
     </tbody></table>
   </div>
@@ -618,7 +746,6 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
   </div>
 </div>
 
-<!-- ════════════════════ CO PARTICIPAÇÕES ════════════════════ -->
 <div class="panel" id="panel-part">
   <div class="co-head">
     <div>
@@ -626,7 +753,11 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <div class="co-cnpj">CNPJ: 36.357.595/0001-84</div>
       <div class="co-sector">Holding</div>
     </div>
-    <div class="co-period"><span>Período</span><strong>2024 — 2025</strong><br><small style="font-size:10px;color:var(--gray5)">(Em milhares de reais)</small></div>
+    <div class="co-period">
+      <span>Período</span><strong>2024 — 2025</strong><br>
+      <small style="font-size:10px;color:var(--gray5)">(Em milhares de reais)</small><br>
+      <button class="btn-pdf" style="margin-top: 8px;" onclick="exportarPDF()">📄 Exportar para PDF</button>
+    </div>
   </div>
 
   <div class="kpi-row">
@@ -643,12 +774,12 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
       <tbody>
         <tr class="sub"><td>Circulante</td><td>383.453</td><td>11.076.388</td><td class="neg">-97%</td></tr>
-        <tr><td>&nbsp;&nbsp;Caixa e equivalentes</td><td>374.042</td><td>11.066.979</td><td class="neg">-97%</td></tr>
-        <tr><td>&nbsp;&nbsp;Impostos a recuperar</td><td>9.410</td><td>9.410</td><td class="neu">0%</td></tr>
+        <tr><td>  Caixa e equivalentes</td><td>374.042</td><td>11.066.979</td><td class="neg">-97%</td></tr>
+        <tr><td>  Impostos a recuperar</td><td>9.410</td><td>9.410</td><td class="neu">0%</td></tr>
         <tr class="sub"><td>Não Circulante</td><td>308.847.301</td><td>315.099.518</td><td class="neg">-2%</td></tr>
-        <tr><td>&nbsp;&nbsp;Transações partes relac.</td><td>5.344.233</td><td>3.766.535</td><td class="pos">+42%</td></tr>
-        <tr><td>&nbsp;&nbsp;Investimentos</td><td>246.326.809</td><td>248.492.541</td><td class="neg">-1%</td></tr>
-        <tr><td>&nbsp;&nbsp;Imobilizado</td><td>57.176.259</td><td>51.797.835</td><td class="pos">+10%</td></tr>
+        <tr><td>  Transações partes relac.</td><td>5.344.233</td><td>3.766.535</td><td class="pos">+42%</td></tr>
+        <tr><td>  Investimentos</td><td>246.326.809</td><td>248.492.541</td><td class="neg">-1%</td></tr>
+        <tr><td>  Imobilizado</td><td>57.176.259</td><td>51.797.835</td><td class="pos">+10%</td></tr>
         <tr class="tot"><td>Total do Ativo</td><td>309.230.753</td><td>326.175.906</td><td class="neg">-5%</td></tr>
       </tbody></table>
     </div>
@@ -657,32 +788,31 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
       <tbody>
         <tr class="sub"><td>Circulante</td><td>5.268.055</td><td>6.697.758</td><td class="pos">-21%</td></tr>
-        <tr><td>&nbsp;&nbsp;Empréstimos e financ.</td><td>5.000.000</td><td>6.485.419</td><td class="pos">-23%</td></tr>
-        <tr><td>&nbsp;&nbsp;Outras contas a pagar</td><td>268.055</td><td>212.340</td><td class="neg">+26%</td></tr>
+        <tr><td>  Empréstimos e financ.</td><td>5.000.000</td><td>6.485.419</td><td class="pos">-23%</td></tr>
+        <tr><td>  Outras contas a pagar</td><td>268.055</td><td>212.340</td><td class="neg">+26%</td></tr>
         <tr class="sub"><td>Não Circulante</td><td>1.489.336</td><td>7.962.507</td><td class="pos">-81%</td></tr>
-        <tr><td>&nbsp;&nbsp;Outras obrigações</td><td>1.489.336</td><td>7.962.507</td><td class="pos">-81%</td></tr>
+        <tr><td>  Outras obrigações</td><td>1.489.336</td><td>7.962.507</td><td class="pos">-81%</td></tr>
         <tr class="sub"><td>Patrimônio Líquido</td><td>302.473.361</td><td>311.515.641</td><td class="neg">-3%</td></tr>
-        <tr><td>&nbsp;&nbsp;Capital Social</td><td>29.420.600</td><td>29.420.600</td><td class="neu">0%</td></tr>
-        <tr><td>&nbsp;&nbsp;Lucros Acumulados</td><td>271.905.028</td><td>280.947.309</td><td class="neg">-3%</td></tr>
-        <tr><td>&nbsp;&nbsp;Reservas</td><td>1.147.733</td><td>1.147.733</td><td class="neu">0%</td></tr>
+        <tr><td>  Capital Social</td><td>29.420.600</td><td>29.420.600</td><td class="neu">0%</td></tr>
+        <tr><td>  Lucros Acumulados</td><td>271.905.028</td><td>280.947.309</td><td class="neg">-3%</td></tr>
+        <tr><td>  Reservas</td><td>1.147.733</td><td>1.147.733</td><td class="neu">0%</td></tr>
         <tr class="tot"><td>Total Passivo + PL</td><td>309.230.752</td><td>326.175.906</td><td class="neg">-5%</td></tr>
       </tbody></table>
     </div>
   </div>
   
-  
-    <div class="sec">Demonstração do Resultado do Exercício</div>
+  <div class="sec">Demonstração do Resultado do Exercício</div>
   <div class="full tc">
     <div class="tc-hdr">Em 31 de dezembro de 2025 e 2024</div>
     <table><thead><tr><th>Descrição</th><th>2025</th><th>2024</th></tr></thead>
     <tbody>
       <tr class="sub"><td>Receita (despesas) operacionais</td><td></td><td></td></tr>
-      <tr><td>&nbsp;&nbsp;Serviços com terceiros</td><td>(87.505)</td><td>(51.540)</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesas gerais e adm.</td><td>(27.034)</td><td>—</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesas tributárias</td><td>(320.697)</td><td>(2.120)</td></tr>
-	  <tr><td>&nbsp;&nbsp;Equivalência Patrimonial</td><td>24.789.354</td><td>—</td></tr>
-      <tr><td>&nbsp;&nbsp;Resultado financeiro</td><td>(10.208.364)</td><td>(671.332)</td></tr>
-      <tr><td>&nbsp;&nbsp;Outras receitas operacionais</td><td>(50.448.131)</td><td>12.023.153</td></tr>
+      <tr><td>  Serviços com terceiros</td><td>(87.505)</td><td>(51.540)</td></tr>
+      <tr><td>  Despesas gerais e adm.</td><td>(27.034)</td><td>—</td></tr>
+      <tr><td>  Despesas tributárias</td><td>(320.697)</td><td>(2.120)</td></tr>
+      <tr><td>  Equivalência Patrimonial</td><td>24.789.354</td><td>—</td></tr>
+      <tr><td>  Resultado financeiro</td><td>(10.208.364)</td><td>(671.332)</td></tr>
+      <tr><td>  Outras receitas operacionais</td><td>(50.448.131)</td><td>12.023.153</td></tr>
       <tr class="sub"><td>Total Desp. Operacionais</td><td>(38.293.951)</td><td>8.889.919</td></tr>
       <tr class="tot"><td>Lucro Líquido</td><td>(38.923.951)</td><td>8.889.919</td></tr>
     </tbody></table>
@@ -706,104 +836,6 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
   </div>
 </div>
 
-<!-- ════════════════════ Tatico ════════════════════ -->
-<div class="panel" id="panel-alim">
-  <div class="co-head">
-    <div>
-      <div class="co-name">Centro Oeste Comercial<br>de Alimentos Ltda</div>
-      <div class="co-cnpj">CNPJ: 24.447.350/0001-69</div>
-      <div class="co-sector">Comércio de Alimentos</div>
-    </div>
-    <div class="co-period"><span>Período</span><strong>2024 — 2025</strong><br><small style="font-size:10px;color:var(--gray5)">(Em milhares de reais)</small></div>
-  </div>
-
-  <div class="kpi-row">
-    <div class="kpi ck"><div class="kpi-lbl">Faturamento</div><div class="kpi-v">R$ 3.037.433 mil</div><div class="kpi-v2">2024: R$ 2.611.393 mil</div><div class="badge up">▲ 16%</div></div>
-    <div class="kpi rk"><div class="kpi-lbl">CMV</div><div class="kpi-v">R$ 2.609.710 mil</div><div class="kpi-v2">2024: R$ 2.146.111 mil</div><div class="badge dn">▲ 22%</div></div>
-    <div class="kpi gk"><div class="kpi-lbl">Lucro Líquido</div><div class="kpi-v">R$ 13.546 mil</div><div class="kpi-v2">2024: R$ 15.464 mil</div><div class="badge dn">▼ 12%</div></div>
-    <div class="kpi ck"><div class="kpi-lbl">Patrimônio Líquido</div><div class="kpi-v">R$ 260.549 mil</div><div class="kpi-v2">2024: R$ 254.482 mil</div><div class="badge up">▲ 2%</div></div>
-  </div>
-
-  <div class="sec">Balanço Patrimonial (em milhares de R$)</div>
-  <div class="two">
-    <div class="tc">
-      <div class="tc-hdr">Ativo<div class="cols"><span>2025</span><span>2024</span><span>Δ%</span></div></div>
-      <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
-      <tbody>
-        <tr class="sub"><td>Circulante</td><td>196.672</td><td>186.529</td><td class="pos">+5%</td></tr>
-        <tr><td>&nbsp;&nbsp;Caixa e equivalentes</td><td>20.579</td><td>20.250</td><td class="pos">+2%</td></tr>
-        <tr><td>&nbsp;&nbsp;Cartões a receber</td><td>19.103</td><td>19.529</td><td class="neg">-2%</td></tr>
-        <tr><td>&nbsp;&nbsp;Estoques</td><td>143.516</td><td>134.173</td><td class="pos">+7%</td></tr>
-        <tr><td>&nbsp;&nbsp;Outros créditos</td><td>10.255</td><td>7.312</td><td class="pos">+40%</td></tr>
-        <tr><td>&nbsp;&nbsp;Impostos a recuperar</td><td>2.941</td><td>2.667</td><td class="pos">+10%</td></tr>
-        <tr class="sub"><td>Não Circulante</td><td>669.667</td><td>625.774</td><td class="pos">+7%</td></tr>
-        <tr><td>&nbsp;&nbsp;Transações partes relac.</td><td>259.251</td><td>232.849</td><td class="pos">+11%</td></tr>
-        <tr><td>&nbsp;&nbsp;Ativo fiscal diferido</td><td>71.384</td><td>55.258</td><td class="pos">+29%</td></tr>
-        <tr><td>&nbsp;&nbsp;Intangível – Direito de Uso</td><td>102.688</td><td>106.120</td><td class="neg">-3%</td></tr>
-        <tr><td>&nbsp;&nbsp;Imobilizado</td><td>215.865</td><td>213.565</td><td class="pos">+1%</td></tr>
-        <tr class="tot"><td>Total do Ativo</td><td>866.339</td><td>812.303</td><td class="pos">+7%</td></tr>
-      </tbody></table>
-    </div>
-    <div class="tc">
-      <div class="tc-hdr">Passivo + PL<div class="cols"><span>2025</span><span>2024</span><span>Δ%</span></div></div>
-      <table><thead><tr><th>Conta</th><th>2025</th><th>2024</th><th>Δ%</th></tr></thead>
-      <tbody>
-        <tr class="sub"><td>Circulante</td><td>330.970</td><td>314.334</td><td class="neg">+5%</td></tr>
-        <tr><td>&nbsp;&nbsp;Fornecedores</td><td>167.210</td><td>174.761</td><td class="pos">-4%</td></tr>
-        <tr><td>&nbsp;&nbsp;Empréstimos e financ.</td><td>20.527</td><td>27.636</td><td class="pos">-26%</td></tr>
-        <tr><td>&nbsp;&nbsp;Obrigações fiscais</td><td>39.981</td><td>39.245</td><td class="neg">+2%</td></tr>
-        <tr><td>&nbsp;&nbsp;Obrig. trabalhistas</td><td>52.018</td><td>39.133</td><td class="neg">+33%</td></tr>
-        <tr><td>&nbsp;&nbsp;Outras contas a pagar</td><td>46.361</td><td>29.071</td><td class="neg">+59%</td></tr>
-        <tr class="sub"><td>Não Circulante</td><td>274.820</td><td>243.487</td><td class="neg">+13%</td></tr>
-        <tr><td>&nbsp;&nbsp;Empréstimos LP</td><td>17.055</td><td>12.608</td><td class="neg">+35%</td></tr>
-        <tr><td>&nbsp;&nbsp;Arrendamento mercantil LP</td><td>100.329</td><td>107.933</td><td class="pos">-7%</td></tr>
-        <tr><td>&nbsp;&nbsp;Provisões trabalhistas</td><td>58.936</td><td>24.761</td><td class="neg">+138%</td></tr>
-        <tr class="sub"><td>Patrimônio Líquido</td><td>260.549</td><td>254.482</td><td class="pos">+2%</td></tr>
-        <tr><td>&nbsp;&nbsp;Reserva Incentivo Fiscal</td><td>252.482</td><td>387.256</td><td class="neg">-35%</td></tr>
-        <tr><td>&nbsp;&nbsp;Lucros/Prejuízos Acum.</td><td>6.067</td><td>(130.267)</td><td class="pos">▲ Virada</td></tr>
-        <tr class="tot"><td>Total Passivo + PL</td><td>866.339</td><td>812.303</td><td class="pos">+7%</td></tr>
-      </tbody></table>
-    </div>
-  </div>
-
-  <div class="sec">Demonstração do Resultado do Exercício</div>
-  <div class="full tc">
-    <div class="tc-hdr">Em 31 de dezembro de 2025 e 2024)<div class="cols"><span>Período 2025</span><span>Período 2024</span><span>4T2025</span><span>4T2024</span></div></div>
-    <table><thead><tr><th>Descrição</th><th>2025 Período</th><th>2024 Período</th><th>Δ%</th><th>4T2025</th><th>4T2024</th></tr></thead>
-    <tbody>
-      <tr class="sub"><td>Receita Operacional Líquida</td><td>3.037.433</td><td>2.611.393</td><td class="pos">+16%</td><td>816.793</td><td>734.856</td></tr>
-      <tr><td>&nbsp;&nbsp;CMV</td><td>(2.609.710)</td><td>(2.146.111)</td><td class="neg">-22%</td><td>(694.145)</td><td>(613.944)</td></tr>
-      <tr class="sub"><td>Lucro Bruto</td><td>427.723</td><td>465.282</td><td class="neg">-8%</td><td>122.648</td><td>120.912</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesas pessoal</td><td>(176.675)</td><td>(134.529)</td><td class="neg">-31%</td><td>(50.156)</td><td>(37.501)</td></tr>
-      <tr><td>&nbsp;&nbsp;Despesas gerais e adm.</td><td>(160.838)</td><td>(156.131)</td><td class="neg">-3%</td><td>(39.118)</td><td>(38.608)</td></tr>
-      <tr><td>&nbsp;&nbsp;Serviços com terceiros</td><td>(89.261)</td><td>(64.031)</td><td class="neg">-39%</td><td>(28.657)</td><td>(17.734)</td></tr>
-      <tr><td>&nbsp;&nbsp;Resultado financeiro</td><td>29.463</td><td>23.424</td><td class="pos">+26%</td><td>5.163</td><td>7.659</td></tr>
-      <tr class="sub"><td>Total Desp. Operacionais</td><td>(401.955)</td><td>(403.373)</td><td class="pos">0%</td><td>(122.319)</td><td>(109.842)</td></tr>
-      <tr class="sub"><td>Result. antes tributação</td><td>25.768</td><td>61.909</td><td class="neg">-58%</td><td>329</td><td>11.070</td></tr>
-      <tr><td>&nbsp;&nbsp;IRPJ/CSLL</td><td>(12.222)</td><td>(46.445)</td><td class="pos">-74%</td><td>(6.362)</td><td>(12.132)</td></tr>
-      <tr class="tot"><td>Lucro Líquido</td><td>13.546</td><td>15.464</td><td class="neg">-12%</td><td>(6.033)</td><td>(1.062)</td></tr>
-    </tbody></table>
-  </div>
-
-  <div class="sec">Indicadores</div>
-  <div class="three">
-    <div class="ind"><div class="ind-ttl">Liquidez</div>
-      <div class="ind-row"><span>Corrente</span><div class="ind-vals"><span class="iv neg">0,59</span><span class="yt">2025</span><span class="iv old">0,59</span><span class="yt">2024</span></div></div>
-      <div class="ind-row"><span>Imediata</span><div class="ind-vals"><span class="iv neg">0,06</span><span class="yt">2025</span></div></div>
-    </div>
-    <div class="ind"><div class="ind-ttl">Endividamento</div>
-      <div class="ind-row"><span>Passivo / Ativo</span><div class="ind-vals"><span class="iv neg">69,9%</span><span class="yt">2025</span><span class="iv old">68,7%</span><span class="yt">2024</span></div></div>
-      <div class="ind-row"><span>Fornec. / Passivo Circ.</span><div class="ind-vals"><span class="iv">50,5%</span><span class="yt">2025</span></div></div>
-    </div>
-    <div class="ind"><div class="ind-ttl">Rentabilidade</div>
-      <div class="ind-row"><span>Margem Bruta</span><div class="ind-vals"><span class="iv">14,1%</span><span class="yt">2025</span><span class="iv old">17,8%</span><span class="yt">2024</span></div></div>
-      <div class="ind-row"><span>Margem Líquida</span><div class="ind-vals"><span class="iv">0,45%</span><span class="yt">2025</span><span class="iv old">0,59%</span><span class="yt">2024</span></div></div>
-      <div class="ind-row"><span>ROE</span><div class="ind-vals"><span class="iv">5,2%</span><span class="yt">2025</span><span class="iv old">6,1%</span><span class="yt">2024</span></div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════ IMPOSTOS ════════════════════ -->
 <div class="panel" id="panel-impostos">
   <div class="co-head">
     <div>
@@ -811,21 +843,22 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       <div class="co-cnpj">Apuração Mensal por Empresa · 2025 vs 2024</div>
       <div class="co-sector">Consolidado</div>
     </div>
-    <div class="co-period"><span>Competência</span><strong>2024 | 2025</strong></div>
+    <div class="co-period">
+      <span>Competência</span><strong>2024 | 2025</strong><br>
+      <button class="btn-pdf" style="margin-top: 8px;" onclick="exportarPDF()">📄 Exportar para PDF</button>
+    </div>
   </div>
 
-  <!-- KPIs CONSOLIDADOS -->
-  <div class="sec">Carga Tributária Consolidada — Grupo 2025</div>
+  <div class="sec">Consolidado — Grupo 2025</div>
   <div class="tax-grid-top">
     <div class="tax-kpi"><div class="tax-kpi-lbl">Tatico</div><div class="tax-kpi-v">R$ 124,8 M</div><div class="tax-kpi-v2">2024: R$ 155,0 M</div><div class="badge dn">▼ 19%</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">Monte Mar</div><div class="tax-kpi-v">R$ 9,7 M</div><div class="tax-kpi-v2">2024: R$ 13,2 M</div><div class="badge dn">▼ 27%</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">Transportes</div><div class="tax-kpi-v">R$ 2,2 M</div><div class="tax-kpi-v2">2024: R$ 0,6 M</div><div class="badge up">▲ 270%</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">JE Agropecuária</div><div class="tax-kpi-v">R$ 3,98 M</div><div class="tax-kpi-v2">2024: R$ 2,9 M</div><div class="badge dn">▼ Em análise</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">J&E Brasil</div><div class="tax-kpi-v">R$ 6.713</div><div class="tax-kpi-v2">2024: R$ 0</div><div class="badge up">▲ Início</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">Monte Mar</div><div class="tax-kpi-v">R$ 8,3 M</div><div class="tax-kpi-v2">2024: R$ 13,2 M</div><div class="badge dn">▼ 27%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">Transportes</div><div class="tax-kpi-v">R$ 2,4 M</div><div class="tax-kpi-v2">2024: R$ 0,6 M</div><div class="badge up">▲ 270%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">JE Agropecuária</div><div class="tax-kpi-v">R$ 3,98 M</div><div class="tax-kpi-v2">2024: R$ 2,9 M</div><div class="badge up">▲ 37,24%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">J&E Brasil</div><div class="tax-kpi-v">R$ 6.713</div><div class="tax-kpi-v2">2024: R$ 0</div><div class="badge up">▲ 100%</div></div>
   </div>
 
-  <!-- SELECTORES EMPRESA -->
-  <div class="sec">Detalhamento por Empresa</div>
+  <div class="sec">Detalhamento Impostos por Empresa</div>
   <div class="tax-co-tabs">
     <div class="tco-tab active" onclick="showTaxCo('calim')">Tatico</div>
     <div class="tco-tab" onclick="showTaxCo('montemar')">Monte Mar</div>
@@ -835,208 +868,139 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
   </div>
 
   <div class="tax-co-panels">
-
-    <!-- Tatico -->
     <div class="tax-co-panel active" id="taxco-calim">
-      <div class="note">* Utilizou subvenção para pagamento de PIS, COFINS, IRPJ, CSLL e Previdência</div>
+      <div class="note">* Utilizou subvenção para pagamento de PIS, COFINS, IRPJ, CSLL e Previdência. Comparativo Trimestral 2025 vs 2024.</div>
       <div class="tax-table-wrap">
-        <div class="tax-table-hdr"><h3>Centro Oeste Comercial de Alimentos Ltda</h3><span class="cnpj-tag">CNPJ 24.447.350/0001-69</span></div>
+        <div class="tax-table-hdr">
+          <h3>CENTRO OESTE COMERCIAL DE ALIMENTOS LTDA</h3>
+          <span class="cnpj-tag">CNPJ 24.447.350/0001-69</span>
+        </div>
         <table class="tax-tbl">
-          <thead><tr><th>Competência</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Prev. Patronal</th><th>IRPJ</th><th>CSLL</th><th>ICMS GO</th><th>ICMS DF</th><th>TOTAL</th></tr></thead>
+          <thead>
+            <tr><th>Período</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Prev. Patronal</th><th>IRPJ</th><th>CSLL</th><th>ICMS GO</th><th>ICMS DF</th><th>TOTAL</th></tr>
+          </thead>
           <tbody>
-            <tr><td>Jan/2025</td><td>258.608.711</td><td>316.125</td><td>1.456.091</td><td>1.926.941</td><td>—</td><td>—</td><td>5.686.015</td><td>1.018.238</td><td>10.403.411</td></tr>
-            <tr><td>Fev/2025</td><td>256.562.592</td><td>231.117</td><td>1.064.541</td><td>1.870.428</td><td>—</td><td>—</td><td>5.469.552</td><td>486.723</td><td>9.122.363</td></tr>
-            <tr><td>Mar/2025</td><td>287.688.142</td><td>222.290</td><td>1.023.881</td><td>1.879.868</td><td>1.092.410</td><td>395.427</td><td>6.195.021</td><td>856.138</td><td>11.665.038</td></tr>
-            <tr><td>Abr/2025</td><td>287.515.801</td><td>212.930</td><td>980.772</td><td>2.003.726</td><td>—</td><td>—</td><td>6.202.703</td><td>419.575</td><td>9.819.708</td></tr>
-            <tr><td>Mai/2025</td><td>302.850.511</td><td>231.556</td><td>1.066.564</td><td>2.133.373</td><td>—</td><td>—</td><td>6.768.089</td><td>1.086.694</td><td>11.286.277</td></tr>
-            <tr><td>Jun/2025</td><td>280.834.831</td><td>233.675</td><td>1.076.324</td><td>2.016.156</td><td>3.117.157</td><td>1.124.336</td><td>6.213.541</td><td>1.288.907</td><td>15.070.099</td></tr>
-            <tr><td>Jul/2025</td><td>294.584.893</td><td>230.054</td><td>1.059.644</td><td>1.992.484</td><td>—</td><td>—</td><td>6.393.963</td><td>963.517</td><td>10.639.664</td></tr>
-            <tr><td>Ago/2025</td><td>303.572.268</td><td>373.165</td><td>1.718.822</td><td>2.048.698</td><td>—</td><td>—</td><td>1.018.937</td><td>—</td><td>5.159.623</td></tr>
-            <tr><td>Set/2025</td><td>280.501.384</td><td>109.002</td><td>502.072</td><td>2.076.924</td><td>1.574.217</td><td>568.878</td><td>5.346.613</td><td>69.800</td><td>10.247.508</td></tr>
-            <tr><td>Out/2025</td><td>297.550.905</td><td>128.990</td><td>594.139</td><td>2.084.980</td><td>—</td><td>—</td><td>5.619.317</td><td>76.260</td><td>8.503.689</td></tr>
-            <tr><td>Nov/2025</td><td>301.030.799</td><td>251.907</td><td>1.160.302</td><td>2.347.738</td><td>—</td><td>—</td><td>7.388.435</td><td>524.011</td><td>11.672.394</td></tr>
-            <tr><td>Dez/2025</td><td>326.263.213</td><td>302.073</td><td>1.391.368</td><td>2.297.617</td><td>—</td><td>—</td><td>5.801.981</td><td>652.507</td><td>10.445.547</td></tr>
-            <tr><td>13ª/2025</td><td>—</td><td>—</td><td>—</td><td>813.191</td><td>—</td><td>—</td><td>—</td><td>—</td><td>813.191</td></tr>
-            <tr class="tax-tot"><td>TOTAL 2025</td><td>3.477.564.055</td><td>2.842.890</td><td>13.094.524</td><td>25.492.129</td><td>5.783.784</td><td>2.088.642</td><td>68.104.173</td><td>7.442.374</td><td>124.848.520</td></tr>
-            <tr class="tax-rate"><td>% s/ Faturamento</td><td>—</td><td>0,082%</td><td>0,377%</td><td>0,733%</td><td>0,166%</td><td>0,060%</td><td>1,958%</td><td>0,214%</td><td>3,590%</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <br>
-      <div class="tax-table-wrap">
-        <div class="tax-table-hdr"><h3>Tatico — Comparativo 2024</h3><span class="cnpj-tag">Base de Comparação</span></div>
-        <table class="tax-tbl">
-          <thead><tr><th>Competência</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Prev. Patronal</th><th>IRPJ</th><th>CSLL</th><th>ICMS GO</th><th>ICMS DF</th><th>TOTAL</th></tr></thead>
-          <tbody>
-            <tr><td>Jan/2024</td><td>209.935.927</td><td>—</td><td>—</td><td>2.214.059</td><td>—</td><td>—</td><td>4.562.755</td><td>1.085.732</td><td>7.862.547</td></tr>
-            <tr><td>Fev/2024</td><td>211.705.771</td><td>—</td><td>—</td><td>2.168.787</td><td>—</td><td>—</td><td>4.186.988</td><td>801.955</td><td>7.157.732</td></tr>
-            <tr><td>Mar/2024</td><td>237.647.545</td><td>—</td><td>—</td><td>2.253.023</td><td>5.908.975</td><td>2.129.391</td><td>5.697.941</td><td>1.421.990</td><td>17.411.322</td></tr>
-            <tr><td>Abr/2024</td><td>230.232.565</td><td>—</td><td>—</td><td>2.354.084</td><td>—</td><td>—</td><td>5.146.856</td><td>765.962</td><td>8.266.902</td></tr>
-            <tr><td>Mai/2024</td><td>250.385.661</td><td>—</td><td>—</td><td>2.495.676</td><td>—</td><td>—</td><td>6.658.606</td><td>1.592.310</td><td>10.746.593</td></tr>
-            <tr><td>Jun/2024</td><td>239.462.835</td><td>—</td><td>—</td><td>2.423.044</td><td>8.976.377</td><td>3.233.655</td><td>5.957.667</td><td>1.063.844</td><td>21.654.590</td></tr>
-            <tr><td>Jul/2024</td><td>242.378.596</td><td>—</td><td>—</td><td>2.410.385</td><td>—</td><td>—</td><td>5.522.692</td><td>960.621</td><td>8.893.699</td></tr>
-            <tr><td>Ago/2024</td><td>251.210.322</td><td>—</td><td>—</td><td>2.441.887</td><td>—</td><td>—</td><td>5.803.856</td><td>1.341.014</td><td>9.586.757</td></tr>
-            <tr><td>Set/2024</td><td>242.141.164</td><td>—</td><td>—</td><td>2.543.139</td><td>8.844.959</td><td>3.186.345</td><td>4.516.277</td><td>839.885</td><td>19.930.608</td></tr>
-            <tr><td>Out/2024</td><td>262.313.839</td><td>—</td><td>—</td><td>2.557.657</td><td>—</td><td>—</td><td>5.668.968</td><td>830.750</td><td>9.057.376</td></tr>
-            <tr><td>Nov/2024</td><td>272.021.075</td><td>—</td><td>—</td><td>2.769.888</td><td>—</td><td>—</td><td>5.425.157</td><td>862.518</td><td>9.057.564</td></tr>
-            <tr><td>Dez/2024</td><td>294.953.286</td><td>—</td><td>—</td><td>2.721.747</td><td>8.934.575</td><td>3.218.607</td><td>6.848.894</td><td>1.829.702</td><td>23.553.526</td></tr>
-            <tr><td>13ª/2024</td><td>—</td><td>—</td><td>—</td><td>1.842.651</td><td>—</td><td>—</td><td>—</td><td>—</td><td>1.842.651</td></tr>
-            <tr class="tax-tot"><td>TOTAL 2024</td><td>2.944.388.590</td><td>—</td><td>—</td><td>31.196.033</td><td>32.664.888</td><td>11.767.999</td><td>65.996.662</td><td>13.396.289</td><td>155.021.873</td></tr>
-            <tr class="tax-rate"><td>% s/ Faturamento</td><td>—</td><td>—</td><td>—</td><td>1,059%</td><td>1,109%</td><td>0,400%</td><td>2,241%</td><td>0,455%</td><td>5,265%</td></tr>
+            <tr class="sub"><td>1º Trimestre 2025</td><td id="tat-1t-25-fat"></td><td id="tat-1t-25-pis"></td><td id="tat-1t-25-cof"></td><td id="tat-1t-25-prev"></td><td id="tat-1t-25-irpj"></td><td id="tat-1t-25-csll"></td><td id="tat-1t-25-icst"></td><td id="tat-1t-25-icdf"></td><td id="tat-1t-25-tot"></td></tr>
+            <tr><td>1º Trimestre 2024</td><td id="tat-1t-24-fat"></td><td id="tat-1t-24-pis"></td><td id="tat-1t-24-cof"></td><td id="tat-1t-24-prev"></td><td id="tat-1t-24-irpj"></td><td id="tat-1t-24-csll"></td><td id="tat-1t-24-icst"></td><td id="tat-1t-24-icdf"></td><td id="tat-1t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="tat-1t-var-fat" class="pos"></td><td id="tat-1t-var-pis" class="pos"></td><td id="tat-1t-var-cof" class="pos"></td><td id="tat-1t-var-prev" class="neg"></td><td id="tat-1t-var-irpj" class="neg"></td><td id="tat-1t-var-csll" class="neg"></td><td id="tat-1t-var-icst" class="pos"></td><td id="tat-1t-var-icdf" class="neg"></td><td id="tat-1t-var-tot" class="neg"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>2º Trimestre 2025</td><td id="tat-2t-25-fat"></td><td id="tat-2t-25-pis"></td><td id="tat-2t-25-cof"></td><td id="tat-2t-25-prev"></td><td id="tat-2t-25-irpj"></td><td id="tat-2t-25-csll"></td><td id="tat-2t-25-icst"></td><td id="tat-2t-25-icdf"></td><td id="tat-2t-25-tot"></td></tr>
+            <tr><td>2º Trimestre 2024</td><td id="tat-2t-24-fat"></td><td id="tat-2t-24-pis"></td><td id="tat-2t-24-cof"></td><td id="tat-2t-24-prev"></td><td id="tat-2t-24-irpj"></td><td id="tat-2t-24-csll"></td><td id="tat-2t-24-icst"></td><td id="tat-2t-24-icdf"></td><td id="tat-2t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="tat-2t-var-fat" class="pos"></td><td id="tat-2t-var-pis" class="pos"></td><td id="tat-2t-var-cof" class="pos"></td><td id="tat-2t-var-prev" class="neg"></td><td id="tat-2t-var-irpj" class="neg"></td><td id="tat-2t-var-csll" class="neg"></td><td id="tat-2t-var-icst" class="pos"></td><td id="tat-2t-var-icdf" class="neg"></td><td id="tat-2t-var-tot" class="neg"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>3º Trimestre 2025</td><td id="tat-3t-25-fat"></td><td id="tat-3t-25-pis"></td><td id="tat-3t-25-cof"></td><td id="tat-3t-25-prev"></td><td id="tat-3t-25-irpj"></td><td id="tat-3t-25-csll"></td><td id="tat-3t-25-icst"></td><td id="tat-3t-25-icdf"></td><td id="tat-3t-25-tot"></td></tr>
+            <tr><td>3º Trimestre 2024</td><td id="tat-3t-24-fat"></td><td id="tat-3t-24-pis"></td><td id="tat-3t-24-cof"></td><td id="tat-3t-24-prev"></td><td id="tat-3t-24-irpj"></td><td id="tat-3t-24-csll"></td><td id="tat-3t-24-icst"></td><td id="tat-3t-24-icdf"></td><td id="tat-3t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="tat-3t-var-fat" class="pos"></td><td id="tat-3t-var-pis" class="pos"></td><td id="tat-3t-var-cof" class="pos"></td><td id="tat-3t-var-prev" class="neg"></td><td id="tat-3t-var-irpj" class="neg"></td><td id="tat-3t-var-csll" class="neg"></td><td id="tat-3t-var-icst" class="neg"></td><td id="tat-3t-var-icdf" class="neg"></td><td id="tat-3t-var-tot" class="neg"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>4º Trimestre 2025</td><td id="tat-4t-25-fat"></td><td id="tat-4t-25-pis"></td><td id="tat-4t-25-cof"></td><td id="tat-4t-25-prev"></td><td id="tat-4t-25-irpj"></td><td id="tat-4t-25-csll"></td><td id="tat-4t-25-icst"></td><td id="tat-4t-25-icdf"></td><td id="tat-4t-25-tot"></td></tr>
+            <tr><td>4º Trimestre 2024</td><td id="tat-4t-24-fat"></td><td id="tat-4t-24-pis"></td><td id="tat-4t-24-cof"></td><td id="tat-4t-24-prev"></td><td id="tat-4t-24-irpj"></td><td id="tat-4t-24-csll"></td><td id="tat-4t-24-icst"></td><td id="tat-4t-24-icdf"></td><td id="tat-4t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="tat-4t-var-fat" class="pos"></td><td id="tat-4t-var-pis" class="pos"></td><td id="tat-4t-var-cof" class="pos"></td><td id="tat-4t-var-prev" class="neg"></td><td id="tat-4t-var-irpj" class="neu"></td><td id="tat-4t-var-csll" class="neu"></td><td id="tat-4t-var-icst" class="pos"></td><td id="tat-4t-var-icdf" class="neg"></td><td id="tat-4t-var-tot" class="neg"></td></tr>
+            <tr class="tax-tot" style="border-top: 3px solid var(--amber);"><td>TOTAL ANO 2025</td><td id="tat-tot-25-fat"></td><td id="tat-tot-25-pis"></td><td id="tat-tot-25-cof"></td><td id="tat-tot-25-prev"></td><td id="tat-tot-25-irpj"></td><td id="tat-tot-25-csll"></td><td id="tat-tot-25-icst"></td><td id="tat-tot-25-icdf"></td><td id="tat-tot-25-tot"></td></tr>
+            <tr class="tax-tot" style="background: var(--gray1); color: var(--gray7); border-top: none;"><td>TOTAL ANO 2024</td><td id="tat-tot-24-fat"></td><td id="tat-tot-24-pis"></td><td id="tat-tot-24-cof"></td><td id="tat-tot-24-prev"></td><td id="tat-tot-24-irpj"></td><td id="tat-tot-24-csll"></td><td id="tat-tot-24-icst"></td><td id="tat-tot-24-icdf"></td><td id="tat-tot-24-tot"></td></tr>
+            <tr class="tax-rate" style="font-weight: bold; background: #fff;"><td>VARIAÇÃO ANUAL</td><td id="tat-tot-var-fat" class="pos"></td><td id="tat-tot-var-pis" class="pos"></td><td id="tat-tot-var-cof" class="pos"></td><td id="tat-tot-var-prev" class="neg"></td><td id="tat-tot-var-irpj" class="neg"></td><td id="tat-tot-var-csll" class="neg"></td><td id="tat-tot-var-icst" class="pos"></td><td id="tat-tot-var-icdf" class="neg"></td><td id="tat-tot-var-tot" class="neg"></td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- MONTE MAR -->
     <div class="tax-co-panel" id="taxco-montemar">
-      <div class="note">* Utilizou subvenção para pagamento de IRPJ e CSLL</div>
+      <div class="note">* Utilizou subvenção para pagamento de IRPJ e CSLL. Comparativo Trimestral 2025 vs 2024.</div>
       <div class="tax-table-wrap">
-        <div class="tax-table-hdr"><h3>Montemar Distribuidor Atacadista Ltda</h3><span class="cnpj-tag">CNPJ 05.589.952/0001-06</span></div>
+        <div class="tax-table-hdr">
+          <h3>Montemar Distribuidor Atacadista Ltda</h3>
+          <span class="cnpj-tag">CNPJ 05.589.952/0001-06</span>
+        </div>
         <table class="tax-tbl">
-          <thead><tr><th>Competência</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Prev. Patronal</th><th>IRPJ</th><th>CSLL</th><th>ICMS ST</th><th>ICMS DF</th><th>TOTAL</th></tr></thead>
+          <thead>
+            <tr><th>Período</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Prev. Patronal</th><th>IRPJ</th><th>CSLL</th><th>ICMS ST</th><th>ICMS DF</th><th>TOTAL</th></tr>
+          </thead>
           <tbody>
-            <tr><td>Jan/2025</td><td>22.595.066</td><td>—</td><td>—</td><td>6.420</td><td>—</td><td>—</td><td>—</td><td>148.489</td><td>154.910</td></tr>
-            <tr><td>Fev/2025</td><td>21.935.161</td><td>—</td><td>—</td><td>6.420</td><td>—</td><td>—</td><td>—</td><td>157.566</td><td>163.987</td></tr>
-            <tr><td>Mar/2025</td><td>27.600.724</td><td>—</td><td>—</td><td>6.420</td><td>918.381</td><td>332.777</td><td>—</td><td>167.161</td><td>1.424.741</td></tr>
-            <tr><td>Abr/2025</td><td>29.494.215</td><td>—</td><td>—</td><td>6.745</td><td>—</td><td>—</td><td>—</td><td>91.235</td><td>97.981</td></tr>
-            <tr><td>Mai/2025</td><td>30.490.710</td><td>—</td><td>—</td><td>6.752</td><td>—</td><td>—</td><td>—</td><td>465.797</td><td>472.550</td></tr>
-            <tr><td>Jun/2025</td><td>28.821.425</td><td>—</td><td>—</td><td>5.651</td><td>1.477.059</td><td>533.901</td><td>—</td><td>282.053</td><td>2.298.666</td></tr>
-            <tr><td>Jul/2025</td><td>31.442.062</td><td>—</td><td>—</td><td>5.163</td><td>—</td><td>—</td><td>—</td><td>290.567</td><td>295.730</td></tr>
-            <tr><td>Ago/2025</td><td>25.485.595</td><td>—</td><td>—</td><td>6.518</td><td>—</td><td>—</td><td>—</td><td>316.832</td><td>323.351</td></tr>
-            <tr><td>Set/2025</td><td>34.702.033</td><td>—</td><td>—</td><td>6.796</td><td>1.342.297</td><td>—</td><td>—</td><td>343.254</td><td>1.692.348</td></tr>
-            <tr><td>Out/2025</td><td>32.936.085</td><td>—</td><td>—</td><td>5.511</td><td>1.342.297</td><td>485.387</td><td>—</td><td>219.683</td><td>2.052.879</td></tr>
-            <tr><td>Nov/2025</td><td>31.738.903</td><td>—</td><td>—</td><td>5.579</td><td>—</td><td>—</td><td>—</td><td>369.559</td><td>375.139</td></tr>
-            <tr><td>Dez/2025</td><td>37.064.996</td><td>—</td><td>—</td><td>4.909</td><td>—</td><td>—</td><td>—</td><td>325.604</td><td>330.514</td></tr>
-            <tr><td>13ª/2025</td><td>—</td><td>—</td><td>—</td><td>3.947</td><td>—</td><td>—</td><td>—</td><td>—</td><td>3.947</td></tr>
-            <tr class="tax-tot"><td>TOTAL 2025</td><td>354.306.981</td><td>—</td><td>—</td><td>76.839</td><td>5.080.036</td><td>1.352.066</td><td>—</td><td>3.177.806</td><td>9.686.748</td></tr>
-            <tr class="tax-rate"><td>% s/ Faturamento</td><td>—</td><td>—</td><td>—</td><td>0,022%</td><td>1,434%</td><td>0,382%</td><td>—</td><td>0,897%</td><td>2,734%</td></tr>
+            <tr class="sub"><td>1º Trimestre 2025</td><td id="mm-1t-25-fat"></td><td id="mm-1t-25-pis"></td><td id="mm-1t-25-cof"></td><td id="mm-1t-25-prev"></td><td id="mm-1t-25-irpj"></td><td id="mm-1t-25-csll"></td><td id="mm-1t-25-icst"></td><td id="mm-1t-25-icdf"></td><td id="mm-1t-25-tot"></td></tr>
+            <tr><td>1º Trimestre 2024</td><td id="mm-1t-24-fat"></td><td id="mm-1t-24-pis"></td><td id="mm-1t-24-cof"></td><td id="mm-1t-24-prev"></td><td id="mm-1t-24-irpj"></td><td id="mm-1t-24-csll"></td><td id="mm-1t-24-icst"></td><td id="mm-1t-24-icdf"></td><td id="mm-1t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="mm-1t-var-fat" class="pos"></td><td id="mm-1t-var-pis" class="neu"></td><td id="mm-1t-var-cof" class="neu"></td><td id="mm-1t-var-prev" class="neu"></td><td id="mm-1t-var-irpj" class="neu"></td><td id="mm-1t-var-csll" class="neu"></td><td id="mm-1t-var-icst" class="neu"></td><td id="mm-1t-var-icdf" class="neu"></td><td id="mm-1t-var-tot" class="neu"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>2º Trimestre 2025</td><td id="mm-2t-25-fat"></td><td id="mm-2t-25-pis"></td><td id="mm-2t-25-cof"></td><td id="mm-2t-25-prev"></td><td id="mm-2t-25-irpj"></td><td id="mm-2t-25-csll"></td><td id="mm-2t-25-icst"></td><td id="mm-2t-25-icdf"></td><td id="mm-2t-25-tot"></td></tr>
+            <tr><td>2º Trimestre 2024</td><td id="mm-2t-24-fat"></td><td id="mm-2t-24-pis"></td><td id="mm-2t-24-cof"></td><td id="mm-2t-24-prev"></td><td id="mm-2t-24-irpj"></td><td id="mm-2t-24-csll"></td><td id="mm-2t-24-icst"></td><td id="mm-2t-24-icdf"></td><td id="mm-2t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="mm-2t-var-fat" class="pos"></td><td id="mm-2t-var-pis" class="neu"></td><td id="mm-2t-var-cof" class="neu"></td><td id="mm-2t-var-prev" class="neu"></td><td id="mm-2t-var-irpj" class="neu"></td><td id="mm-2t-var-csll" class="neu"></td><td id="mm-2t-var-icst" class="neu"></td><td id="mm-2t-var-icdf" class="neu"></td><td id="mm-2t-var-tot" class="neu"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>3º Trimestre 2025</td><td id="mm-3t-25-fat"></td><td id="mm-3t-25-pis"></td><td id="mm-3t-25-cof"></td><td id="mm-3t-25-prev"></td><td id="mm-3t-25-irpj"></td><td id="mm-3t-25-csll"></td><td id="mm-3t-25-icst"></td><td id="mm-3t-25-icdf"></td><td id="mm-3t-25-tot"></td></tr>
+            <tr><td>3º Trimestre 2024</td><td id="mm-3t-24-fat"></td><td id="mm-3t-24-pis"></td><td id="mm-3t-24-cof"></td><td id="mm-3t-24-prev"></td><td id="mm-3t-24-irpj"></td><td id="mm-3t-24-csll"></td><td id="mm-3t-24-icst"></td><td id="mm-3t-24-icdf"></td><td id="mm-3t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="mm-3t-var-fat" class="pos"></td><td id="mm-3t-var-pis" class="neu"></td><td id="mm-3t-var-cof" class="neu"></td><td id="mm-3t-var-prev" class="neu"></td><td id="mm-3t-var-irpj" class="neu"></td><td id="mm-3t-var-csll" class="neu"></td><td id="mm-3t-var-icst" class="neu"></td><td id="mm-3t-var-icdf" class="neu"></td><td id="mm-3t-var-tot" class="neu"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>4º Trimestre 2025</td><td id="mm-4t-25-fat"></td><td id="mm-4t-25-pis"></td><td id="mm-4t-25-cof"></td><td id="mm-4t-25-prev"></td><td id="mm-4t-25-irpj"></td><td id="mm-4t-25-csll"></td><td id="mm-4t-25-icst"></td><td id="mm-4t-25-icdf"></td><td id="mm-4t-25-tot"></td></tr>
+            <tr><td>4º Trimestre 2024</td><td id="mm-4t-24-fat"></td><td id="mm-4t-24-pis"></td><td id="mm-4t-24-cof"></td><td id="mm-4t-24-prev"></td><td id="mm-4t-24-irpj"></td><td id="mm-4t-24-csll"></td><td id="mm-4t-24-icst"></td><td id="mm-4t-24-icdf"></td><td id="mm-4t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="mm-4t-var-fat" class="pos"></td><td id="mm-4t-var-pis" class="neu"></td><td id="mm-4t-var-cof" class="neu"></td><td id="mm-4t-var-prev" class="neu"></td><td id="mm-4t-var-irpj" class="neu"></td><td id="mm-4t-var-csll" class="neu"></td><td id="mm-4t-var-icst" class="neu"></td><td id="mm-4t-var-icdf" class="neu"></td><td id="mm-4t-var-tot" class="neu"></td></tr>
+            <tr class="tax-tot" style="border-top: 3px solid var(--amber);"><td>TOTAL 2025</td><td id="mm-tot-25-fat"></td><td id="mm-tot-25-pis"></td><td id="mm-tot-25-cof"></td><td id="mm-tot-25-prev"></td><td id="mm-tot-25-irpj"></td><td id="mm-tot-25-csll"></td><td id="mm-tot-25-icst"></td><td id="mm-tot-25-icdf"></td><td id="mm-tot-25-tot"></td></tr>
+            <tr class="tax-tot" style="background: var(--gray1); color: var(--gray7); border-top: none;"><td>TOTAL 2024</td><td id="mm-tot-24-fat"></td><td id="mm-tot-24-pis"></td><td id="mm-tot-24-cof"></td><td id="mm-tot-24-prev"></td><td id="mm-tot-24-irpj"></td><td id="mm-tot-24-csll"></td><td id="mm-tot-24-icst"></td><td id="mm-tot-24-icdf"></td><td id="mm-tot-24-tot"></td></tr>
+            <tr class="tax-rate" style="font-weight: bold; background: #fff;"><td>VARIAÇÃO ANUAL</td><td id="mm-tot-var-fat" class="pos"></td><td id="mm-tot-var-pis" class="neu"></td><td id="mm-tot-var-cof" class="neu"></td><td id="mm-tot-var-prev" class="neu"></td><td id="mm-tot-var-irpj" class="neu"></td><td id="mm-tot-var-csll" class="neu"></td><td id="mm-tot-var-icst" class="neu"></td><td id="mm-tot-var-icdf" class="neu"></td><td id="mm-tot-var-tot" class="neg"></td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Transportes -->
     <div class="tax-co-panel" id="taxco-cota">
       <div class="tax-table-wrap">
-        <div class="tax-table-hdr"><h3>Centro Oeste Serviços Transportes de Cargas Ltda</h3><span class="cnpj-tag">CNPJ 35.081.412/0001-88</span></div>
+        <div class="tax-table-hdr">
+          <h3>Centro Oeste Serviços Transportes de Cargas Ltda</h3>
+          <span class="cnpj-tag">CNPJ 35.081.412/0001-88</span>
+        </div>
         <table class="tax-tbl">
-          <thead><tr><th>Competência</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Previdência</th><th>IRPJ</th><th>CSLL</th><th>ICMS DF</th><th>ISS DF</th><th>TOTAL</th></tr></thead>
+          <thead>
+            <tr><th>Período</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Previdência</th><th>IRPJ</th><th>CSLL</th><th>ICMS DF</th><th>ISS DF</th><th>TOTAL</th></tr>
+          </thead>
           <tbody>
-            <tr><td>Jan/2025</td><td>777.609</td><td>8.881</td><td>40.908</td><td>39.032</td><td>—</td><td>—</td><td>129.516</td><td>—</td><td>218.339</td></tr>
-            <tr><td>Fev/2025</td><td>703.059</td><td>9.053</td><td>41.682</td><td>39.800</td><td>—</td><td>—</td><td>121.143</td><td>—</td><td>211.679</td></tr>
-            <tr><td>Mar/2025</td><td>504.441</td><td>6.665</td><td>30.701</td><td>40.377</td><td>—</td><td>—</td><td>83.553</td><td>—</td><td>161.298</td></tr>
-            <tr><td>Abr/2025</td><td>726.856</td><td>8.236</td><td>37.928</td><td>41.438</td><td>—</td><td>—</td><td>102.207</td><td>5.090</td><td>194.901</td></tr>
-            <tr><td>Mai/2025</td><td>869.426</td><td>8.674</td><td>39.956</td><td>44.431</td><td>—</td><td>—</td><td>61.034</td><td>22.335</td><td>176.432</td></tr>
-            <tr><td>Jun/2025</td><td>875.293</td><td>8.549</td><td>39.389</td><td>43.125</td><td>55.129</td><td>22.006</td><td>60.209</td><td>23.158</td><td>251.568</td></tr>
-            <tr><td>Jul/2025</td><td>1.185.142</td><td>13.327</td><td>61.388</td><td>43.762</td><td>—</td><td>—</td><td>99.488</td><td>27.142</td><td>245.110</td></tr>
-            <tr><td>Ago/2025</td><td>862.428</td><td>7.516</td><td>34.620</td><td>44.178</td><td>—</td><td>—</td><td>73.676</td><td>18.073</td><td>178.065</td></tr>
-            <tr><td>Set/2025</td><td>1.010.322</td><td>—</td><td>—</td><td>43.842</td><td>37.240</td><td>15.566</td><td>73.266</td><td>26.876</td><td>196.791</td></tr>
-            <tr><td>Out/2025</td><td>1.100.683</td><td>—</td><td>—</td><td>42.631</td><td>—</td><td>—</td><td>90.436</td><td>27.957</td><td>161.026</td></tr>
-            <tr><td>Nov/2025</td><td>942.647</td><td>—</td><td>—</td><td>50.334</td><td>—</td><td>—</td><td>66.753</td><td>26.450</td><td>143.537</td></tr>
-            <tr><td>Dez/2025</td><td>1.150.731</td><td>4.703</td><td>21.663</td><td>50.637</td><td>48.818</td><td>19.737</td><td>80.728</td><td>30.517</td><td>256.805</td></tr>
-            <tr><td>13ª/2025</td><td>—</td><td>—</td><td>—</td><td>40.348</td><td>—</td><td>—</td><td>—</td><td>—</td><td>40.348</td></tr>
-            <tr class="tax-tot"><td>TOTAL 2025</td><td>10.708.639</td><td>75.608</td><td>348.239</td><td>563.942</td><td>141.187</td><td>57.310</td><td>1.042.014</td><td>207.601</td><td>2.228.303</td></tr>
-            <tr class="tax-rate"><td>% s/ Faturamento</td><td>—</td><td>0,706%</td><td>3,252%</td><td>5,266%</td><td>1,318%</td><td>0,535%</td><td>9,731%</td><td>—</td><td>20,809%</td></tr>
+            <tr class="sub"><td>1º Trimestre 2025</td><td id="trans-1t-25-fat"></td><td id="trans-1t-25-pis"></td><td id="trans-1t-25-cof"></td><td id="trans-1t-25-prev"></td><td id="trans-1t-25-irpj"></td><td id="trans-1t-25-csll"></td><td id="trans-1t-25-icst"></td><td id="trans-1t-25-icdf"></td><td id="trans-1t-25-tot"></td></tr>
+            <tr><td>1º Trimestre 2024</td><td id="trans-1t-24-fat"></td><td id="trans-1t-24-pis"></td><td id="trans-1t-24-cof"></td><td id="trans-1t-24-prev"></td><td id="trans-1t-24-irpj"></td><td id="trans-1t-24-csll"></td><td id="trans-1t-24-icst"></td><td id="trans-1t-24-icdf"></td><td id="trans-1t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="trans-1t-var-fat" class="pos"></td><td id="trans-1t-var-pis" class="neu"></td><td id="trans-1t-var-cof" class="neu"></td><td id="trans-1t-var-prev" class="neu"></td><td id="trans-1t-var-irpj" class="neu"></td><td id="trans-1t-var-csll" class="neu"></td><td id="trans-1t-var-icst" class="neu"></td><td id="trans-1t-var-icdf" class="neu"></td><td id="trans-1t-var-tot" class="neu"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>2º Trimestre 2025</td><td id="trans-2t-25-fat"></td><td id="trans-2t-25-pis"></td><td id="trans-2t-25-cof"></td><td id="trans-2t-25-prev"></td><td id="trans-2t-25-irpj"></td><td id="trans-2t-25-csll"></td><td id="trans-2t-25-icst"></td><td id="trans-2t-25-icdf"></td><td id="trans-2t-25-tot"></td></tr>
+            <tr><td>2º Trimestre 2024</td><td id="trans-2t-24-fat"></td><td id="trans-2t-24-pis"></td><td id="trans-2t-24-cof"></td><td id="trans-2t-24-prev"></td><td id="trans-2t-24-irpj"></td><td id="trans-2t-24-csll"></td><td id="trans-2t-24-icst"></td><td id="trans-2t-24-icdf"></td><td id="trans-2t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="trans-2t-var-fat" class="pos"></td><td id="trans-2t-var-pis" class="neu"></td><td id="trans-2t-var-cof" class="neu"></td><td id="trans-2t-var-prev" class="neu"></td><td id="trans-2t-var-irpj" class="neu"></td><td id="trans-2t-var-csll" class="neu"></td><td id="trans-2t-var-icst" class="neu"></td><td id="trans-2t-var-icdf" class="neu"></td><td id="trans-2t-var-tot" class="neu"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>3º Trimestre 2025</td><td id="trans-3t-25-fat"></td><td id="trans-3t-25-pis"></td><td id="trans-3t-25-cof"></td><td id="trans-3t-25-prev"></td><td id="trans-3t-25-irpj"></td><td id="trans-3t-25-csll"></td><td id="trans-3t-25-icst"></td><td id="trans-3t-25-icdf"></td><td id="trans-3t-25-tot"></td></tr>
+            <tr><td>3º Trimestre 2024</td><td id="trans-3t-24-fat"></td><td id="trans-3t-24-pis"></td><td id="trans-3t-24-cof"></td><td id="trans-3t-24-prev"></td><td id="trans-3t-24-irpj"></td><td id="trans-3t-24-csll"></td><td id="trans-3t-24-icst"></td><td id="trans-3t-24-icdf"></td><td id="trans-3t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="trans-3t-var-fat" class="pos"></td><td id="trans-3t-var-pis" class="neu"></td><td id="trans-3t-var-cof" class="neu"></td><td id="trans-3t-var-prev" class="neu"></td><td id="trans-3t-var-irpj" class="neu"></td><td id="trans-3t-var-csll" class="neu"></td><td id="trans-3t-var-icst" class="neu"></td><td id="trans-3t-var-icdf" class="neu"></td><td id="trans-3t-var-tot" class="neu"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>4º Trimestre 2025</td><td id="trans-4t-25-fat"></td><td id="trans-4t-25-pis"></td><td id="trans-4t-25-cof"></td><td id="trans-4t-25-prev"></td><td id="trans-4t-25-irpj"></td><td id="trans-4t-25-csll"></td><td id="trans-4t-25-icst"></td><td id="trans-4t-25-icdf"></td><td id="trans-4t-25-tot"></td></tr>
+            <tr><td>4º Trimestre 2024</td><td id="trans-4t-24-fat"></td><td id="trans-4t-24-pis"></td><td id="trans-4t-24-cof"></td><td id="trans-4t-24-prev"></td><td id="trans-4t-24-irpj"></td><td id="trans-4t-24-csll"></td><td id="trans-4t-24-icst"></td><td id="trans-4t-24-icdf"></td><td id="trans-4t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="trans-4t-var-fat" class="pos"></td><td id="trans-4t-var-pis" class="neu"></td><td id="trans-4t-var-cof" class="neu"></td><td id="trans-4t-var-prev" class="neu"></td><td id="trans-4t-var-irpj" class="neu"></td><td id="trans-4t-var-csll" class="neu"></td><td id="trans-4t-var-icst" class="neu"></td><td id="trans-4t-var-icdf" class="neu"></td><td id="trans-4t-var-tot" class="neu"></td></tr>
+            <tr class="tax-tot" style="border-top: 3px solid var(--amber);"><td>TOTAL ANO 2025</td><td id="trans-tot-25-fat"></td><td id="trans-tot-25-pis"></td><td id="trans-tot-25-cof"></td><td id="trans-tot-25-prev"></td><td id="trans-tot-25-irpj"></td><td id="trans-tot-25-csll"></td><td id="trans-tot-25-icst"></td><td id="trans-tot-25-icdf"></td><td id="trans-tot-25-tot"></td></tr>
+            <tr class="tax-tot" style="background: var(--gray1); color: var(--gray7); border-top: none;"><td>TOTAL ANO 2024</td><td id="trans-tot-24-fat"></td><td id="trans-tot-24-pis"></td><td id="trans-tot-24-cof"></td><td id="trans-tot-24-prev"></td><td id="trans-tot-24-irpj"></td><td id="trans-tot-24-csll"></td><td id="trans-tot-24-icst"></td><td id="trans-tot-24-icdf"></td><td id="trans-tot-24-tot"></td></tr>
+            <tr class="tax-rate" style="font-weight: bold; background: #fff;"><td>VARIAÇÃO ANUAL</td><td id="trans-tot-var-fat" class="pos"></td><td id="trans-tot-var-pis" class="neu"></td><td id="trans-tot-var-cof" class="neu"></td><td id="trans-tot-var-prev" class="neu"></td><td id="trans-tot-var-irpj" class="neu"></td><td id="trans-tot-var-csll" class="neu"></td><td id="trans-tot-var-icst" class="neu"></td><td id="trans-tot-var-icdf" class="neu"></td><td id="trans-tot-var-tot" class="pos"></td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- JE AGROPECUÁRIA -->
     <div class="tax-co-panel" id="taxco-agro">
       <div class="tax-table-wrap">
-        <div class="tax-table-hdr"><h3>JE Centro Oeste Agropecuária Ltda</h3><span class="cnpj-tag">CNPJ 37.116.939/0001-26</span></div>
-        <table class="tax-tbl">
-          <thead><tr><th>Competência</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Previdência</th><th>IRPJ</th><th>CSLL</th><th>ICMS DF</th><th>TOTAL</th></tr></thead>
+        <div class="tax-table-hdr">
+          <h3>JE Centro Oeste Agropecuária Ltda</h3>
+          <span class="cnpj-tag">CNPJ 37.116.939/0001-26</span>
+        </div>
+       <table class="tax-tbl">
+          <thead>
+            <tr><th>Período</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Previdência</th><th>IRPJ</th><th>CSLL</th><th>ICMS DF</th><th>TOTAL</th></tr>
+          </thead>
           <tbody>
-            <tr><td>Jan/2025</td><td>12.973.090</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>129.516</td><td>129.944</td></tr>
-            <tr><td>Fev/2025</td><td>10.072.487</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>121.143</td><td>121.571</td></tr>
-            <tr><td>Mar/2025</td><td>12.955.041</td><td>—</td><td>—</td><td>428</td><td>2.157.243</td><td>778.767</td><td>83.553</td><td>3.019.992</td></tr>
-            <tr><td>Abr/2025</td><td>12.342.402</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>102.207</td><td>102.635</td></tr>
-            <tr><td>Mai/2025</td><td>14.898.812</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>61.034</td><td>61.462</td></tr>
-            <tr><td>Jun/2025</td><td>13.665.713</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>60.209</td><td>60.637</td></tr>
-            <tr><td>Jul/2025</td><td>16.692.942</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>99.488</td><td>99.916</td></tr>
-            <tr><td>Ago/2025</td><td>15.534.643</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>73.676</td><td>74.104</td></tr>
-            <tr><td>Set/2025</td><td>15.623.566</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>73.266</td><td>73.694</td></tr>
-            <tr><td>Out/2025</td><td>14.105.950</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>90.436</td><td>90.864</td></tr>
-            <tr><td>Nov/2025</td><td>7.301.402</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>66.753</td><td>67.181</td></tr>
-            <tr><td>Dez/2025</td><td>10.568.620</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>80.728</td><td>81.156</td></tr>
-            <tr><td>13ª/2025</td><td>—</td><td>—</td><td>—</td><td>428</td><td>—</td><td>—</td><td>—</td><td>428</td></tr>
-            <tr class="tax-tot"><td>TOTAL 2025</td><td>156.734.672</td><td>—</td><td>—</td><td>5.564</td><td>2.157.243</td><td>778.767</td><td>1.042.014</td><td>3.983.590</td></tr>
-            <tr class="tax-rate"><td>% s/ Faturamento</td><td>—</td><td>—</td><td>—</td><td>0,004%</td><td>1,376%</td><td>0,497%</td><td>0,665%</td><td>2,542%</td></tr>
+            <tr class="sub"><td>1º Trimestre 2025</td><td id="agro-1t-25-fat"></td><td id="agro-1t-25-pis"></td><td id="agro-1t-25-cof"></td><td id="agro-1t-25-prev"></td><td id="agro-1t-25-irpj"></td><td id="agro-1t-25-csll"></td><td id="agro-1t-25-icdf"></td><td id="agro-1t-25-tot"></td></tr>
+            <tr><td>1º Trimestre 2024</td><td id="agro-1t-24-fat"></td><td id="agro-1t-24-pis"></td><td id="agro-1t-24-cof"></td><td id="agro-1t-24-prev"></td><td id="agro-1t-24-irpj"></td><td id="agro-1t-24-csll"></td><td id="agro-1t-24-icdf"></td><td id="agro-1t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-1t-var-fat" class="pos"></td><td id="agro-1t-var-pis" class="neu"></td><td id="agro-1t-var-cof" class="neu"></td><td id="agro-1t-var-prev" class="neu"></td><td id="agro-1t-var-irpj" class="neu"></td><td id="agro-1t-var-csll" class="neu"></td><td id="agro-1t-var-icdf" class="neu"></td><td id="agro-1t-var-tot" class="neu"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>2º Trimestre 2025</td><td id="agro-2t-25-fat"></td><td id="agro-2t-25-pis"></td><td id="agro-2t-25-cof"></td><td id="agro-2t-25-prev"></td><td id="agro-2t-25-irpj"></td><td id="agro-2t-25-csll"></td><td id="agro-2t-25-icdf"></td><td id="agro-2t-25-tot"></td></tr>
+            <tr><td>2º Trimestre 2024</td><td id="agro-2t-24-fat"></td><td id="agro-2t-24-pis"></td><td id="agro-2t-24-cof"></td><td id="agro-2t-24-prev"></td><td id="agro-2t-24-irpj"></td><td id="agro-2t-24-csll"></td><td id="agro-2t-24-icdf"></td><td id="agro-2t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-2t-var-fat" class="pos"></td><td id="agro-2t-var-pis" class="neu"></td><td id="agro-2t-var-cof" class="neu"></td><td id="agro-2t-var-prev" class="neu"></td><td id="agro-2t-var-irpj" class="neu"></td><td id="agro-2t-var-csll" class="neu"></td><td id="agro-2t-var-icdf" class="neu"></td><td id="agro-2t-var-tot" class="neu"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>3º Trimestre 2025</td><td id="agro-3t-25-fat"></td><td id="agro-3t-25-pis"></td><td id="agro-3t-25-cof"></td><td id="agro-3t-25-prev"></td><td id="agro-3t-25-irpj"></td><td id="agro-3t-25-csll"></td><td id="agro-3t-25-icdf"></td><td id="agro-3t-25-tot"></td></tr>
+            <tr><td>3º Trimestre 2024</td><td id="agro-3t-24-fat"></td><td id="agro-3t-24-pis"></td><td id="agro-3t-24-cof"></td><td id="agro-3t-24-prev"></td><td id="agro-3t-24-irpj"></td><td id="agro-3t-24-csll"></td><td id="agro-3t-24-icdf"></td><td id="agro-3t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-3t-var-fat" class="pos"></td><td id="agro-3t-var-pis" class="neu"></td><td id="agro-3t-var-cof" class="neu"></td><td id="agro-3t-var-prev" class="neu"></td><td id="agro-3t-var-irpj" class="neu"></td><td id="agro-3t-var-csll" class="neu"></td><td id="agro-3t-var-icdf" class="neu"></td><td id="agro-3t-var-tot" class="neu"></td></tr>
+            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>4º Trimestre 2025</td><td id="agro-4t-25-fat"></td><td id="agro-4t-25-pis"></td><td id="agro-4t-25-cof"></td><td id="agro-4t-25-prev"></td><td id="agro-4t-25-irpj"></td><td id="agro-4t-25-csll"></td><td id="agro-4t-25-icdf"></td><td id="agro-4t-25-tot"></td></tr>
+            <tr><td>4º Trimestre 2024</td><td id="agro-4t-24-fat"></td><td id="agro-4t-24-pis"></td><td id="agro-4t-24-cof"></td><td id="agro-4t-24-prev"></td><td id="agro-4t-24-irpj"></td><td id="agro-4t-24-csll"></td><td id="agro-4t-24-icdf"></td><td id="agro-4t-24-tot"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-4t-var-fat" class="pos"></td><td id="agro-4t-var-pis" class="neu"></td><td id="agro-4t-var-cof" class="neu"></td><td id="agro-4t-var-prev" class="neu"></td><td id="agro-4t-var-irpj" class="neu"></td><td id="agro-4t-var-csll" class="neu"></td><td id="agro-4t-var-icdf" class="neu"></td><td id="agro-4t-var-tot" class="neu"></td></tr>
+            <tr class="tax-tot" style="border-top: 3px solid var(--amber);"><td>TOTAL ANO 2025</td><td id="agro-tot-25-fat"></td><td id="agro-tot-25-pis"></td><td id="agro-tot-25-cof"></td><td id="agro-tot-25-prev"></td><td id="agro-tot-25-irpj"></td><td id="agro-tot-25-csll"></td><td id="agro-tot-25-icdf"></td><td id="agro-tot-25-tot"></td></tr>
+            <tr class="tax-tot" style="background: var(--gray1); color: var(--gray7); border-top: none;"><td>TOTAL ANO 2024</td><td id="agro-tot-24-fat"></td><td id="agro-tot-24-pis"></td><td id="agro-tot-24-cof"></td><td id="agro-tot-24-prev"></td><td id="agro-tot-24-irpj"></td><td id="agro-tot-24-csll"></td><td id="agro-tot-24-icdf"></td><td id="agro-tot-24-tot"></td></tr>
+            <tr class="tax-rate" style="font-weight: bold; background: #fff;"><td>VARIAÇÃO ANUAL</td><td id="agro-tot-var-fat" class="pos"></td><td id="agro-tot-var-pis" class="neu"></td><td id="agro-tot-var-cof" class="neu"></td><td id="agro-tot-var-prev" class="neu"></td><td id="agro-tot-var-irpj" class="pos"></td><td id="agro-tot-var-csll" class="pos"></td><td id="agro-tot-var-icdf" class="neu"></td><td id="agro-tot-var-tot" class="pos"></td></tr>
           </tbody>
         </table>
       </div>
     </div>
-
-    <!-- J&E BRASIL -->
-    <div class="tax-co-panel" id="taxco-jebrasil">
-      <div class="tax-table-wrap">
-        <div class="tax-table-hdr"><h3>J&E Brasil Ltda</h3><span class="cnpj-tag">CNPJ 57.768.052/0001-20 · Início de operações: Dez/2025</span></div>
-        <table class="tax-tbl">
-          <thead><tr><th>Competência</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>IRPJ</th><th>CSLL</th><th>ICMS</th><th>ISS</th><th>TOTAL</th></tr></thead>
-          <tbody>
-            <tr><td>Jan–Nov/2025</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>Dez/2025</td><td>17.552</td><td>289</td><td>1.334</td><td>2.633</td><td>1.579</td><td>—</td><td>877</td><td>6.713</td></tr>
-            <tr class="tax-tot"><td>TOTAL 2025</td><td>17.552</td><td>289</td><td>1.334</td><td>2.633</td><td>1.579</td><td>—</td><td>877</td><td>6.713</td></tr>
-            <tr class="tax-rate"><td>% s/ Faturamento</td><td>—</td><td>1,65%</td><td>7,60%</td><td>15,00%</td><td>9,00%</td><td>—</td><td>5,00%</td><td>38,25%</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-  </div><!-- /tax-co-panels -->
-
-  <!-- RESUMO CONSOLIDADO -->
-  <br>
-  <div class="sec">Resumo</div>
-  <div class="tax-sum-grid">
-    <div class="tax-sum-card">
-      <h4>IRPJ/CSLL 2025</h4>
-      <div class="tax-sum-row"><span>Tatico</span><span>7.872.427</span></div>
-      <div class="tax-sum-row"><span>Monte Mar</span><span>6.432.102</span></div>
-      <div class="tax-sum-row"><span>Transportes</span><span>198.497</span></div>
-      <div class="tax-sum-row"><span>JE Agropecuária</span><span>2.936.010</span></div>
-      <div class="tax-sum-row"><span>J&E Brasil</span><span>4.213</span></div>
-      <div class="tax-sum-row"><span><strong>TOTAL</strong></span><span><strong>17.443.249</strong></span></div>
-    </div>
-    <div class="tax-sum-card">
-      <h4>ICMS 2025</h4>
-      <div class="tax-sum-row"><span>Tatico</span><span>75.546.547</span></div>
-      <div class="tax-sum-row"><span>Monte Mar</span><span>3.177.807</span></div>
-      <div class="tax-sum-row"><span>Transportes</span><span>1.042.014</span></div>
-      <div class="tax-sum-row"><span>JE Agropecuária</span><span>1.042.014</span></div>
-      <div class="tax-sum-row"><span>J&E Brasil</span><td>—</td></div>
-      <div class="tax-sum-row"><span><strong>TOTAL</strong></span><span><strong>80.808.382</strong></span></div>
-    </div>
-    <div class="tax-sum-card">
-      <h4>Previdência 2025</h4>
-      <div class="tax-sum-row"><span>Tatico</span><span>25.492.129</span></div>
-      <div class="tax-sum-row"><span>Monte Mar</span><span>76.839</span></div>
-      <div class="tax-sum-row"><span>Transportes</span><span>563.942</span></div>
-      <div class="tax-sum-row"><span>JE Agropecuária</span><span>5.565</span></div>
-      <div class="tax-sum-row"><span>J&E Brasil</span><td>—</td></div>
-      <div class="tax-sum-row"><span><strong>TOTAL</strong></span><span><strong>26.138.475</strong></span></div>
-    </div>
-    <div class="tax-sum-card">
-      <h4>PIS/COFINS 2025</h4>
-      <div class="tax-sum-row"><span>Tatico</span><span>15.937.414</span></div>
-      <div class="tax-sum-row"><span>Monte Mar</span><span>—</span></div>
-      <div class="tax-sum-row"><span>Transportes</span><span>423.847</span></div>
-      <div class="tax-sum-row"><span>JE Agropecuária</span><span>—</span></div>
-      <div class="tax-sum-row"><span>J&E Brasil</span><span>1.624</span></div>
-      <div class="tax-sum-row"><span><strong>TOTAL</strong></span><span><strong>16.362.885</strong></span></div>
-    </div>
-  </div>
-
-</div><!-- /panel-impostos -->
-
-<div class="footer">
-  Grupo Centro Oeste · Informações Financeiros · Demonstrações 2024 &amp; 2025 · Elaborado pela Contabilidade
+  </div></div><div class="footer">
+  Grupo Centro Oeste · Informações Contábeis · Demonstrações 2024 &amp; 2025 · Elaborado pela Contabilidade
 </div>
 
 <script>
+/* ══════════════════════════════════════════════════════════
+   1. FUNÇÕES DE NAVEGAÇÃO E EXPORTAÇÃO
+══════════════════════════════════════════════════════════ */
 function show(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1052,10 +1016,371 @@ function showTaxCo(id) {
 }
 
 function exportarPDF() {
-  // O window.print() abre a tela de impressão do navegador.
-  // Graças ao nosso @media print no CSS, ele formata tudo perfeitamente para salvar como PDF!
   window.print();
 }
+
+/* ══════════════════════════════════════════════════════════
+   2. BANCO DE DADOS E FUNÇÕES DA VISÃO GERAL
+══════════════════════════════════════════════════════════ */
+const dadosVisaoGeral = {
+  transportes: { fat: "10.708.639", cmv: "(10.708.100)", desp: "(7.723.675)", irpj: "(267.037)", lucro: "540.991" },
+  montemar:    { fat: "354.306.982", cmv: "(225.702.726)", desp: "(15.126.842)", irpj: "(5.089.806)", lucro: "10.082.170" },
+  agro:        { fat: "156.734.672", cmv: "(150.866.774)", desp: "(3.522.820)", irpj: "(2.936.010)", lucro: "(590.932)" },
+  part:        { fat: "—", cmv: "—", desp: "(38.293.951)", irpj: "(320.697)", lucro: "(38.923.951)" },
+  tatico:      { fat: "3.477.564.055", cmv: "(2.609.710)", desp: "(401.955)", irpj: "(12.222)", lucro: "13.546" }
+};
+
+function preencherVisaoGeral() {
+  document.getElementById('vg-trans-fat').innerText = dadosVisaoGeral.transportes.fat;
+  document.getElementById('vg-trans-cmv').innerText = dadosVisaoGeral.transportes.cmv;
+  document.getElementById('vg-trans-desp').innerText = dadosVisaoGeral.transportes.desp;
+  document.getElementById('vg-trans-irpj').innerText = dadosVisaoGeral.transportes.irpj;
+  document.getElementById('vg-trans-lucro').innerText = dadosVisaoGeral.transportes.lucro;
+
+  document.getElementById('vg-mm-fat').innerText = dadosVisaoGeral.montemar.fat;
+  document.getElementById('vg-mm-cmv').innerText = dadosVisaoGeral.montemar.cmv;
+  document.getElementById('vg-mm-desp').innerText = dadosVisaoGeral.montemar.desp;
+  document.getElementById('vg-mm-irpj').innerText = dadosVisaoGeral.montemar.irpj;
+  document.getElementById('vg-mm-lucro').innerText = dadosVisaoGeral.montemar.lucro;
+
+  document.getElementById('vg-agro-fat').innerText = dadosVisaoGeral.agro.fat;
+  document.getElementById('vg-agro-cmv').innerText = dadosVisaoGeral.agro.cmv;
+  document.getElementById('vg-agro-desp').innerText = dadosVisaoGeral.agro.desp;
+  document.getElementById('vg-agro-irpj').innerText = dadosVisaoGeral.agro.irpj;
+  document.getElementById('vg-agro-lucro').innerText = dadosVisaoGeral.agro.lucro;
+
+  document.getElementById('vg-part-fat').innerText = dadosVisaoGeral.part.fat;
+  document.getElementById('vg-part-cmv').innerText = dadosVisaoGeral.part.cmv;
+  document.getElementById('vg-part-desp').innerText = dadosVisaoGeral.part.desp;
+  document.getElementById('vg-part-irpj').innerText = dadosVisaoGeral.part.irpj;
+  document.getElementById('vg-part-lucro').innerText = dadosVisaoGeral.part.lucro;
+
+  document.getElementById('vg-tat-fat').innerText = dadosVisaoGeral.tatico.fat;
+  document.getElementById('vg-tat-cmv').innerText = dadosVisaoGeral.tatico.cmv;
+  document.getElementById('vg-tat-desp').innerText = dadosVisaoGeral.tatico.desp;
+  document.getElementById('vg-tat-irpj').innerText = dadosVisaoGeral.tatico.irpj;
+  document.getElementById('vg-tat-lucro').innerText = dadosVisaoGeral.tatico.lucro;
+}
+
+/* ══════════════════════════════════════════════════════════
+   3. BANCO DE DADOS E FUNÇÕES DA MONTE MAR (DRE E BALANÇO)
+══════════════════════════════════════════════════════════ */
+const dadosMonteMar = {
+  kpis: { fat: "R$ 354.306.982", cmv: "R$ 122.363.732", lucro: "R$ 10.082.170", pl: "R$ 40.946.121" },
+  dre2025: {
+    fat: "354.306.982", ded: "(122.363.732)", rec: "231.943.250", cmv: "(225.702.726)", bruto: "6.240.524",
+    dpess: "(375.577)", dgeral: "(14.751.265)", rfin: "26.069.369", rantes: "15.171.976", irpj: "(5.089.806)", lucro: "10.082.170"
+  },
+  balanco2025: {
+    atvCirc: "70.765.091", atvCx: "304.061", atvCred: "59.547.668", atvImp: "10.149.316", atvEst: "764.045",
+    atvNcirc: "8.213.513", atvRlp: "1.120.751", atvInt: "6.171.764", atvImob: "902.894", atvTot: "78.978.604",
+    pasCirc: "29.800.344", pasForn: "26.274.809", pasFisc: "1.707.751", pasOutr: "1.463.509",
+    pasNcirc: "8.232.139", pasArr: "6.258.133", pasOutrLp: "1.500.862",
+    plTot: "40.946.121", plLuc: "14.061.846", pasTot: "78.978.604"
+  }
+};
+
+function preencherMonteMar() {
+  document.getElementById('mm-kpi-fat').innerText = dadosMonteMar.kpis.fat;
+  document.getElementById('mm-kpi-cmv').innerText = dadosMonteMar.kpis.cmv;
+  document.getElementById('mm-kpi-lucro').innerText = dadosMonteMar.kpis.lucro;
+  document.getElementById('mm-kpi-pl').innerText = dadosMonteMar.kpis.pl;
+
+  document.getElementById('mm-dre-fat').innerText = dadosMonteMar.dre2025.fat;
+  document.getElementById('mm-dre-ded').innerText = dadosMonteMar.dre2025.ded;
+  document.getElementById('mm-dre-rec').innerText = dadosMonteMar.dre2025.rec;
+  document.getElementById('mm-dre-cmv').innerText = dadosMonteMar.dre2025.cmv;
+  document.getElementById('mm-dre-bruto').innerText = dadosMonteMar.dre2025.bruto;
+  document.getElementById('mm-dre-dpess').innerText = dadosMonteMar.dre2025.dpess;
+  document.getElementById('mm-dre-dgeral').innerText = dadosMonteMar.dre2025.dgeral;
+  document.getElementById('mm-dre-rfin').innerText = dadosMonteMar.dre2025.rfin;
+  document.getElementById('mm-dre-rantes').innerText = dadosMonteMar.dre2025.rantes;
+  document.getElementById('mm-dre-irpj').innerText = dadosMonteMar.dre2025.irpj;
+  document.getElementById('mm-dre-lucro').innerText = dadosMonteMar.dre2025.lucro;
+
+  document.getElementById('mm-bp-atv-circ').innerText = dadosMonteMar.balanco2025.atvCirc;
+  document.getElementById('mm-bp-atv-cx').innerText = dadosMonteMar.balanco2025.atvCx;
+  document.getElementById('mm-bp-atv-cred').innerText = dadosMonteMar.balanco2025.atvCred;
+  document.getElementById('mm-bp-atv-imp').innerText = dadosMonteMar.balanco2025.atvImp;
+  document.getElementById('mm-bp-atv-est').innerText = dadosMonteMar.balanco2025.atvEst;
+  document.getElementById('mm-bp-atv-ncirc').innerText = dadosMonteMar.balanco2025.atvNcirc;
+  document.getElementById('mm-bp-atv-rlp').innerText = dadosMonteMar.balanco2025.atvRlp;
+  document.getElementById('mm-bp-atv-int').innerText = dadosMonteMar.balanco2025.atvInt;
+  document.getElementById('mm-bp-atv-imob').innerText = dadosMonteMar.balanco2025.atvImob;
+  document.getElementById('mm-bp-atv-tot').innerText = dadosMonteMar.balanco2025.atvTot;
+
+  document.getElementById('mm-bp-pas-circ').innerText = dadosMonteMar.balanco2025.pasCirc;
+  document.getElementById('mm-bp-pas-forn').innerText = dadosMonteMar.balanco2025.pasForn;
+  document.getElementById('mm-bp-pas-fisc').innerText = dadosMonteMar.balanco2025.pasFisc;
+  document.getElementById('mm-bp-pas-outr').innerText = dadosMonteMar.balanco2025.pasOutr;
+  document.getElementById('mm-bp-pas-ncirc').innerText = dadosMonteMar.balanco2025.pasNcirc;
+  document.getElementById('mm-bp-pas-arr').innerText = dadosMonteMar.balanco2025.pasArr;
+  document.getElementById('mm-bp-pas-outrlp').innerText = dadosMonteMar.balanco2025.pasOutrLp;
+  document.getElementById('mm-bp-pl-tot').innerText = dadosMonteMar.balanco2025.plTot;
+  document.getElementById('mm-bp-pl-luc').innerText = dadosMonteMar.balanco2025.plLuc;
+  document.getElementById('mm-bp-pas-tot').innerText = dadosMonteMar.balanco2025.pasTot;
+}
+
+/* ══════════════════════════════════════════════════════════
+   BANCO DE DADOS E FUNÇÕES DO TATICO (PAINEL PRINCIPAL)
+══════════════════════════════════════════════════════════ */
+const dadosTaticoPainel = {
+  kpis: {
+    fat: "R$ 3.037.433 mil", cmv: "R$ 2.609.710 mil", lucro: "R$ 13.546 mil", pl: "R$ 260.549 mil"
+  },
+  balanco2025: {
+    atvCirc: "196.672", atvCx: "20.579", atvCart: "19.103", atvEst: "143.516", atvOutr: "10.255", atvImp: "2.941",
+    atvNcirc: "669.667", atvTrans: "259.251", atvFisc: "71.384", atvInt: "102.688", atvImob: "215.865", atvTot: "866.339",
+    pasCirc: "330.970", pasForn: "167.210", pasEmp: "20.527", pasFisc: "39.981", pasTrab: "52.018", pasOutr: "46.361",
+    pasNcirc: "274.820", pasEmpLp: "17.055", pasArr: "100.329", pasProv: "58.936",
+    plTot: "260.549", plRes: "252.482", plLuc: "6.067", pasTot: "866.339"
+  },
+  dre2025: {
+    rec: "3.037.433", cmv: "(2.609.710)", bruto: "427.723", dpess: "(176.675)", dgeral: "(160.838)",
+    serv: "(89.261)", rfin: "29.463", dtot: "(401.955)", rantes: "25.768", irpj: "(12.222)", lucro: "13.546"
+  }
+};
+
+function preencherTaticoPainel() {
+  document.getElementById('tat-kpi-fat').innerText = dadosTaticoPainel.kpis.fat;
+  document.getElementById('tat-kpi-cmv').innerText = dadosTaticoPainel.kpis.cmv;
+  document.getElementById('tat-kpi-lucro').innerText = dadosTaticoPainel.kpis.lucro;
+  document.getElementById('tat-kpi-pl').innerText = dadosTaticoPainel.kpis.pl;
+
+  document.getElementById('tat-bp-atv-circ').innerText = dadosTaticoPainel.balanco2025.atvCirc;
+  document.getElementById('tat-bp-atv-cx').innerText = dadosTaticoPainel.balanco2025.atvCx;
+  document.getElementById('tat-bp-atv-cart').innerText = dadosTaticoPainel.balanco2025.atvCart;
+  document.getElementById('tat-bp-atv-est').innerText = dadosTaticoPainel.balanco2025.atvEst;
+  document.getElementById('tat-bp-atv-outr').innerText = dadosTaticoPainel.balanco2025.atvOutr;
+  document.getElementById('tat-bp-atv-imp').innerText = dadosTaticoPainel.balanco2025.atvImp;
+  document.getElementById('tat-bp-atv-ncirc').innerText = dadosTaticoPainel.balanco2025.atvNcirc;
+  document.getElementById('tat-bp-atv-trans').innerText = dadosTaticoPainel.balanco2025.atvTrans;
+  document.getElementById('tat-bp-atv-fisc').innerText = dadosTaticoPainel.balanco2025.atvFisc;
+  document.getElementById('tat-bp-atv-int').innerText = dadosTaticoPainel.balanco2025.atvInt;
+  document.getElementById('tat-bp-atv-imob').innerText = dadosTaticoPainel.balanco2025.atvImob;
+  document.getElementById('tat-bp-atv-tot').innerText = dadosTaticoPainel.balanco2025.atvTot;
+
+  document.getElementById('tat-bp-pas-circ').innerText = dadosTaticoPainel.balanco2025.pasCirc;
+  document.getElementById('tat-bp-pas-forn').innerText = dadosTaticoPainel.balanco2025.pasForn;
+  document.getElementById('tat-bp-pas-emp').innerText = dadosTaticoPainel.balanco2025.pasEmp;
+  document.getElementById('tat-bp-pas-fisc').innerText = dadosTaticoPainel.balanco2025.pasFisc;
+  document.getElementById('tat-bp-pas-trab').innerText = dadosTaticoPainel.balanco2025.pasTrab;
+  document.getElementById('tat-bp-pas-outr').innerText = dadosTaticoPainel.balanco2025.pasOutr;
+  document.getElementById('tat-bp-pas-ncirc').innerText = dadosTaticoPainel.balanco2025.pasNcirc;
+  document.getElementById('tat-bp-pas-emplp').innerText = dadosTaticoPainel.balanco2025.pasEmpLp;
+  document.getElementById('tat-bp-pas-arr').innerText = dadosTaticoPainel.balanco2025.pasArr;
+  document.getElementById('tat-bp-pas-prov').innerText = dadosTaticoPainel.balanco2025.pasProv;
+  document.getElementById('tat-bp-pl-tot').innerText = dadosTaticoPainel.balanco2025.plTot;
+  document.getElementById('tat-bp-pl-res').innerText = dadosTaticoPainel.balanco2025.plRes;
+  document.getElementById('tat-bp-pl-luc').innerText = dadosTaticoPainel.balanco2025.plLuc;
+  document.getElementById('tat-bp-pas-tot').innerText = dadosTaticoPainel.balanco2025.pasTot;
+
+  document.getElementById('tat-dre-rec').innerText = dadosTaticoPainel.dre2025.rec;
+  document.getElementById('tat-dre-cmv').innerText = dadosTaticoPainel.dre2025.cmv;
+  document.getElementById('tat-dre-bruto').innerText = dadosTaticoPainel.dre2025.bruto;
+  document.getElementById('tat-dre-dpess').innerText = dadosTaticoPainel.dre2025.dpess;
+  document.getElementById('tat-dre-dgeral').innerText = dadosTaticoPainel.dre2025.dgeral;
+  document.getElementById('tat-dre-serv').innerText = dadosTaticoPainel.dre2025.serv;
+  document.getElementById('tat-dre-rfin').innerText = dadosTaticoPainel.dre2025.rfin;
+  document.getElementById('tat-dre-dtot').innerText = dadosTaticoPainel.dre2025.dtot;
+  document.getElementById('tat-dre-rantes').innerText = dadosTaticoPainel.dre2025.rantes;
+  document.getElementById('tat-dre-irpj').innerText = dadosTaticoPainel.dre2025.irpj;
+  document.getElementById('tat-dre-lucro').innerText = dadosTaticoPainel.dre2025.lucro;
+}
+
+/* ══════════════════════════════════════════════════════════
+   4. BANCO DE DADOS E FUNÇÕES DE IMPOSTOS
+══════════════════════════════════════════════════════════ */
+const impostosMonteMar = {
+  tri1_25:  { fat: "72.130.952", pis: "—", cof: "—", prev: "19.262", irpj: "918.381", csll: "332.777", icst: "—", icdf: "473.216", tot: "1.743.638" },
+  tri1_24:  { fat: "51.094.908", pis: "—", cof: "—", prev: "23.487", irpj: "555.189", csll: "202.028", icst: "1.494.985", icdf: "152.294", tot: "2.387.556" },
+  tri1_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icst: "—", icdf: "%", tot: "%" },
+
+  tri2_25:  { fat: "88.806.351", pis: "—", cof: "—", prev: "19.150", irpj: "1.477.059", csll: "533.901", icst: "—", icdf: "839.085", tot: "2.869.197" },
+  tri2_24:  { fat: "73.208.446", pis: "—", cof: "—", prev: "20.986", irpj: "899.616", csll: "326.021", icst: "1.968.110", icdf: "588.341", tot: "3.793.279" },
+  tri2_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icst: "—", icdf: "%", tot: "%" },
+
+  tri3_25:  { fat: "91.629.691", pis: "—", cof: "—", prev: "18.478", irpj: "1.342.297", csll: "—", icst: "—", icdf: "950.653", tot: "2.311.429" },
+  tri3_24:  { fat: "74.412.251", pis: "—", cof: "—", prev: "24.071", irpj: "864.772", csll: "313.477", icst: "2.091.692", icdf: "890.917", tot: "4.184.932" },
+  tri3_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icst: "—", icdf: "%", tot: "%" },
+
+  tri4_25:  { fat: "101.739.985", pis: "—", cof: "—", prev: "19.948", irpj: "1.342.297", csll: "485.387", icst: "—", icdf: "914.846", tot: "2.762.479" },
+  tri4_24:  { fat: "69.067.773", pis: "—", cof: "—", prev: "32.850", irpj: "—", csll: "—", icst: "1.871.233", icdf: "967.539", tot: "2.871.623" },
+  tri4_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "+100%", csll: "+100%", icst: "—", icdf: "%", tot: "%" },
+
+  tot_25:   { fat: "354.306.981", pis: "—", cof: "—", prev: "76.839", irpj: "3.737.739", csll: "1.352.065", icst: "—", icdf: "3.177.800", tot: "8.344.451" },
+  tot_24:   { fat: "267.783.380", pis: "—", cof: "—", prev: "101.396", irpj: "2.2319.577", csll: "841.527", icst: "7.426.021", icdf: "2.548.869", tot: "13.237.391" },
+  tot_var:  { fat: "+32,3%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icst: "—", icdf: "%", tot: "-26,6%" }
+};
+
+const impostosTatico = {
+  tri1_25:  { fat: "802.859.445", pis: "—", cof: "—", prev: "5.677.237", irpj: "1.092.410", csll: "395.427", icst: "17.350.588", icdf: "2.361.099", tot: "31.190.812" },
+  tri1_24:  { fat: "659.289.243", pis: "—", cof: "—", prev: "6.635.869", irpj: "5.908.975", csll: "2.129.391", icst: "14.447.684", icdf: "3.309.677", tot: "32.431.601" },
+  tri1_var: { fat: "+21,7%", pis: "—", cof: "—", prev: "-14,4%", irpj: "-81,5%", csll: "-81,4%", icst: "+20,0%", icdf: "-28,6%", tot: "-3,8%" },
+
+  tri2_25:  { fat: "871.201.143", pis: "—", cof: "—", prev: "6.153.255", irpj: "3.117.157", csll: "1.124.336", icst: "19.184.333", icdf: "2.795.176", tot: "36.176.084" },
+  tri2_24:  { fat: "720.081.061", pis: "—", cof: "—", prev: "7.272.804", irpj: "8.976.377", csll: "3.233.655", icst: "17.763.129", icdf: "3.422.116", tot: "40.668.085" },
+  tri2_var: { fat: "+20,9%", pis: "—", cof: "—", prev: "-15,3%", irpj: "-65,2%", csll: "-65,2%", icst: "+8,0%", icdf: "-18,3%", tot: "-11,0%" },
+
+  tri3_25:  { fat: "878.658.545", pis: "—", cof: "—", prev: "6.118.106", irpj: "1.574.217", csll: "568.878", icst: "12.759.487", icdf: "1.033.317", tot: "26.046.795" },
+  tri3_24:  { fat: "735.730.082", pis: "—", cof: "—", prev: "7.395.411", irpj: "8.844.959", csll: "3.186.345", icst: "15.842.825", icdf: "3.141.520", tot: "38.411.064" },
+  tri3_var: { fat: "+19,4%", pis: "—", cof: "—", prev: "-17,2%", irpj: "-82,2%", csll: "-82,1%", icst: "-19,4%", icdf: "-67,1%", tot: "-32,1%" },
+
+  tri4_25:  { fat: "924.844.917", pis: "—", cof: "—", prev: "7.543.526", irpj: "—", csll: "—", icst: "18.809.733", icdf: "1.252.778", tot: "31.434.828" },
+  tri4_24:  { fat: "829.288.199", pis: "—", cof: "—", prev: "9.891.943", irpj: "8.934.575", csll: "3.218.607", icst: "17.943.019", icdf: "3.522.970", tot: "43.511.466" },
+  tri4_var: { fat: "+11,5%", pis: "—", cof: "—", prev: "-23,7%", irpj: "—", csll: "—", icst: "+4,8%", icdf: "-64,4%", tot: "-27,7%" },
+
+  tot_25:   { fat: "3.477.564.055", pis: "—", cof: "—", prev: "25.492.129", irpj: "5.783.784", csll: "2.088.642", icst: "68.104.173", icdf: "7.442.374", tot: "124.848.520" },
+  tot_24:   { fat: "2.944.388.590", pis: "—", cof: "—", prev: "31.196.033", irpj: "32.664.888", csll: "11.767.999", icst: "65.996.662", icdf: "13.396.289", tot: "155.021.873" },
+  tot_var:  { fat: "+18,1%", pis: "—", cof: "—", prev: "-18,2%", irpj: "-82,2%", csll: "-82,2%", icst: "+3,1%", icdf: "-44,4%", tot: "-19,4%" }
+};
+
+const impostosTransportes = {
+  tri1_25:  { fat: "1.985.109", pis: "24.599", cof: "113.291", prev: "119.209", irpj: "—", csll: "—", icst: "334.212", icdf: "—", tot: "591.316" },
+  tri1_24:  { fat: "—", pis: "—", cof: "—", prev: "—", irpj: "—", csll: "—", icst: "—", icdf: "—", tot: "—" },
+  tri1_var: { fat: "%", pis: "%", cof: "%", prev: "%", irpj: "—", csll: "—", icst: "%", icdf: "—", tot: "%" },
+
+  tri2_25:  { fat: "2.471.575", pis: "25.459", cof: "117.273", prev: "128.994", irpj: "55.129", csll: "22.006", icst: "223.450", icdf: "50.583", tot: "622.901" },
+  tri2_24:  { fat: "—", pis: "—", cof: "—", prev: "329", irpj: "—", csll: "—", icst: "—", icdf: "—", tot: "329" },
+  tri2_var: { fat: "%", pis: "%", cof: "%", prev: "%", irpj: "%", csll: "%", icst: "%", icdf: "%", tot: "%" },
+
+  tri3_25:  { fat: "3.057.892", pis: "20.843", cof: "96.008", prev: "131.782", irpj: "37.240", csll: "15.566", icst: "246.430", icdf: "72.091", tot: "619.966" },
+  tri3_24:  { fat: "440.678", pis: "1.300", cof: "5.991", prev: "9.397", irpj: "4.939", csll: "2.963", icst: "15.367", icdf: "—", tot: "39.961" },
+  tri3_var: { fat: "%", pis: "%", cof: "%", prev: "%", irpj: "%", csll: "%", icst: "%", icdf: "%", tot: "%" },
+
+  tri4_25:  { fat: "3.194.061", pis: "4.703", cof: "21.663", prev: "183.950", irpj: "48.818", csll: "19.737", icst: "237.917", icdf: "84.924", tot: "601.716" },
+  tri4_24:  { fat: "1.785.585", pis: "24.758", cof: "114.037", prev: "140.571", irpj: "—", csll: "—", icst: "282.316", icdf: "—", tot: "561.684" },
+  tri4_var: { fat: "%", pis: "%", cof: "%", prev: "%", irpj: "%", csll: "%", icst: "%", icdf: "%", tot: "%" },
+
+  tot_25:   { fat: "10.708.639", pis: "75.608", cof: "348.239", prev: "563.942", irpj: "141.187", csll: "57.310", icst: "1.042.014", icdf: "207.602", tot: "2.435.905" },
+  tot_24:   { fat: "2.226.263", pis: "26.058", cof: "120.029", prev: "150.298", irpj: "4.939", csll: "2.963", icst: "297.684", icdf: "—", tot: "601.975" },
+  tot_var:  { fat: "+698,5%", pis: "%", cof: "%", prev: "%", irpj: "%", csll: "%", icst: "%", icdf: "+100%", tot: "+271,3%" }
+};
+
+const impostosAgro = {
+  tri1_25:  { fat: "36.000.618", pis: "—", cof: "—", prev: "1.284", irpj: "2.157.243", csll: "778.767", icdf: "—", tot: "2.937.295" },
+  tri1_24:  { fat: "498.191", pis: "—", cof: "—", prev: "—", irpj: "—", csll: "—", icdf: "—", tot: "—" },
+  tri1_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icdf: "%", tot: "%" },
+
+  tri2_25:  { fat: "40.906.927", pis: "—", cof: "—", prev: "1.284", irpj: "—", csll: "—", icdf: "—", tot: "1.284" },
+  tri2_24:  { fat: "7.176.012", pis: "—", cof: "—", prev: "—", irpj: "—", csll: "—", icdf: "—", tot: "—" },
+  tri2_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "—", csll: "—", icdf: "%", tot: "%" },
+
+  tri3_25:  { fat: "47.851.151", pis: "—", cof: "—", prev: "1.284", irpj: "—", csll: "—", icdf: "—", tot: "1.284" },
+  tri3_24:  { fat: "22.599.841", pis: "—", cof: "—", prev: "—", irpj: "1.963.289", csll: "708.944", icdf: "—", tot: "2.672.233" },
+  tri3_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "—", csll: "—", icdf: "%", tot: "%" },
+
+  tri4_25:  { fat: "31.975.972", pis: "—", cof: "—", prev: "1.712", irpj: "—", csll: "—", icdf: "—", tot: "1.712" },
+  tri4_24:  { fat: "12.523.368", pis: "—", cof: "—", prev: "—", irpj: "166.848", csll: "62.225", icdf: "—", tot: "229.074" },
+  tri4_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icdf: "%", tot: "%" },
+
+  tot_25:   { fat: "156.734.672", pis: "—", cof: "—", prev: "5.564", irpj: "2.157.243", csll: "778.767", icdf: "—", tot: "2.941.575" },
+  tot_24:   { fat: "42.797.414", pis: "—", cof: "—", prev: "—", irpj: "2.130.138", csll: "771.169", icdf: "—", tot: "2.901.308" },
+  tot_var:  { fat: "+266,2%", pis: "—", cof: "—", prev: "%", irpj: "+1,2%", csll: "+0,9%", icdf: "%", tot: "+37,3%" }
+};
+
+function preencherLinhaAgro(prefixoID, dados) {
+  document.getElementById(prefixoID + '-fat').innerText = dados.fat;
+  document.getElementById(prefixoID + '-pis').innerText = dados.pis;
+  document.getElementById(prefixoID + '-cof').innerText = dados.cof;
+  document.getElementById(prefixoID + '-prev').innerText = dados.prev;
+  document.getElementById(prefixoID + '-irpj').innerText = dados.irpj;
+  document.getElementById(prefixoID + '-csll').innerText = dados.csll;
+  document.getElementById(prefixoID + '-icdf').innerText = dados.icdf;
+  document.getElementById(prefixoID + '-tot').innerText = dados.tot;
+}
+
+function preencherLinhaImposto(prefixoID, dados) {
+  document.getElementById(prefixoID + '-fat').innerText = dados.fat;
+  document.getElementById(prefixoID + '-pis').innerText = dados.pis;
+  document.getElementById(prefixoID + '-cof').innerText = dados.cof;
+  document.getElementById(prefixoID + '-prev').innerText = dados.prev;
+  document.getElementById(prefixoID + '-irpj').innerText = dados.irpj;
+  document.getElementById(prefixoID + '-csll').innerText = dados.csll;
+  document.getElementById(prefixoID + '-icst').innerText = dados.icst;
+  document.getElementById(prefixoID + '-icdf').innerText = dados.icdf;
+  document.getElementById(prefixoID + '-tot').innerText = dados.tot;
+}
+
+function carregarTodosOsImpostos() {
+  // Executa para a Monte Mar
+  preencherLinhaImposto('mm-1t-25', impostosMonteMar.tri1_25);
+  preencherLinhaImposto('mm-1t-24', impostosMonteMar.tri1_24);
+  preencherLinhaImposto('mm-1t-var', impostosMonteMar.tri1_var);
+  preencherLinhaImposto('mm-2t-25', impostosMonteMar.tri2_25);
+  preencherLinhaImposto('mm-2t-24', impostosMonteMar.tri2_24);
+  preencherLinhaImposto('mm-2t-var', impostosMonteMar.tri2_var);
+  preencherLinhaImposto('mm-3t-25', impostosMonteMar.tri3_25);
+  preencherLinhaImposto('mm-3t-24', impostosMonteMar.tri3_24);
+  preencherLinhaImposto('mm-3t-var', impostosMonteMar.tri3_var);
+  preencherLinhaImposto('mm-4t-25', impostosMonteMar.tri4_25);
+  preencherLinhaImposto('mm-4t-24', impostosMonteMar.tri4_24);
+  preencherLinhaImposto('mm-4t-var', impostosMonteMar.tri4_var);
+  preencherLinhaImposto('mm-tot-25', impostosMonteMar.tot_25);
+  preencherLinhaImposto('mm-tot-24', impostosMonteMar.tot_24);
+  preencherLinhaImposto('mm-tot-var', impostosMonteMar.tot_var);
+
+  // Executa para o Tatico
+  preencherLinhaImposto('tat-1t-25', impostosTatico.tri1_25);
+  preencherLinhaImposto('tat-1t-24', impostosTatico.tri1_24);
+  preencherLinhaImposto('tat-1t-var', impostosTatico.tri1_var);
+  preencherLinhaImposto('tat-2t-25', impostosTatico.tri2_25);
+  preencherLinhaImposto('tat-2t-24', impostosTatico.tri2_24);
+  preencherLinhaImposto('tat-2t-var', impostosTatico.tri2_var);
+  preencherLinhaImposto('tat-3t-25', impostosTatico.tri3_25);
+  preencherLinhaImposto('tat-3t-24', impostosTatico.tri3_24);
+  preencherLinhaImposto('tat-3t-var', impostosTatico.tri3_var);
+  preencherLinhaImposto('tat-4t-25', impostosTatico.tri4_25);
+  preencherLinhaImposto('tat-4t-24', impostosTatico.tri4_24);
+  preencherLinhaImposto('tat-4t-var', impostosTatico.tri4_var);
+  preencherLinhaImposto('tat-tot-25', impostosTatico.tot_25);
+  preencherLinhaImposto('tat-tot-24', impostosTatico.tot_24);
+  preencherLinhaImposto('tat-tot-var', impostosTatico.tot_var);
+
+  // Executa para a Transportes
+  preencherLinhaImposto('trans-1t-25', impostosTransportes.tri1_25);
+  preencherLinhaImposto('trans-1t-24', impostosTransportes.tri1_24);
+  preencherLinhaImposto('trans-1t-var', impostosTransportes.tri1_var);
+  preencherLinhaImposto('trans-2t-25', impostosTransportes.tri2_25);
+  preencherLinhaImposto('trans-2t-24', impostosTransportes.tri2_24);
+  preencherLinhaImposto('trans-2t-var', impostosTransportes.tri2_var);
+  preencherLinhaImposto('trans-3t-25', impostosTransportes.tri3_25);
+  preencherLinhaImposto('trans-3t-24', impostosTransportes.tri3_24);
+  preencherLinhaImposto('trans-3t-var', impostosTransportes.tri3_var);
+  preencherLinhaImposto('trans-4t-25', impostosTransportes.tri4_25);
+  preencherLinhaImposto('trans-4t-24', impostosTransportes.tri4_24);
+  preencherLinhaImposto('trans-4t-var', impostosTransportes.tri4_var);
+  preencherLinhaImposto('trans-tot-25', impostosTransportes.tot_25);
+  preencherLinhaImposto('trans-tot-24', impostosTransportes.tot_24);
+  preencherLinhaImposto('trans-tot-var', impostosTransportes.tot_var);
+  
+  // Executa para a JE Agropecuária
+  preencherLinhaAgro('agro-1t-25', impostosAgro.tri1_25);
+  preencherLinhaAgro('agro-1t-24', impostosAgro.tri1_24);
+  preencherLinhaAgro('agro-1t-var', impostosAgro.tri1_var);
+  preencherLinhaAgro('agro-2t-25', impostosAgro.tri2_25);
+  preencherLinhaAgro('agro-2t-24', impostosAgro.tri2_24);
+  preencherLinhaAgro('agro-2t-var', impostosAgro.tri2_var);
+  preencherLinhaAgro('agro-3t-25', impostosAgro.tri3_25);
+  preencherLinhaAgro('agro-3t-24', impostosAgro.tri3_24);
+  preencherLinhaAgro('agro-3t-var', impostosAgro.tri3_var);
+  preencherLinhaAgro('agro-4t-25', impostosAgro.tri4_25);
+  preencherLinhaAgro('agro-4t-24', impostosAgro.tri4_24);
+  preencherLinhaAgro('agro-4t-var', impostosAgro.tri4_var);
+  preencherLinhaAgro('agro-tot-25', impostosAgro.tot_25);
+  preencherLinhaAgro('agro-tot-24', impostosAgro.tot_24);
+  preencherLinhaAgro('agro-tot-var', impostosAgro.tot_var);
+}
+
+/* ══════════════════════════════════════════════════════════
+   5. O "MOTOR DE ARRANQUE" (Executa tudo quando a página abre)
+══════════════════════════════════════════════════════════ */
+window.addEventListener('load', function() {
+  preencherVisaoGeral();
+  preencherMonteMar();
+  preencherTaticoPainel(); 
+  carregarTodosOsImpostos();
+});
 </script>
 </body>
 </html>
