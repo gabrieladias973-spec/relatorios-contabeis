@@ -1112,25 +1112,25 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
   <div class="icms-panel" id="icms-go-jan">
     <div class="sec-title"><h2>ENTRADAS — GO</h2><span class="sec-pill">Jan/2026</span></div>
     <div class="icms-table-wrap" id="tbl-go-jan-ent"></div>
-    <div class="sec-title"><h2>VENDAS (SAÍDAS) — GO</h2><span class="sec-pill red">Jan/2026</span></div>
+    <div class="sec-title"><h2>VENDAS — GO</h2><span class="sec-pill red">Jan/2026</span></div>
     <div class="icms-table-wrap" id="tbl-go-jan-vnd"></div>
   </div>
   <div class="icms-panel" id="icms-go-fev">
     <div class="sec-title"><h2>ENTRADAS — GO</h2><span class="sec-pill">Fev/2026</span></div>
     <div class="icms-table-wrap" id="tbl-go-fev-ent"></div>
-    <div class="sec-title"><h2>VENDAS (SAÍDAS) — GO</h2><span class="sec-pill red">Fev/2026</span></div>
+    <div class="sec-title"><h2>VENDAS — GO</h2><span class="sec-pill red">Fev/2026</span></div>
     <div class="icms-table-wrap" id="tbl-go-fev-vnd"></div>
   </div>
   <div class="icms-panel" id="icms-df-jan">
     <div class="sec-title"><h2>ENTRADAS — DF</h2><span class="sec-pill">Jan/2026</span></div>
     <div class="icms-table-wrap" id="tbl-df-jan-ent"></div>
-    <div class="sec-title"><h2>VENDAS (SAÍDAS) — DF</h2><span class="sec-pill red">Jan/2026</span></div>
+    <div class="sec-title"><h2>VENDAS — DF</h2><span class="sec-pill red">Jan/2026</span></div>
     <div class="icms-table-wrap" id="tbl-df-jan-vnd"></div>
   </div>
   <div class="icms-panel" id="icms-df-fev">
     <div class="sec-title"><h2>ENTRADAS — DF</h2><span class="sec-pill">Fev/2026</span></div>
     <div class="icms-table-wrap" id="tbl-df-fev-ent"></div>
-    <div class="sec-title"><h2>VENDAS (SAÍDAS) — DF</h2><span class="sec-pill red">Fev/2026</span></div>
+    <div class="sec-title"><h2>VENDAS — DF</h2><span class="sec-pill red">Fev/2026</span></div>
     <div class="icms-table-wrap" id="tbl-df-fev-vnd"></div>
   </div>
 
@@ -1671,43 +1671,83 @@ function makeTable(containerId, lojas, rows) {
   if (container) container.innerHTML = html;
 }
 
-function buildTablesIcms() {
+function buildTables() {
+  // GO JAN ENTRADAS
   makeTable('tbl-go-jan-ent', LOJAS_GO, [
     {label:'Valor Contábil', values: goJanEnt.valorContabil},
     {label:'Base de Cálculo', values: goJanEnt.baseCalculo},
     {label:'ICMS Crédito', values: goJanEnt.icmsCredito},
+    {label:'CIAP', values: goJanEnt.ciap},
+    {label:'ICMS Antecipado', values: goJanEnt.icmsAntecipado},
+    {label:'ICMS Acumulado Entrada', values: goJanEnt.acumulado},
     {label:'TOTAL CRÉDITOS', values: goJanTotalCred, type:'total'},
   ]);
   makeTable('tbl-go-jan-vnd', LOJAS_GO, [
+    {label:'Valor Contábil', values: goJanVnd.valorContabil},
+    {label:'Base de Cálculo', values: goJanVnd.baseCalculo},
     {label:'Débito ICMS', values: goJanVnd.debitoIcms},
     {label:'Estorno de Crédito', values: goJanVnd.estornoCredito},
+    {label:'DIFAL', values: goJanVnd.difal},
     {label:'TOTAL DÉBITO', values: goJanTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: goJanAPagar, type:'pagar'},
   ]);
+
+  // GO FEV ENTRADAS
   makeTable('tbl-go-fev-ent', LOJAS_GO, [
+    {label:'Valor Contábil', values: goFevEnt.valorContabil},
+    {label:'Base de Cálculo', values: goFevEnt.baseCalculo},
     {label:'ICMS Crédito', values: goFevEnt.icmsCredito},
+    {label:'CIAP', values: goFevEnt.ciap},
+    {label:'ICMS Antecipado', values: goFevEnt.icmsAntecipado},
+    {label:'ICMS Acumulado Entrada', values: goFevEnt.acumulado},
     {label:'TOTAL CRÉDITOS', values: goFevTotalCred, type:'total'},
   ]);
   makeTable('tbl-go-fev-vnd', LOJAS_GO, [
+    {label:'Valor Contábil', values: goFevVnd.valorContabil},
+    {label:'Base de Cálculo', values: goFevVnd.baseCalculo},
     {label:'Débito ICMS', values: goFevVnd.debitoIcms},
+    {label:'Estorno de Crédito', values: goFevVnd.estornoCredito},
+    {label:'DIFAL', values: goFevVnd.difal},
     {label:'TOTAL DÉBITO', values: goFevTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: goFevAPagar, type:'pagar'},
   ]);
+
+  // DF JAN ENTRADAS
   makeTable('tbl-df-jan-ent', LOJAS_DF, [
+    {label:'Valor Contábil', values: dfJanEnt.valorContabil},
+    {label:'Base de Cálculo', values: dfJanEnt.baseCalculo},
     {label:'ICMS Crédito', values: dfJanEnt.icmsCredito},
+    {label:'CIAP', values: dfJanEnt.ciap},
+    {label:'ICMS Antecipado', values: dfJanEnt.icmsAntecipado},
+    {label:'Crédito Período Anterior', values: dfJanEnt.creditoAnterior},
     {label:'TOTAL CRÉDITOS', values: dfJanTotalCred, type:'total'},
   ]);
   makeTable('tbl-df-jan-vnd', LOJAS_DF, [
+    {label:'Valor Contábil', values: dfJanVnd.valorContabil},
+    {label:'Base de Cálculo', values: dfJanVnd.baseCalculo},
     {label:'Débito ICMS', values: dfJanVnd.debitoIcms},
+    {label:'Estorno de Crédito', values: dfJanVnd.estornoCredito},
+    {label:'DIFAL', values: dfJanVnd.difal},
     {label:'TOTAL DÉBITO', values: dfJanTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: dfJanAPagar, type:'pagar'},
   ]);
+
+  // DF FEV ENTRADAS
   makeTable('tbl-df-fev-ent', LOJAS_DF, [
+    {label:'Valor Contábil', values: dfFevEnt.valorContabil},
+    {label:'Base de Cálculo', values: dfFevEnt.baseCalculo},
     {label:'ICMS Crédito', values: dfFevEnt.icmsCredito},
+    {label:'CIAP', values: dfFevEnt.ciap},
+    {label:'ICMS Antecipado', values: dfFevEnt.icmsAntecipado},
+    {label:'Crédito Período Anterior', values: dfFevEnt.creditoAnterior},
     {label:'TOTAL CRÉDITOS', values: dfFevTotalCred, type:'total'},
   ]);
   makeTable('tbl-df-fev-vnd', LOJAS_DF, [
+    {label:'Valor Contábil', values: dfFevVnd.valorContabil},
+    {label:'Base de Cálculo', values: dfFevVnd.baseCalculo},
     {label:'Débito ICMS', values: dfFevVnd.debitoIcms},
+    {label:'Estorno de Crédito', values: dfFevVnd.estornoCredito},
+    {label:'DIFAL', values: dfFevVnd.difal},
     {label:'TOTAL DÉBITO', values: dfFevTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: dfFevAPagar, type:'pagar'},
   ]);
@@ -1911,26 +1951,30 @@ function drawLojasChart(svgId, lojas, janDebitos, fevDebitos) {
 }
 
 /* ══════════════════════════════════════════════════════════
-   3. INICIALIZADOR (RODA QUANDO O SITE CARREGA)
+   3. INICIALIZADOR CORRIGIDO
 ══════════════════════════════════════════════════════════ */
 window.addEventListener('load', function() {
-  // 1. Inicializa o Painel Financeiro Original
+  // Inicializa os dados das empresas (Geral, Monte Mar, Tatico)
   preencherVisaoGeral();
   preencherMonteMar();
   preencherTaticoPainel(); 
   carregarTodosOsImpostos();
 
-  // 2. Inicializa a nova Aba do ICMS
-  setKpisIcms();
-  buildTablesIcms(); 
+  // Inicializa a Aba do ICMS 2026
+  // Nota: Ajustei os nomes para coincidir com as funções definidas acima
+  setKpisIcms(); 
+  buildTables(); // Esta função já constrói as tabelas de ICMS no teu código
   drawEvolutionIcms(); 
+  
+  // Desenha os gráficos de barras por loja
   drawLojasChartIcms('chart-lojas-go', LOJAS_GO, goJanTotalDeb, goFevTotalDeb); 
   drawLojasChartIcms('chart-lojas-df', LOJAS_DF, dfJanTotalDeb, dfFevTotalDeb); 
 
-  // 3. Verifica o Modo Escuro
+  // Verifica o Modo Escuro salvo no navegador
   if (localStorage.getItem('temaCentroOeste') === 'escuro') {
     document.body.classList.add('dark-mode');
-    document.getElementById('btn-tema').innerText = '☀️ Claro';
+    const btn = document.getElementById('btn-tema');
+    if(btn) btn.innerText = '☀️ Claro';
   }
 });
 
