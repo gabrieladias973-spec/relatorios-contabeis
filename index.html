@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel Financeiro</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Painel Financeiro & Fiscal Centro Oeste</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --white: #FFFFFF;
@@ -30,6 +30,9 @@
   --gray1: #F3F4F6;
   --amber: #D97706;
   --amber-bg: #FEF3C7;
+
+  /* Variaveis exclusivas do ICMS */
+  --icms-sombra: rgba(10, 31, 92, 0.12);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body {
@@ -41,7 +44,7 @@ body {
   flex-direction: column;
 }
 
-/* ── HEADER ── */
+/* ── HEADER PRINCIPAL ── */
 .hdr{background:var(--b900);padding:22px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--r600);position:sticky;top:0;z-index:200;}
 .hdr-brand h1{font-family:'DM Serif Display',serif;font-size:20px;color:#fff;letter-spacing:.3px;}
 .hdr-brand p{font-size:10px;color:var(--b400);text-transform:uppercase;letter-spacing:2px;margin-top:3px;}
@@ -50,7 +53,7 @@ body {
 .y25{background:var(--b600);color:#fff;}
 .y24{background:transparent;color:var(--b400);border:1px solid var(--b700);}
 
-/* ── NAV TABS ── */
+/* ── NAV TABS PRINCIPAIS ── */
 .nav{background:var(--b800);padding:0 40px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;}
 .nav::-webkit-scrollbar{display:none;}
 .tab{padding:13px 22px;font-size:12px;font-weight:600;color:var(--b400);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;text-transform:uppercase;letter-spacing:.8px;white-space:nowrap;}
@@ -59,16 +62,12 @@ body {
 .tab.tax-tab{color:var(--amber);}
 .tab.tax-tab.active{color:var(--amber);border-bottom-color:var(--amber);}
 
-/* ── PANELS ── */
+/* ── PANELS PRINCIPAIS ── */
 .panel{display:none;padding:32px 40px;max-width:1500px;margin:0 auto;animation:fadeIn .25s ease;}
-.panel.active {
-  display: block;
-  flex: 1 0 auto;
-  width: 100%;
-}
+.panel.active { display: block; flex: 1 0 auto; width: 100%; }
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── CO HEADER ── */
+/* ── CO HEADER (TITULOS) ── */
 .co-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--gray3);}
 .co-name{font-family:'DM Serif Display',serif;font-size:26px;color:var(--b900);line-height:1.2;}
 .co-cnpj{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gray5);margin-top:5px;}
@@ -77,7 +76,7 @@ body {
 .co-period span{display:block;font-size:10px;color:var(--gray5);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
 .co-period strong{font-family:'DM Serif Display',serif;font-size:16px;color:var(--b800);}
 
-/* ── KPI GRID ── */
+/* ── KPI GRID PRINCIPAL ── */
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
 .kpi{background:#fff;border-radius:10px;padding:20px 22px;border:1px solid var(--gray3);position:relative;overflow:hidden;transition:transform .18s,box-shadow .18s;}
 .kpi:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(10,27,66,.1);}
@@ -98,8 +97,6 @@ body {
 /* ── SEC TITLE ── */
 .sec{font-family:'DM Serif Display',serif;font-size:15px;color:var(--b900);margin-bottom:14px;padding-bottom:7px;border-bottom:2px solid var(--b100);display:flex;align-items:center;gap:8px;}
 .sec::before{content:'';width:4px;height:16px;background:var(--b600);border-radius:2px;flex-shrink:0;}
-
-/* ── TWO COL ── */
 .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
 .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:24px;}
 .full{margin-bottom:24px;}
@@ -121,7 +118,6 @@ tr.sub td{font-weight:600;background:var(--gray1);color:var(--b900);}
 tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2px solid var(--b200);}
 .pos{color:var(--g600)!important;font-weight:700;}
 .neg{color:var(--r600)!important;font-weight:700;}
-.neu{color:var(--gray5)!important;}
 
 /* ── INDICATOR CARD ── */
 .ind{background:#fff;border-radius:10px;border:1px solid var(--gray3);padding:18px 20px;}
@@ -134,19 +130,17 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 .iv.old{color:var(--gray5);font-weight:400;font-size:11px;}
 .yt{font-size:9px;color:var(--gray5);font-family:'JetBrains Mono',monospace;}
 
-/* ── TAX DASHBOARD ── */
+/* ── TAX DASHBOARD (ESTILOS EXISTENTES) ── */
 .tax-grid-top{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px;}
 .tax-kpi{background:#fff;border-radius:10px;border:1px solid var(--gray3);padding:16px 18px;position:relative;overflow:hidden;}
 .tax-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--amber);}
 .tax-kpi-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray5);margin-bottom:6px;}
 .tax-kpi-v{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:600;color:var(--b900);}
 .tax-kpi-v2{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gray5);margin-top:4px;}
-.tax-kpi .badge{margin-top:6px;font-size:10px;}
 
 .tax-co-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
 .tco-tab{padding:7px 16px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--gray3);background:#fff;color:var(--gray7);transition:all .15s;}
 .tco-tab.active{background:var(--b900);color:#fff;border-color:var(--b900);}
-.tco-tab:hover:not(.active){border-color:var(--b600);color:var(--b600);}
 
 .tax-table-wrap{background:#fff;border-radius:10px;border:1px solid var(--gray3);overflow-x: auto;}
 .tax-table-hdr{background:var(--b900);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
@@ -155,11 +149,8 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 
 .tax-tbl{width:100%;border-collapse:collapse;}
 .tax-tbl thead th{background:var(--b100);padding:8px 12px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--b700);text-align:right;}
-.tax-tbl thead th:first-child{text-align:left;}
 .tax-tbl tbody td{padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:11px;text-align:right;border-bottom:1px solid var(--gray1);}
 .tax-tbl tbody td:first-child{text-align:left;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--gray7);font-weight:500;}
-.tax-tbl tbody tr:last-child td{border-bottom:none;}
-.tax-tbl tbody tr:hover td{background:var(--off);}
 .tax-tbl tr.tax-tot td{font-weight:700;background:var(--amber-bg);color:var(--b900);border-top:2px solid #FDE68A;font-size:11px;}
 .tax-tbl tr.tax-rate td{font-size:10px;color:var(--gray5);background:var(--gray1);font-style:italic;}
 
@@ -171,25 +162,96 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 .tax-sum-card h4{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray5);margin-bottom:10px;}
 .tax-sum-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--gray1);font-size:11px;}
 .tax-sum-row:last-child{border:none;font-weight:700;color:var(--b800);padding-top:8px;margin-top:4px;}
-.tax-sum-row span:last-child{font-family:'JetBrains Mono',monospace;font-weight:600;}
 
-/* ── BOTÃO PDF E IMPRESSÃO ── */
-.btn-pdf {
-  background: var(--b600);
-  color: #fff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
+/* ── BOTÕES GERAIS ── */
+.btn-pdf { background: var(--b600); color: #fff; border: none; padding: 10px 16px; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s; display: inline-flex; align-items: center; gap: 8px;}
 .btn-pdf:hover { background: var(--b700); }
+.btn-tema { background: transparent; border: 1px solid var(--b400); color: var(--b400); border-radius: 6px; padding: 4px 12px; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; cursor: pointer; margin-right: 12px; transition: all 0.2s; }
+.btn-tema:hover { background: var(--b400); color: var(--b900); }
+
+
+/* ==========================================================
+   ESTILOS EXCLUSIVOS DA NOVA ABA DE ICMS
+   ========================================================== */
+#panel-icms .icms-nav {
+  background: var(--b800);
+  display: flex;
+  gap: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+#panel-icms .icms-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: .85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+  background: transparent;
+  border: none;
+  padding: 16px 28px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all .2s;
+  white-space: nowrap;
+}
+#panel-icms .icms-btn:hover { color: #fff; background: rgba(255,255,255,.06); }
+#panel-icms .icms-btn.active { color: #fff; border-bottom-color: var(--r500); background: rgba(255,255,255,.08); }
+
+#panel-icms .icms-panel { display: none; }
+#panel-icms .icms-panel.active { display: block; animation:fadeIn .25s ease;}
+
+#panel-icms .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 36px; }
+#panel-icms .kpi-card { background: #fff; border-radius: 10px; padding: 22px 24px; box-shadow: 0 2px 16px var(--icms-sombra); border-top: 4px solid var(--b400); transition: transform .2s, box-shadow .2s; }
+#panel-icms .kpi-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px var(--icms-sombra); }
+#panel-icms .kpi-card.vermelho { border-top-color: var(--r600); }
+#panel-icms .kpi-card-label { font-size: .72rem; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--gray5); margin-bottom: 8px; }
+#panel-icms .kpi-card-value { font-family: 'JetBrains Mono', monospace; font-size: 1.45rem; font-weight: 600; color: var(--b900); }
+#panel-icms .kpi-card-sub { font-size: .75rem; color: var(--gray5); margin-top: 4px; }
+
+#panel-icms .sec-title { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; margin-top: 36px; }
+#panel-icms .sec-title h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 2px; color: var(--b900); }
+#panel-icms .sec-pill { background: var(--b900); color: #fff; font-size: .68rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+#panel-icms .sec-pill.red { background: var(--r600); }
+
+#panel-icms .icms-table-wrap { overflow-x: auto; border-radius: 10px; box-shadow: 0 2px 16px var(--icms-sombra); margin-bottom: 8px; }
+#panel-icms .icms-table-wrap table { width: 100%; border-collapse: collapse; background: #fff; font-size: .82rem; }
+#panel-icms .icms-table-wrap thead th { background: var(--b900); color: #fff; padding: 13px 14px; text-align: right; font-size: .72rem; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
+#panel-icms .icms-table-wrap thead th:first-child { text-align: left; min-width: 180px; }
+#panel-icms .icms-table-wrap thead th.total-col { background: var(--b800); }
+#panel-icms .icms-table-wrap tbody td { padding: 11px 14px; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: .78rem; color: var(--b900); white-space: nowrap; border-bottom: 1px solid var(--gray1); }
+#panel-icms .icms-table-wrap tbody td:first-child { text-align: left; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: .8rem; color: var(--b800); }
+#panel-icms .icms-table-wrap tbody tr:hover td { background: var(--off); }
+#panel-icms .icms-table-wrap tbody tr.row-total td { background: var(--b900); color: #fff; font-weight: 700; }
+#panel-icms .icms-table-wrap tbody tr.row-pagar td { background: var(--r600); color: #fff; font-weight: 700; }
+#panel-icms .icms-table-wrap td.total-col { background: var(--gray1); font-weight: 700; }
+
+#panel-icms .chart-card { background: #fff; border-radius: 10px; padding: 28px 30px; box-shadow: 0 2px 16px var(--icms-sombra); margin-bottom: 36px; border: 1px solid var(--gray3); }
+#panel-icms .chart-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 2px; color: var(--b900); margin-bottom: 22px; }
+#panel-icms .bar-chart { width: 100%; overflow: visible; }
+#panel-icms .bar-group { cursor: default; }
+#panel-icms .bar-group:hover .bar-rect { filter: brightness(1.2); }
+#panel-icms .axis-label { font-family: 'DM Sans', sans-serif; fill: var(--gray5); font-size: 11px; }
+#panel-icms .bar-label { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600; fill: var(--b900); }
+
+/* ── MODO ESCURO (DARK MODE) ── */
+body.dark-mode {
+  --off: #0F172A; --white: #1E293B; --b900: #F8FAFC; --b800: #E2E8F0; --gray7: #CBD5E1;
+  --gray5: #94A3B8; --gray3: #334155; --gray1: #0F172A; --b100: #1E3A8A; --amber-bg: #451A03;
+  --g100: #064E3B; --r100: #450A0A; --icms-sombra: rgba(0,0,0,0.5);
+}
+body.dark-mode .kpi, body.dark-mode .tc, body.dark-mode .ind, body.dark-mode .tax-sum-card, 
+body.dark-mode .tax-table-wrap, body.dark-mode .tax-kpi, body.dark-mode .tco-tab,
+body.dark-mode #panel-icms .kpi-card, body.dark-mode #panel-icms .chart-card,
+body.dark-mode #panel-icms .icms-table-wrap table {
+  background: var(--white);
+}
+body.dark-mode .hdr { background: #020617; }
+body.dark-mode .nav { background: #0F172A; }
+body.dark-mode .tco-tab.active { background: var(--b600); color: #fff; border-color: var(--b600); }
+body.dark-mode #panel-icms .bar-label { fill: #fff; }
 
 @media print {
   .hdr, .nav, .btn-pdf, .footer { display: none !important; }
@@ -199,19 +261,6 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 }
 
-/* ── FOOTER ── */
-.footer {
-  background: var(--b900);
-  text-align: center;
-  padding: 16px;
-  margin-top: auto; 
-  font-size: 10px;
-  color: var(--b400);
-  letter-spacing: 1px;
-}
-
-/* ── UTIL ── */
-.note{font-size:10px;color:var(--amber);background:var(--amber-bg);border:1px solid #FDE68A;padding:6px 12px;border-radius:5px;margin-bottom:16px;display:inline-block;}
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-track{background:var(--off);}
 ::-webkit-scrollbar-thumb{background:var(--b600);border-radius:3px;}
@@ -235,6 +284,7 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
     <p>Balanço · DRE · Impostos</p>
   </div>
   <div class="hdr-years">
+    <button id="btn-tema" class="btn-tema" onclick="mudarTema()">🌙 Escuro</button>
     <div class="ybadge y25">2025</div>
     <div class="ybadge y24">2024</div>
   </div>
@@ -248,6 +298,7 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
   <div class="tab" onclick="show('agro')">JE Agropecuária</div>
   <div class="tab" onclick="show('part')">Participações</div>
   <div class="tab tax-tab" onclick="show('impostos')">⚡ Impostos</div>
+  <div class="tab" onclick="show('icms')" style="color: #6A9AF5;">📊 ICMS 2026</div>
 </div>
 
 <div class="panel active" id="panel-geral">
@@ -869,7 +920,6 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 
   <div class="tax-co-panels">
     <div class="tax-co-panel active" id="taxco-calim">
-      <div class="note">* Utilizou subvenção para pagamento de PIS, COFINS, IRPJ, CSLL e Previdência. Comparativo Trimestral 2025 vs 2024.</div>
       <div class="tax-table-wrap">
         <div class="tax-table-hdr">
           <h3>CENTRO OESTE COMERCIAL DE ALIMENTOS LTDA</h3>
@@ -901,7 +951,6 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
     </div>
 
     <div class="tax-co-panel" id="taxco-montemar">
-      <div class="note">* Utilizou subvenção para pagamento de IRPJ e CSLL. Comparativo Trimestral 2025 vs 2024.</div>
       <div class="tax-table-wrap">
         <div class="tax-table-hdr">
           <h3>Montemar Distribuidor Atacadista Ltda</h3>
@@ -976,16 +1025,16 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
           <tbody>
             <tr class="sub"><td>1º Trimestre 2025</td><td id="agro-1t-25-fat"></td><td id="agro-1t-25-pis"></td><td id="agro-1t-25-cof"></td><td id="agro-1t-25-prev"></td><td id="agro-1t-25-irpj"></td><td id="agro-1t-25-csll"></td><td id="agro-1t-25-icdf"></td><td id="agro-1t-25-tot"></td></tr>
             <tr><td>1º Trimestre 2024</td><td id="agro-1t-24-fat"></td><td id="agro-1t-24-pis"></td><td id="agro-1t-24-cof"></td><td id="agro-1t-24-prev"></td><td id="agro-1t-24-irpj"></td><td id="agro-1t-24-csll"></td><td id="agro-1t-24-icdf"></td><td id="agro-1t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-1t-var-fat" class="pos"></td><td id="agro-1t-var-pis" class="neu"></td><td id="agro-1t-var-cof" class="neu"></td><td id="agro-1t-var-prev" class="neu"></td><td id="agro-1t-var-irpj" class="neu"></td><td id="agro-1t-var-csll" class="neu"></td><td id="agro-1t-var-icdf" class="neu"></td><td id="agro-1t-var-tot" class="neu"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-1t-var-fat" class="pos"></td><td id="agro-1t-var-pis" class="neu"></td><td id="agro-1t-var-cof" class="neu"></td><td id="agro-1t-var-prev" class="neu"></td><td id="agro-1t-var-irpj" class="neu"></td><td id="agro-1t-var-csll" class="neu"></td><td id="agro-1t-var-icdf" class="neu"></td><td id="agro-1t-var-tot" class="pos"></td></tr>
             <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>2º Trimestre 2025</td><td id="agro-2t-25-fat"></td><td id="agro-2t-25-pis"></td><td id="agro-2t-25-cof"></td><td id="agro-2t-25-prev"></td><td id="agro-2t-25-irpj"></td><td id="agro-2t-25-csll"></td><td id="agro-2t-25-icdf"></td><td id="agro-2t-25-tot"></td></tr>
             <tr><td>2º Trimestre 2024</td><td id="agro-2t-24-fat"></td><td id="agro-2t-24-pis"></td><td id="agro-2t-24-cof"></td><td id="agro-2t-24-prev"></td><td id="agro-2t-24-irpj"></td><td id="agro-2t-24-csll"></td><td id="agro-2t-24-icdf"></td><td id="agro-2t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-2t-var-fat" class="pos"></td><td id="agro-2t-var-pis" class="neu"></td><td id="agro-2t-var-cof" class="neu"></td><td id="agro-2t-var-prev" class="neu"></td><td id="agro-2t-var-irpj" class="neu"></td><td id="agro-2t-var-csll" class="neu"></td><td id="agro-2t-var-icdf" class="neu"></td><td id="agro-2t-var-tot" class="neu"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-2t-var-fat" class="pos"></td><td id="agro-2t-var-pis" class="neu"></td><td id="agro-2t-var-cof" class="neu"></td><td id="agro-2t-var-prev" class="neu"></td><td id="agro-2t-var-irpj" class="neu"></td><td id="agro-2t-var-csll" class="neu"></td><td id="agro-2t-var-icdf" class="neu"></td><td id="agro-2t-var-tot" class="pos"></td></tr>
             <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>3º Trimestre 2025</td><td id="agro-3t-25-fat"></td><td id="agro-3t-25-pis"></td><td id="agro-3t-25-cof"></td><td id="agro-3t-25-prev"></td><td id="agro-3t-25-irpj"></td><td id="agro-3t-25-csll"></td><td id="agro-3t-25-icdf"></td><td id="agro-3t-25-tot"></td></tr>
             <tr><td>3º Trimestre 2024</td><td id="agro-3t-24-fat"></td><td id="agro-3t-24-pis"></td><td id="agro-3t-24-cof"></td><td id="agro-3t-24-prev"></td><td id="agro-3t-24-irpj"></td><td id="agro-3t-24-csll"></td><td id="agro-3t-24-icdf"></td><td id="agro-3t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-3t-var-fat" class="pos"></td><td id="agro-3t-var-pis" class="neu"></td><td id="agro-3t-var-cof" class="neu"></td><td id="agro-3t-var-prev" class="neu"></td><td id="agro-3t-var-irpj" class="neu"></td><td id="agro-3t-var-csll" class="neu"></td><td id="agro-3t-var-icdf" class="neu"></td><td id="agro-3t-var-tot" class="neu"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-3t-var-fat" class="pos"></td><td id="agro-3t-var-pis" class="neu"></td><td id="agro-3t-var-cof" class="neu"></td><td id="agro-3t-var-prev" class="neu"></td><td id="agro-3t-var-irpj" class="neu"></td><td id="agro-3t-var-csll" class="neu"></td><td id="agro-3t-var-icdf" class="neu"></td><td id="agro-3t-var-tot" class="pos"></td></tr>
             <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>4º Trimestre 2025</td><td id="agro-4t-25-fat"></td><td id="agro-4t-25-pis"></td><td id="agro-4t-25-cof"></td><td id="agro-4t-25-prev"></td><td id="agro-4t-25-irpj"></td><td id="agro-4t-25-csll"></td><td id="agro-4t-25-icdf"></td><td id="agro-4t-25-tot"></td></tr>
             <tr><td>4º Trimestre 2024</td><td id="agro-4t-24-fat"></td><td id="agro-4t-24-pis"></td><td id="agro-4t-24-cof"></td><td id="agro-4t-24-prev"></td><td id="agro-4t-24-irpj"></td><td id="agro-4t-24-csll"></td><td id="agro-4t-24-icdf"></td><td id="agro-4t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-4t-var-fat" class="pos"></td><td id="agro-4t-var-pis" class="neu"></td><td id="agro-4t-var-cof" class="neu"></td><td id="agro-4t-var-prev" class="neu"></td><td id="agro-4t-var-irpj" class="neu"></td><td id="agro-4t-var-csll" class="neu"></td><td id="agro-4t-var-icdf" class="neu"></td><td id="agro-4t-var-tot" class="neu"></td></tr>
+            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-4t-var-fat" class="pos"></td><td id="agro-4t-var-pis" class="neu"></td><td id="agro-4t-var-cof" class="neu"></td><td id="agro-4t-var-prev" class="neu"></td><td id="agro-4t-var-irpj" class="neu"></td><td id="agro-4t-var-csll" class="neu"></td><td id="agro-4t-var-icdf" class="neu"></td><td id="agro-4t-var-tot" class="pos"></td></tr>
             <tr class="tax-tot" style="border-top: 3px solid var(--amber);"><td>TOTAL ANO 2025</td><td id="agro-tot-25-fat"></td><td id="agro-tot-25-pis"></td><td id="agro-tot-25-cof"></td><td id="agro-tot-25-prev"></td><td id="agro-tot-25-irpj"></td><td id="agro-tot-25-csll"></td><td id="agro-tot-25-icdf"></td><td id="agro-tot-25-tot"></td></tr>
             <tr class="tax-tot" style="background: var(--gray1); color: var(--gray7); border-top: none;"><td>TOTAL ANO 2024</td><td id="agro-tot-24-fat"></td><td id="agro-tot-24-pis"></td><td id="agro-tot-24-cof"></td><td id="agro-tot-24-prev"></td><td id="agro-tot-24-irpj"></td><td id="agro-tot-24-csll"></td><td id="agro-tot-24-icdf"></td><td id="agro-tot-24-tot"></td></tr>
             <tr class="tax-rate" style="font-weight: bold; background: #fff;"><td>VARIAÇÃO ANUAL</td><td id="agro-tot-var-fat" class="pos"></td><td id="agro-tot-var-pis" class="neu"></td><td id="agro-tot-var-cof" class="neu"></td><td id="agro-tot-var-prev" class="neu"></td><td id="agro-tot-var-irpj" class="pos"></td><td id="agro-tot-var-csll" class="pos"></td><td id="agro-tot-var-icdf" class="neu"></td><td id="agro-tot-var-tot" class="pos"></td></tr>
@@ -994,34 +1043,150 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
       </div>
     </div>
   </div></div><div class="footer">
-  Grupo Centro Oeste · Informações Contábeis · Demonstrações 2024 &amp; 2025 · Elaborado pela Contabilidade
+</div>
+
+<div class="panel" id="panel-icms">
+  <div class="co-head">
+    <div>
+      <div class="co-name">Apuração ICMS 2026</div>
+      <div class="co-sector">Fiscal — GO & DF</div>
+    </div>
+    <div class="co-period">
+      <span>Período</span><strong>2026</strong><br>
+      <button class="btn-pdf" style="margin-top: 8px;" onclick="exportarPDF()">📄 Exportar para PDF</button>
+    </div>
+  </div>
+
+  <div class="icms-nav">
+    <button class="icms-btn active" onclick="showIcmsTab('icms-visao-geral')">Visão Geral</button>
+    <button class="icms-btn" onclick="showIcmsTab('icms-go-jan')">GO — Jan/2026</button>
+    <button class="icms-btn" onclick="showIcmsTab('icms-go-fev')">GO — Fev/2026</button>
+    <button class="icms-btn" onclick="showIcmsTab('icms-df-jan')">DF — Jan/2026</button>
+    <button class="icms-btn" onclick="showIcmsTab('icms-df-fev')">DF — Fev/2026</button>
+  </div>
+
+  <div class="icms-panel active" id="icms-visao-geral">
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-card-label">Débito Total ICMS GO</div>
+        <div class="kpi-card-value" id="kpi-debito-go"></div><div class="kpi-card-sub">Acumulado 2026</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-card-label">Crédito Total GO</div>
+        <div class="kpi-card-value" id="kpi-credito-go"></div><div class="kpi-card-sub">Acumulado 2026</div>
+      </div>
+      <div class="kpi-card vermelho">
+        <div class="kpi-card-label">Total a Pagar GO</div>
+        <div class="kpi-card-value" id="kpi-pagar-go"></div><div class="kpi-card-sub">Acumulado 2026</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-card-label">Débito Total ICMS DF</div>
+        <div class="kpi-card-value" id="kpi-debito-df"></div><div class="kpi-card-sub">Acumulado 2026</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-card-label">Crédito Total DF</div>
+        <div class="kpi-card-value" id="kpi-credito-df"></div><div class="kpi-card-sub">Acumulado 2026</div>
+      </div>
+      <div class="kpi-card vermelho">
+        <div class="kpi-card-label">Total a Pagar DF</div>
+        <div class="kpi-card-value" id="kpi-pagar-df"></div><div class="kpi-card-sub">Acumulado 2026</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Evolução Mensal — Débito ICMS por Estado</h3>
+      <svg class="bar-chart" viewBox="0 0 820 280" id="chart-evolucao"></svg>
+    </div>
+
+    <div class="sec-title"><h2>Comparativo por Loja — GO</h2><span class="sec-pill">Jan vs Fev</span></div>
+    <div class="chart-card">
+      <svg class="bar-chart" viewBox="0 0 820 300" id="chart-lojas-go"></svg>
+    </div>
+
+    <div class="sec-title"><h2>Comparativo por Loja — DF</h2><span class="sec-pill">Jan vs Fev</span></div>
+    <div class="chart-card">
+      <svg class="bar-chart" viewBox="0 0 820 300" id="chart-lojas-df"></svg>
+    </div>
+  </div>
+
+  <div class="icms-panel" id="icms-go-jan">
+    <div class="sec-title"><h2>ENTRADAS — GO</h2><span class="sec-pill">Jan/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-jan-ent"></div>
+    <div class="sec-title"><h2>VENDAS (SAÍDAS) — GO</h2><span class="sec-pill red">Jan/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-jan-vnd"></div>
+  </div>
+  <div class="icms-panel" id="icms-go-fev">
+    <div class="sec-title"><h2>ENTRADAS — GO</h2><span class="sec-pill">Fev/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-fev-ent"></div>
+    <div class="sec-title"><h2>VENDAS (SAÍDAS) — GO</h2><span class="sec-pill red">Fev/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-fev-vnd"></div>
+  </div>
+  <div class="icms-panel" id="icms-df-jan">
+    <div class="sec-title"><h2>ENTRADAS — DF</h2><span class="sec-pill">Jan/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-jan-ent"></div>
+    <div class="sec-title"><h2>VENDAS (SAÍDAS) — DF</h2><span class="sec-pill red">Jan/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-jan-vnd"></div>
+  </div>
+  <div class="icms-panel" id="icms-df-fev">
+    <div class="sec-title"><h2>ENTRADAS — DF</h2><span class="sec-pill">Fev/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-fev-ent"></div>
+    <div class="sec-title"><h2>VENDAS (SAÍDAS) — DF</h2><span class="sec-pill red">Fev/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-fev-vnd"></div>
+  </div>
+
 </div>
 
 <script>
 /* ══════════════════════════════════════════════════════════
-   1. FUNÇÕES DE NAVEGAÇÃO E EXPORTAÇÃO
+   1. FUNÇÕES DE NAVEGAÇÃO DO PAINEL GERAL
 ══════════════════════════════════════════════════════════ */
 function show(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav .tab').forEach(t => t.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
   event.currentTarget.classList.add('active');
 }
 
 function showTaxCo(id) {
+  // 1. Esconde todos os painéis de impostos
   document.querySelectorAll('.tax-co-panel').forEach(p => p.classList.remove('active'));
+  
+  // 2. Remove a cor "ativa" de todos os botões
   document.querySelectorAll('.tco-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('taxco-' + id).classList.add('active');
-  event.currentTarget.classList.add('active');
+  
+  // 3. Mostra o painel correto (com proteção caso o painel não exista, como o da J&E Brasil)
+  const painel = document.getElementById('taxco-' + id);
+  if (painel) {
+    painel.classList.add('active');
+  }
+  
+  // 4. Pinta o botão clicado de azul
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add('active');
+  }
 }
 
-function exportarPDF() {
-  window.print();
+function mudarTema() {
+  const body = document.body;
+  const btn = document.getElementById('btn-tema');
+  body.classList.toggle('dark-mode');
+  if (body.classList.contains('dark-mode')) {
+    btn.innerText = '☀️ Claro';
+    localStorage.setItem('temaCentroOeste', 'escuro');
+  } else {
+    btn.innerText = '🌙 Escuro';
+    localStorage.setItem('temaCentroOeste', 'claro');
+  }
 }
 
-/* ══════════════════════════════════════════════════════════
-   2. BANCO DE DADOS E FUNÇÕES DA VISÃO GERAL
-══════════════════════════════════════════════════════════ */
+function exportarPDF() { window.print(); }
+
+// FUNÇÃO PARA PREENCHER OS DADOS RAPIDAMENTE
+function preencher(id, texto) {
+  const elemento = document.getElementById(id);
+  if (elemento) elemento.innerText = texto;
+}
+
 const dadosVisaoGeral = {
   transportes: { fat: "10.708.639", cmv: "(10.708.100)", desp: "(7.723.675)", irpj: "(267.037)", lucro: "540.991" },
   montemar:    { fat: "354.306.982", cmv: "(225.702.726)", desp: "(15.126.842)", irpj: "(5.089.806)", lucro: "10.082.170" },
@@ -1209,8 +1374,8 @@ const impostosMonteMar = {
   tri4_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "+100%", csll: "+100%", icst: "—", icdf: "%", tot: "%" },
 
   tot_25:   { fat: "354.306.981", pis: "—", cof: "—", prev: "76.839", irpj: "3.737.739", csll: "1.352.065", icst: "—", icdf: "3.177.800", tot: "8.344.451" },
-  tot_24:   { fat: "267.783.380", pis: "—", cof: "—", prev: "101.396", irpj: "2.2319.577", csll: "841.527", icst: "7.426.021", icdf: "2.548.869", tot: "13.237.391" },
-  tot_var:  { fat: "+32,3%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icst: "—", icdf: "%", tot: "-26,6%" }
+  tot_24:   { fat: "267.783.380", pis: "—", cof: "—", prev: "101.396", irpj: "2.319.577", csll: "841.527", icst: "7.426.021", icdf: "2.548.869", tot: "13.237.391" },
+  tot_var:  { fat: "+32,3%", pis: "—", cof: "—", prev: "%", irpj: "+31,9%", csll: "+62,1%", icst: "+100%", icdf: "+100%", tot: "-26,6%" }
 };
 
 const impostosTatico = {
@@ -1238,11 +1403,11 @@ const impostosTatico = {
 const impostosTransportes = {
   tri1_25:  { fat: "1.985.109", pis: "24.599", cof: "113.291", prev: "119.209", irpj: "—", csll: "—", icst: "334.212", icdf: "—", tot: "591.316" },
   tri1_24:  { fat: "—", pis: "—", cof: "—", prev: "—", irpj: "—", csll: "—", icst: "—", icdf: "—", tot: "—" },
-  tri1_var: { fat: "%", pis: "%", cof: "%", prev: "%", irpj: "—", csll: "—", icst: "%", icdf: "—", tot: "%" },
+  tri1_var: { fat: "+100%", pis: "+100%", cof: "+100%", prev: "+100%", irpj: "—", csll: "—", icst: "+100%", icdf: "—", tot: "+100%" },
 
   tri2_25:  { fat: "2.471.575", pis: "25.459", cof: "117.273", prev: "128.994", irpj: "55.129", csll: "22.006", icst: "223.450", icdf: "50.583", tot: "622.901" },
   tri2_24:  { fat: "—", pis: "—", cof: "—", prev: "329", irpj: "—", csll: "—", icst: "—", icdf: "—", tot: "329" },
-  tri2_var: { fat: "%", pis: "%", cof: "%", prev: "%", irpj: "%", csll: "%", icst: "%", icdf: "%", tot: "%" },
+  tri2_var: { fat: "+100%", pis: "+100%", cof: "+100%", prev: "+155,05%", irpj: "+100%", csll: "+100%", icst: "+100%", icdf: "+100%", tot: "+1829,4%" },
 
   tri3_25:  { fat: "3.057.892", pis: "20.843", cof: "96.008", prev: "131.782", irpj: "37.240", csll: "15.566", icst: "246.430", icdf: "72.091", tot: "619.966" },
   tri3_24:  { fat: "440.678", pis: "1.300", cof: "5.991", prev: "9.397", irpj: "4.939", csll: "2.963", icst: "15.367", icdf: "—", tot: "39.961" },
@@ -1260,23 +1425,23 @@ const impostosTransportes = {
 const impostosAgro = {
   tri1_25:  { fat: "36.000.618", pis: "—", cof: "—", prev: "1.284", irpj: "2.157.243", csll: "778.767", icdf: "—", tot: "2.937.295" },
   tri1_24:  { fat: "498.191", pis: "—", cof: "—", prev: "—", irpj: "—", csll: "—", icdf: "—", tot: "—" },
-  tri1_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icdf: "%", tot: "%" },
+  tri1_var: { fat: "%", pis: "—", cof: "—", prev: "+100%", irpj: "+100%", csll: "+100%", icdf: "—", tot: "+100%" },
 
   tri2_25:  { fat: "40.906.927", pis: "—", cof: "—", prev: "1.284", irpj: "—", csll: "—", icdf: "—", tot: "1.284" },
   tri2_24:  { fat: "7.176.012", pis: "—", cof: "—", prev: "—", irpj: "—", csll: "—", icdf: "—", tot: "—" },
-  tri2_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "—", csll: "—", icdf: "%", tot: "%" },
+  tri2_var: { fat: "%", pis: "—", cof: "—", prev: "+100%", irpj: "—", csll: "—", icdf: "—", tot: "+100%" },
 
   tri3_25:  { fat: "47.851.151", pis: "—", cof: "—", prev: "1.284", irpj: "—", csll: "—", icdf: "—", tot: "1.284" },
   tri3_24:  { fat: "22.599.841", pis: "—", cof: "—", prev: "—", irpj: "1.963.289", csll: "708.944", icdf: "—", tot: "2.672.233" },
-  tri3_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "—", csll: "—", icdf: "%", tot: "%" },
+  tri3_var: { fat: "%", pis: "—", cof: "—", prev: "+100%", irpj: "+100%", csll: "+100%", icdf: "—", tot: "%" },
 
   tri4_25:  { fat: "31.975.972", pis: "—", cof: "—", prev: "1.712", irpj: "—", csll: "—", icdf: "—", tot: "1.712" },
   tri4_24:  { fat: "12.523.368", pis: "—", cof: "—", prev: "—", irpj: "166.848", csll: "62.225", icdf: "—", tot: "229.074" },
-  tri4_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icdf: "%", tot: "%" },
+  tri4_var: { fat: "%", pis: "—", cof: "—", prev: "+100%", irpj: "+100%", csll: "+100%", icdf: "—", tot: "%" },
 
   tot_25:   { fat: "156.734.672", pis: "—", cof: "—", prev: "5.564", irpj: "2.157.243", csll: "778.767", icdf: "—", tot: "2.941.575" },
   tot_24:   { fat: "42.797.414", pis: "—", cof: "—", prev: "—", irpj: "2.130.138", csll: "771.169", icdf: "—", tot: "2.901.308" },
-  tot_var:  { fat: "+266,2%", pis: "—", cof: "—", prev: "%", irpj: "+1,2%", csll: "+0,9%", icdf: "%", tot: "+37,3%" }
+  tot_var:  { fat: "+266,2%", pis: "—", cof: "—", prev: "+100%", irpj: "+1,2%", csll: "+0,9%", icdf: "—", tot: "+37,3%" }
 };
 
 function preencherLinhaAgro(prefixoID, dados) {
@@ -1373,14 +1538,402 @@ function carregarTodosOsImpostos() {
 }
 
 /* ══════════════════════════════════════════════════════════
-   5. O "MOTOR DE ARRANQUE" (Executa tudo quando a página abre)
+   2. LÓGICA EXCLUSIVA DA ABA ICMS
+══════════════════════════════════════════════════════════ */
+function showIcmsTab(id) {
+  document.querySelectorAll('.icms-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.icms-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+// --- COLE ESTE BLOCO AQUI ---
+const LOJAS_GO = ['CAMPINAS','PAPILLON','PORTAL','GARAVELO','T7','CENTRO','ÁGUAS LINDAS-01','ÁGUAS LINDAS-02','LUZIÂNIA'];
+const LOJAS_DF = ['STA MARIA','SAM NORTE','SAM SUL','RECANTO','CEILÂNDIA','VICENTE PIRES','EPTG','MONTE MAR','TRANSPORTES'];
+
+// GO - JANEIRO ENTRADAS E VENDAS
+const goJanEnt = {
+  icmsCredito:   [1044867.41,  1235627.08,  814685.39,  1496157.15,   911058.58,   972476.19, 1118778.12,  1642177.68,  1772794.72],
+  ciap:          [1349.40,     1081.70,      514.57,     1493.60,      1979.02,     1084.15,    1334.40,      170.31,     1395.09],
+  icmsAntecipado:[5543.78,      352.75,     4567.03,      235.17,      4060.62,     6285.35,   69931.90,   126886.24,   113303.99],
+  acumulado:     [434910,         0,            0,            0,            0,            0,         0,          0,          0],
+  valorContabil: [16185179.23, 16121776.65, 10937345.99, 20331492.63, 12558710.43, 13077078.64, 13192757.93, 19208472.76, 20750837.97],
+  baseCalculo:   [8615060.45,  9725894.73,  6345746.03, 11869466.45,  7291680.88,  7803825.42,  9712194.13, 13672862.18, 15406775.96]
+};
+const goJanTotalCred = LOJAS_GO.map((_,i)=> goJanEnt.icmsCredito[i]+goJanEnt.ciap[i]+goJanEnt.icmsAntecipado[i]+goJanEnt.acumulado[i]);
+
+const goJanVnd = {
+  debitoIcms:    [1806576.11,  2321503.00,  1518642.18,  2821322.44,  1746222.63,  1840881.30,  1649138.38,  2521759.12,  2395252.77],
+  estornoCredito:[20796.13,    16278.92,    12829.22,    22027.36,    20977.47,    19882.95,   101654.79,   135282.82,   121379.52],
+  difal:         [9189.63,     22048.71,    5880.15,     7091.64,     4080.77,     9832.18,     5924.66,     5508.22,     6739.16],
+  valorContabil: [17404022.92, 20324390.07, 13329276.04, 25091488.22, 16416860.64, 16315653.41, 16582483.19, 23535883.68, 23985347.94],
+  baseCalculo:   [11443566.05, 14605179.17,  9548292.12, 18022986.17, 11081539.14, 11587948.00, 10836174.13, 16513765.79, 15594493.00]
+};
+const goJanTotalDeb = LOJAS_GO.map((_,i)=> goJanVnd.debitoIcms[i]+goJanVnd.estornoCredito[i]+goJanVnd.difal[i]);
+const goJanAPagar = LOJAS_GO.map((_,i)=> goJanTotalDeb[i]-goJanTotalCred[i]);
+
+// GO - FEVEREIRO ENTRADAS E VENDAS
+const goFevEnt = {
+  icmsCredito:   [1189264.12,   1341766.40,   812909.59,  1605561.88,  1028301.70,  1086633.64,  1150765.99,  1550333.70,  1639160.36],
+  ciap:          [1433.20,      1179.81,       513.00,     1531.97,     2033.14,     1066.00,     1317.47,      185.63,     1323.45],
+  icmsAntecipado:[8435.25,     14982.22,      2804.89,    23057.86,     8912.08,     9614.11,    85307.82,    99398.72,   117943.64],
+  acumulado:     [439782,         0,            0,            0,            0,            0,         0,          0,          0],
+  valorContabil: [17304856.86, 17131877.55, 10989900.58, 20883134.97, 13749383.10, 14157155.00, 13782743.12, 18517403.73, 19705614.84],
+  baseCalculo:   [9724535.34,  10831864.02,  6439796.04, 12858083.49,  8316309.88,  8757300.71,  9914258.55, 12997656.12, 14731846.67]
+};
+const goFevTotalCred = LOJAS_GO.map((_,i)=> goFevEnt.icmsCredito[i]+goFevEnt.ciap[i]+goFevEnt.icmsAntecipado[i]+goFevEnt.acumulado[i]);
+
+const goFevVnd = {
+  debitoIcms:    [1756302.43,  2276073.76,  1479154.59,  2708659.98,  1680422.37,  1806086.00,  1543053.13,  2375764.00,  2307059.13],
+  estornoCredito:[32833.28,    27220.73,    18199.05,    40372.55,    31268.20,    30996.38,   131626.57,   125734.59,    84171.08],
+  difal:         [9143.88,     25836.22,    4163.82,     5955.95,     4695.25,     1368.29,     4115.10,    10619.42,     6844.08],
+  valorContabil: [16260134.23, 19878685.92, 13055050.87, 23820013.11, 15523542.53, 16257713.56, 15675059.93, 22169491.51, 24316398.49],
+  baseCalculo:   [11121830.04, 14318360.73,  9288329.90, 17320626.83, 10645599.03, 11338294.20, 10115084.04, 15482468.88, 15004930.96]
+};
+const goFevTotalDeb = LOJAS_GO.map((_,i)=> goFevVnd.debitoIcms[i]+goFevVnd.estornoCredito[i]+goFevVnd.difal[i]);
+const goFevAPagar = LOJAS_GO.map((_,i)=> goFevTotalDeb[i]-goFevTotalCred[i]);
+
+// DF - JANEIRO ENTRADAS E VENDAS
+const dfJanEnt = {
+  icmsCredito:   [1538402.33,  1280353.87,   466419.39,   780678.76,  1169592.92,  1143467.17,   683348.89, 8367705.10, 0],
+  icmsAntecipado:[25053.32,    79806.34,     4405.10,    12899.91,    17072.35,    18007.26,    12719.39,   0,          0],
+  ciap:          [4397.74,      4876.81,       66.19,      224.80,      583.58,     4678.67,      988.86,   0,       2611.68],
+  creditoAnterior:[0,         1334935.38,      0,        19912.06,    95162.49,   245706.59,       0,       0,          0],
+  valorContabil: [26535393.16, 27994310.12, 9438510.97, 14221022.75, 20362758.70, 21653613.77, 12899751.90, 34449885.47, 1348106.99],
+  baseCalculo:   [8110901.36,  8481953.52,  2456188.73,  4145482.30,  6143207.52,  6213122.58,  3629258.19, 31722940.08, 0]
+};
+const dfJanTotalCred = LOJAS_DF.map((_,i)=> dfJanEnt.icmsCredito[i]+dfJanEnt.icmsAntecipado[i]+dfJanEnt.ciap[i]+dfJanEnt.creditoAnterior[i]);
+
+const dfJanVnd = {
+  debitoIcms:    [1750534.67,  1231198.54,   590420.31,   924321.42,  1331736.83,  1258015.87,   851332.13, 8759986.44,  76392.33],
+  estornoCredito:[41425.84,   129057.50,     9703.39,    20822.46,    17105.86,    34643.37,    14717.35,   0,             0],
+  difal:         [82.01,        5321.39,       129.57,      256.95,     3147.00,     7782.07,      768.39,   0,        1780.06],
+  valorContabil: [30604816.40, 31091003.82, 11456123.89, 17315531.43, 24251239.59, 23613888.62, 15298135.79, 34393498.17, 530574.22],
+  baseCalculo:   [8784232.08,  6198582.11,  2973598.82,  4634904.42,  6685966.07,  6319961.80,  4278789.17, 31519336.50, 530574.22]
+};
+const dfJanTotalDeb = LOJAS_DF.map((_,i)=> dfJanVnd.debitoIcms[i]+dfJanVnd.estornoCredito[i]+dfJanVnd.difal[i]);
+const dfJanAPagar = LOJAS_DF.map((_,i)=> dfJanTotalDeb[i]-dfJanTotalCred[i]);
+
+// DF - FEVEREIRO ENTRADAS E VENDAS
+const dfFevEnt = {
+  icmsCredito:   [1468056.07,  1110795.14,   444828.56,   777949.09,  1043993.20,  1097872.28,   696809.96, 8995880.70, 0],
+  icmsAntecipado:[38667.98,    33198.68,     6027.07,    25115.28,    29186.85,    40367.45,    14133.48,   0,          0],
+  ciap:          [4466.84,      5109.93,       76.04,      237.62,      607.52,     4720.32,      961.09,   0,       2611.68],
+  creditoAnterior:[0,         1334394.97,      0,            0,            0,       111418.38,       0,       0,          0],
+  valorContabil: [25173909.90, 25317868.13, 8802930.46, 13668199.66, 19077622.14, 20345158.60, 12087592.36, 35376219.89, 286408.71],
+  baseCalculo:   [7995918.77,  6351680.43,  2388013.89,  4271959.27,  5671892.87,  6067470.29,  3768286.24, 34312502.62, 0]
+};
+const dfFevTotalCred = LOJAS_DF.map((_,i)=> dfFevEnt.icmsCredito[i]+dfFevEnt.icmsAntecipado[i]+dfFevEnt.ciap[i]+dfFevEnt.creditoAnterior[i]);
+
+const dfFevVnd = {
+  debitoIcms:    [1741571.43,  1164398.68,   551169.46,   908148.03,  1269440.71,  1236476.83,   809996.97, 9356113.88,  88163.42],
+  estornoCredito:[47238.75,    62099.55,    14555.50,    23457.48,    31947.20,    38836.79,    20395.16,   0,             0],
+  difal:         [1082.59,        57.75,       88.44,      124.55,      241.69,     3090.66,     1508.23,   0,         103.52],
+  valorContabil: [29580027.84, 27764475.93, 10275746.64, 16423781.32, 22722820.23, 22913610.53, 14382301.31, 36908335.41, 619217.80],
+  baseCalculo:   [8755240.69,  5851336.77,  2776155.33,  4565389.91,  6381008.35,  6227757.58,  4070955.78, 33548304.21, 619217.80]
+};
+const dfFevTotalDeb = LOJAS_DF.map((_,i)=> dfFevVnd.debitoIcms[i]+dfFevVnd.estornoCredito[i]+dfFevVnd.difal[i]);
+const dfFevAPagar = LOJAS_DF.map((_,i)=> dfFevTotalDeb[i]-dfFevTotalCred[i]);
+
+const fmt = v => v == null || isNaN(v) ? '—' : 'R$ ' + Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const sum = arr => arr.reduce((a,b)=>a+(b||0),0);
+
+function setKpisIcms() {
+  const goJanDeb = sum(goJanTotalDeb); const goFevDeb = sum(goFevTotalDeb);
+  const goJanCred = sum(goJanTotalCred); const goFevCred = sum(goFevTotalCred);
+  const dfJanDeb = sum(dfJanTotalDeb); const dfFevDeb = sum(dfFevTotalDeb);
+  const dfJanCred = sum(dfJanTotalCred); const dfFevCred = sum(dfFevTotalCred);
+
+  preencher('kpi-debito-go', fmt(goJanDeb+goFevDeb));
+  preencher('kpi-credito-go', fmt(goJanCred+goFevCred));
+  preencher('kpi-pagar-go', fmt(sum(goJanAPagar)+sum(goFevAPagar)));
+
+  preencher('kpi-debito-df', fmt(dfJanDeb+dfFevDeb));
+  preencher('kpi-credito-df', fmt(dfJanCred+dfFevCred));
+  preencher('kpi-pagar-df', fmt(sum(dfJanAPagar)+sum(dfFevAPagar)));
+}
+
+// ══════════════════════════════════════════
+//  CONSTRUTORES DE TABELAS (ICMS)
+// ══════════════════════════════════════════
+function makeTable(containerId, lojas, rows) {
+  const totalCol = r => r.values.reduce((a,b)=>a+(b||0),0);
+  let html = '<table><thead><tr><th>Item</th>';
+  lojas.forEach(l=> html+=`<th>${l}</th>`);
+  html+='<th class="total-col">TOTAL</th></tr></thead><tbody>';
+  rows.forEach(r=>{
+    const cls = r.type==='total'?'row-total': r.type==='pagar'?'row-pagar': r.type==='highlight'?'row-highlight':'';
+    html+=`<tr class="${cls}"><td>${r.label}</td>`;
+    r.values.forEach(v=> html+=`<td>${fmt(v)}</td>`);
+    html+=`<td class="total-col">${fmt(totalCol(r))}</td></tr>`;
+  });
+  html+='</tbody></table>';
+  const container = document.getElementById(containerId);
+  if (container) container.innerHTML = html;
+}
+
+function buildTablesIcms() {
+  makeTable('tbl-go-jan-ent', LOJAS_GO, [
+    {label:'Valor Contábil', values: goJanEnt.valorContabil},
+    {label:'Base de Cálculo', values: goJanEnt.baseCalculo},
+    {label:'ICMS Crédito', values: goJanEnt.icmsCredito},
+    {label:'TOTAL CRÉDITOS', values: goJanTotalCred, type:'total'},
+  ]);
+  makeTable('tbl-go-jan-vnd', LOJAS_GO, [
+    {label:'Débito ICMS', values: goJanVnd.debitoIcms},
+    {label:'Estorno de Crédito', values: goJanVnd.estornoCredito},
+    {label:'TOTAL DÉBITO', values: goJanTotalDeb, type:'total'},
+    {label:'TOTAL A PAGAR', values: goJanAPagar, type:'pagar'},
+  ]);
+  makeTable('tbl-go-fev-ent', LOJAS_GO, [
+    {label:'ICMS Crédito', values: goFevEnt.icmsCredito},
+    {label:'TOTAL CRÉDITOS', values: goFevTotalCred, type:'total'},
+  ]);
+  makeTable('tbl-go-fev-vnd', LOJAS_GO, [
+    {label:'Débito ICMS', values: goFevVnd.debitoIcms},
+    {label:'TOTAL DÉBITO', values: goFevTotalDeb, type:'total'},
+    {label:'TOTAL A PAGAR', values: goFevAPagar, type:'pagar'},
+  ]);
+  makeTable('tbl-df-jan-ent', LOJAS_DF, [
+    {label:'ICMS Crédito', values: dfJanEnt.icmsCredito},
+    {label:'TOTAL CRÉDITOS', values: dfJanTotalCred, type:'total'},
+  ]);
+  makeTable('tbl-df-jan-vnd', LOJAS_DF, [
+    {label:'Débito ICMS', values: dfJanVnd.debitoIcms},
+    {label:'TOTAL DÉBITO', values: dfJanTotalDeb, type:'total'},
+    {label:'TOTAL A PAGAR', values: dfJanAPagar, type:'pagar'},
+  ]);
+  makeTable('tbl-df-fev-ent', LOJAS_DF, [
+    {label:'ICMS Crédito', values: dfFevEnt.icmsCredito},
+    {label:'TOTAL CRÉDITOS', values: dfFevTotalCred, type:'total'},
+  ]);
+  makeTable('tbl-df-fev-vnd', LOJAS_DF, [
+    {label:'Débito ICMS', values: dfFevVnd.debitoIcms},
+    {label:'TOTAL DÉBITO', values: dfFevTotalDeb, type:'total'},
+    {label:'TOTAL A PAGAR', values: dfFevAPagar, type:'pagar'},
+  ]);
+}
+
+// ══════════════════════════════════════════
+//  CONSTRUTORES DE GRÁFICOS (ICMS)
+// ══════════════════════════════════════════
+function drawEvolutionIcms() {
+  const svg = document.getElementById('chart-evolucao');
+  if(!svg) return;
+  const W=820, H=280, padL=70, padB=50, padT=30, padR=20;
+  const chartW = W-padL-padR, chartH = H-padT-padB;
+  const months = ['Jan/2026','Fev/2026'];
+  const goDebitos = [sum(goJanTotalDeb), sum(goFevTotalDeb)];
+  const dfDebitos = [sum(dfJanTotalDeb), sum(dfFevTotalDeb)];
+  const goCreditos = [sum(goJanTotalCred), sum(goFevTotalCred)];
+  const dfCreditos = [sum(dfJanTotalCred), sum(dfFevTotalCred)];
+  const allVals = [...goDebitos,...dfDebitos,...goCreditos,...dfCreditos];
+  const maxV = Math.max(...allVals) || 1;
+  const groupW = chartW/months.length;
+  const bW = groupW/5;
+
+  let bars='', xLabels='', yLines='';
+  for(let t=0;t<=5;t++){
+    const v=maxV*t/5; const y=padT+chartH-chartH*t/5;
+    yLines+=`<line x1="${padL}" x2="${padL+chartW}" y1="${y}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/>`;
+    yLines+=`<text class="axis-label" x="${padL-8}" y="${y+4}" text-anchor="end">R$${Math.round(v/1000000*10)/10}M</text>`;
+  }
+
+  months.forEach((m,mi)=>{
+    const gx = padL + mi*groupW;
+    [{v:goDebitos[mi], fill:'#0a1f5c'}, {v:dfDebitos[mi], fill:'#1a3a8f'}, {v:goCreditos[mi], fill:'#2b5be0'}, {v:dfCreditos[mi], fill:'#4a7fff'}].forEach((d,di)=>{
+      const x=gx+di*bW+bW*0.1; const h=chartH*(d.v/maxV); const y=padT+chartH-h;
+      bars+=`<g class="bar-group"><rect class="bar-rect" x="${x}" y="${y}" width="${bW*0.8}" height="${h}" fill="${d.fill}" rx="2"/><text class="bar-label" x="${x+bW/2}" y="${y-4}" text-anchor="middle">${Math.round(d.v/1000000*10)/10}M</text></g>`;
+    });
+    xLabels+=`<text class="axis-label" x="${gx+groupW/2}" y="${padT+chartH+20}" text-anchor="middle" font-weight="600">${m}</text>`;
+  });
+
+  let legSVG='';
+  [{c:'#0a1f5c',l:'Débito GO'}, {c:'#1a3a8f',l:'Débito DF'}, {c:'#2b5be0',l:'Crédito GO'}, {c:'#4a7fff',l:'Crédito DF'}].forEach((lg,i)=>{
+    const lx=padL+i*180;
+    legSVG+=`<rect x="${lx}" y="${H-14}" width="12" height="12" fill="${lg.c}" rx="2"/><text class="axis-label" x="${lx+16}" y="${H-4}" font-size="11">${lg.l}</text>`;
+  });
+
+  svg.innerHTML = `<g>${yLines}${bars}${xLabels}${legSVG}</g>`;
+}
+
+function drawLojasChartIcms(svgId, lojas, janDebitos, fevDebitos) {
+  const svg = document.getElementById(svgId);
+  if(!svg) return;
+  const W=820, H=300, padL=90, padB=80, padT=30, padR=20;
+  const chartW=W-padL-padR, chartH=H-padT-padB;
+  const n=lojas.length;
+  const maxV=Math.max(...janDebitos,...fevDebitos) || 1;
+  const groupW=chartW/n, bW=groupW/3;
+
+  let bars='',xLabels='',yLines='';
+  for(let t=0;t<=4;t++){
+    const v=maxV*t/4, y=padT+chartH-chartH*t/4;
+    yLines+=`<line x1="${padL}" x2="${padL+chartW}" y1="${y}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/><text class="axis-label" x="${padL-6}" y="${y+4}" text-anchor="end" font-size="9.5">R$${v>=1e6?(Math.round(v/1e5)/10)+'M':(Math.round(v/1e3))+'K'}</text>`;
+  }
+
+  lojas.forEach((l,i)=>{
+    const gx=padL+i*groupW+bW*0.2;
+    [{v:janDebitos[i],fill:'#0a1f5c'},{v:fevDebitos[i],fill:'#c0112b'}].forEach((d,di)=>{
+      const x=gx+di*bW, h=d.v?chartH*(d.v/maxV):2, y=padT+chartH-h;
+      bars+=`<g class="bar-group"><rect class="bar-rect" x="${x}" y="${y}" width="${bW*0.85}" height="${h}" fill="${d.fill}" rx="2"/><text class="bar-label" x="${x+bW*0.42}" y="${y-4}" text-anchor="middle" font-size="8.5">${d.v>=1e6?(Math.round(d.v/1e5)/10)+'M':(Math.round(d.v/1e3))+'K'}</text></g>`;
+    });
+    const lx=padL+i*groupW+groupW/2, ly=padT+chartH+14;
+    xLabels+=`<text class="axis-label" x="${lx}" y="${ly}" text-anchor="end" font-size="9.5" transform="rotate(-35,${lx},${ly})">${l}</text>`;
+  });
+
+  const legY=H-10;
+  svg.innerHTML=`<g>${yLines}${bars}${xLabels}<rect x="${padL}" y="${legY-12}" width="12" height="12" fill="#0a1f5c" rx="2"/><text class="axis-label" x="${padL+16}" y="${legY}" font-size="10.5">Jan/2026</text><rect x="${padL+100}" y="${legY-12}" width="12" height="12" fill="#c0112b" rx="2"/><text class="axis-label" x="${padL+116}" y="${legY}" font-size="10.5">Fev/2026</text></g>`;
+}
+
+// ══════════════════════════════════════════
+//  SVG CHARTS
+// ══════════════════════════════════════════
+function drawEvolution() {
+  const svg = document.getElementById('chart-evolucao');
+  const W=820, H=280, padL=70, padB=50, padT=30, padR=20;
+  const chartW = W-padL-padR, chartH = H-padT-padB;
+
+  const months = ['Jan/2026','Fev/2026'];
+  const goDebitos = [sum(goJanTotalDeb), sum(goFevTotalDeb)];
+  const dfDebitos = [sum(dfJanTotalDeb), sum(dfFevTotalDeb)];
+  const goCreditos = [sum(goJanTotalCred), sum(goFevTotalCred)];
+  const dfCreditos = [sum(dfJanTotalCred), sum(dfFevTotalCred)];
+
+  const allVals = [...goDebitos,...dfDebitos,...goCreditos,...dfCreditos];
+  const maxV = Math.max(...allVals);
+
+  const groupW = chartW/months.length;
+  const bW = groupW/5;
+
+  function barSVG(x,y,w,h,fill,label,val){
+    const M = v=>Math.round(v/1000000*10)/10+'M';
+    return `<g class="bar-group">
+      <rect class="bar-rect" x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}" rx="2"/>
+      <text class="bar-label" x="${x+w/2}" y="${y-4}" text-anchor="middle">${M(val)}</text>
+    </g>`;
+  }
+
+  let bars='', xLabels='', yLines='';
+  const TICKS=5;
+  for(let t=0;t<=TICKS;t++){
+    const v=maxV*t/TICKS;
+    const y=padT+chartH-chartH*t/TICKS;
+    const M=v=>Math.round(v/1000000*10)/10;
+    yLines+=`<line x1="${padL}" x2="${padL+chartW}" y1="${y}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/>`;
+    yLines+=`<text class="axis-label" x="${padL-8}" y="${y+4}" text-anchor="end">R$${M(v)}M</text>`;
+  }
+
+  months.forEach((m,mi)=>{
+    const gx = padL + mi*groupW;
+    const datasets = [
+      {v:goDebitos[mi], fill:'#0a1f5c'},
+      {v:dfDebitos[mi], fill:'#1a3a8f'},
+      {v:goCreditos[mi], fill:'#2b5be0'},
+      {v:dfCreditos[mi], fill:'#4a7fff'},
+    ];
+    datasets.forEach((d,di)=>{
+      const x=gx+di*bW+bW*0.1;
+      const h=chartH*(d.v/maxV);
+      const y=padT+chartH-h;
+      bars+=barSVG(x,y,bW*0.8,h,d.fill,'',d.v);
+    });
+    xLabels+=`<text class="axis-label" x="${gx+groupW/2}" y="${padT+chartH+20}" text-anchor="middle" font-weight="600">${m}</text>`;
+  });
+
+  // legend
+  const legend=[
+    {c:'#0a1f5c',l:'Débito GO'},
+    {c:'#1a3a8f',l:'Débito DF'},
+    {c:'#2b5be0',l:'Crédito GO'},
+    {c:'#4a7fff',l:'Crédito DF'},
+  ];
+  let legSVG='';
+  legend.forEach((lg,i)=>{
+    const lx=padL+i*180;
+    legSVG+=`<rect x="${lx}" y="${H-14}" width="12" height="12" fill="${lg.c}" rx="2"/>
+    <text class="axis-label" x="${lx+16}" y="${H-4}" font-size="11">${lg.l}</text>`;
+  });
+
+  svg.innerHTML = `<g>${yLines}${bars}${xLabels}${legSVG}
+    <line x1="${padL}" x2="${padL}" y1="${padT}" y2="${padT+chartH}" stroke="#cbd5e1" stroke-width="1.5"/>
+    <line x1="${padL}" x2="${padL+chartW}" y1="${padT+chartH}" y2="${padT+chartH}" stroke="#cbd5e1" stroke-width="1.5"/>
+  </g>`;
+}
+
+function drawLojasChart(svgId, lojas, janDebitos, fevDebitos) {
+  const svg = document.getElementById(svgId);
+  const W=820, H=300, padL=90, padB=80, padT=30, padR=20;
+  const chartW=W-padL-padR, chartH=H-padT-padB;
+  const n=lojas.length;
+  const allV=[...janDebitos,...fevDebitos];
+  const maxV=Math.max(...allV);
+  const groupW=chartW/n;
+  const bW=groupW/3;
+
+  let bars='',xLabels='',yLines='';
+  const TICKS=4;
+  for(let t=0;t<=TICKS;t++){
+    const v=maxV*t/TICKS;
+    const y=padT+chartH-chartH*t/TICKS;
+    const M=v=>'R$'+(v>=1e6?(Math.round(v/1e5)/10)+'M':(Math.round(v/1e3))+'K');
+    yLines+=`<line x1="${padL}" x2="${padL+chartW}" y1="${y}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/>`;
+    yLines+=`<text class="axis-label" x="${padL-6}" y="${y+4}" text-anchor="end" font-size="9.5">${M(v)}</text>`;
+  }
+
+  lojas.forEach((l,i)=>{
+    const gx=padL+i*groupW+bW*0.2;
+    [{v:janDebitos[i],fill:'#0a1f5c'},{v:fevDebitos[i],fill:'#c0112b'}].forEach((d,di)=>{
+      const x=gx+di*bW;
+      const h=d.v?chartH*(d.v/maxV):2;
+      const y=padT+chartH-h;
+      const Mk=v=>v>=1e6?(Math.round(v/1e5)/10)+'M':(Math.round(v/1e3))+'K';
+      bars+=`<g class="bar-group">
+        <rect class="bar-rect" x="${x}" y="${y}" width="${bW*0.85}" height="${h}" fill="${d.fill}" rx="2"/>
+        <text class="bar-label" x="${x+bW*0.42}" y="${y-4}" text-anchor="middle" font-size="8.5">${Mk(d.v)}</text>
+      </g>`;
+    });
+    // rotated label
+    const lx=padL+i*groupW+groupW/2;
+    const ly=padT+chartH+14;
+    xLabels+=`<text class="axis-label" x="${lx}" y="${ly}" text-anchor="end" font-size="9.5" transform="rotate(-35,${lx},${ly})">${l}</text>`;
+  });
+
+  const legY=H-10;
+  const legSVG=`<rect x="${padL}" y="${legY-12}" width="12" height="12" fill="#0a1f5c" rx="2"/>
+    <text class="axis-label" x="${padL+16}" y="${legY}" font-size="10.5">Jan/2026</text>
+    <rect x="${padL+100}" y="${legY-12}" width="12" height="12" fill="#c0112b" rx="2"/>
+    <text class="axis-label" x="${padL+116}" y="${legY}" font-size="10.5">Fev/2026</text>`;
+
+  svg.innerHTML=`<g>${yLines}${bars}${xLabels}${legSVG}
+    <line x1="${padL}" x2="${padL}" y1="${padT}" y2="${padT+chartH}" stroke="#cbd5e1" stroke-width="1.5"/>
+    <line x1="${padL}" x2="${padL+chartW}" y1="${padT+chartH}" y2="${padT+chartH}" stroke="#cbd5e1" stroke-width="1.5"/>
+  </g>`;
+}
+
+/* ══════════════════════════════════════════════════════════
+   3. INICIALIZADOR (RODA QUANDO O SITE CARREGA)
 ══════════════════════════════════════════════════════════ */
 window.addEventListener('load', function() {
+  // 1. Inicializa o Painel Financeiro Original
   preencherVisaoGeral();
   preencherMonteMar();
   preencherTaticoPainel(); 
   carregarTodosOsImpostos();
+
+  // 2. Inicializa a nova Aba do ICMS
+  setKpisIcms();
+  buildTablesIcms(); 
+  drawEvolutionIcms(); 
+  drawLojasChartIcms('chart-lojas-go', LOJAS_GO, goJanTotalDeb, goFevTotalDeb); 
+  drawLojasChartIcms('chart-lojas-df', LOJAS_DF, dfJanTotalDeb, dfFevTotalDeb); 
+
+  // 3. Verifica o Modo Escuro
+  if (localStorage.getItem('temaCentroOeste') === 'escuro') {
+    document.body.classList.add('dark-mode');
+    document.getElementById('btn-tema').innerText = '☀️ Claro';
+  }
 });
+
 </script>
 </body>
 </html>
