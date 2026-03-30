@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel Financeiro & Fiscal Centro Oeste</title>
+<title>Dashboard Centro Oeste</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -1951,31 +1951,89 @@ function drawLojasChart(svgId, lojas, janDebitos, fevDebitos) {
 }
 
 /* ══════════════════════════════════════════════════════════
+   NOVO MOTOR DE CÁLCULO E FORMATAÇÃO AUTOMÁTICA
+══════════════════════════════════════════════════════════ */
+
+function calcularDelta(atual, anterior) {
+    const nAtu = parseFloat(String(atual).replace(/\./g, '').replace(',', '.')) || 0;
+    const nAnt = parseFloat(String(anterior).replace(/\./g, '').replace(',', '.')) || 0;
+    if (nAnt === 0) return "—";
+    const variacao = ((nAtu - nAnt) / Math.abs(nAnt)) * 100;
+    const sinal = variacao > 0 ? '+' : '';
+    return sinal + variacao.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+}
+
+function preencherSmart(id, valor) {
+    const elemento = document.getElementById(id);
+    if (!elemento) return;
+    elemento.innerText = valor;
+    elemento.classList.remove('pos', 'neg');
+    // Se tem +, fica verde. Se tem - ou está entre parênteses (), fica vermelho.
+    if (String(valor).includes('+')) elemento.classList.add('pos');
+    if (String(valor).includes('-') || String(valor).includes('(')) elemento.classList.add('neg');
+}
+
+function processarTabelaImpostos(prefixo, dadosEmpresa) {
+    // Lista exata dos sufixos que tu tens nos objetos (ex: tri1, tri2, tot)
+    const periodos = ['tri1', 'tri2', 'tri3', 'tri4', 'tot'];
+    const campos = ['fat', 'pis', 'cof', 'prev', 'irpj', 'csll', 'icst', 'icdf', 'tot'];
+
+    periodos.forEach(p => {
+        // Ajusta o nome para o ID do HTML (o HTML usa 1t, 2t, mas o objeto usa tri1, tri2)
+        let idPeriodo = p.replace('tri', '') + 't'; 
+        if (p === 'tot') idPeriodo = 'tot';
+
+        campos.forEach(campo => {
+            // Busca o valor exato no teu objeto (ex: dadosEmpresa['tri1_25']['fat'])
+            const val25 = dadosEmpresa[p + '_25']?.[campo];
+            const val24 = dadosEmpresa[p + '_24']?.[campo];
+
+            // 1. Preenche valor 2025
+            if (val25 !== undefined) {
+                preencherSmart(`${prefixo}-${idPeriodo}-25-${campo}`, val25);
+            }
+            // 2. Preenche valor 2024
+            if (val24 !== undefined) {
+                preencherSmart(`${prefixo}-${idPeriodo}-24-${campo}`, val24);
+            }
+            // 3. Calcula e preenche a variação
+            if (val25 && val24) {
+                const delta = calcularDelta(val25, val24);
+                preencherSmart(`${prefixo}-${idPeriodo}-var-${campo}`, delta);
+            }
+        });
+    });
+}
+
+/* ══════════════════════════════════════════════════════════
    3. INICIALIZADOR CORRIGIDO
 ══════════════════════════════════════════════════════════ */
 window.addEventListener('load', function() {
-  // Inicializa os dados das empresas (Geral, Monte Mar, Tatico)
-  preencherVisaoGeral();
-  preencherMonteMar();
-  preencherTaticoPainel(); 
-  carregarTodosOsImpostos();
+    // 1. Preenchimento Estático do Painel Principal
+    preencherVisaoGeral();
+    preencherMonteMar();
+    preencherTaticoPainel();
 
-  // Inicializa a Aba do ICMS 2026
-  // Nota: Ajustei os nomes para coincidir com as funções definidas acima
-  setKpisIcms(); 
-  buildTables(); // Esta função já constrói as tabelas de ICMS no teu código
-  drawEvolutionIcms(); 
-  
-  // Desenha os gráficos de barras por loja
-  drawLojasChartIcms('chart-lojas-go', LOJAS_GO, goJanTotalDeb, goFevTotalDeb); 
-  drawLojasChartIcms('chart-lojas-df', LOJAS_DF, dfJanTotalDeb, dfFevTotalDeb); 
+    // 2. PROCESSAMENTO AUTOMÁTICO DE IMPOSTOS (A MÁGICA)
+    // Aqui ligamos os IDs do HTML aos dados do JavaScript
+    processarTabelaImpostos('mm', impostosMonteMar);      // Para a Monte Mar
+    processarTabelaImpostos('tat', impostosTatico);     // Para o Tatico
+    processarTabelaImpostos('trans', impostosTransportes); // Para a Transportes
+    processarTabelaImpostos('agro', impostosAgro);       // Para a JE Agro
 
-  // Verifica o Modo Escuro salvo no navegador
-  if (localStorage.getItem('temaCentroOeste') === 'escuro') {
-    document.body.classList.add('dark-mode');
-    const btn = document.getElementById('btn-tema');
-    if(btn) btn.innerText = '☀️ Claro';
-  }
+    // 3. Inicializa Gráficos e ICMS 2026
+    setKpisIcms();
+    buildTables();
+    drawEvolutionIcms();
+    drawLojasChartIcms('chart-lojas-go', LOJAS_GO, goJanTotalDeb, goFevTotalDeb);
+    drawLojasChartIcms('chart-lojas-df', LOJAS_DF, dfJanTotalDeb, dfFevTotalDeb);
+
+    // 4. Verifica o Modo Escuro
+    if (localStorage.getItem('temaCentroOeste') === 'escuro') {
+        document.body.classList.add('dark-mode');
+        const btn = document.getElementById('btn-tema');
+        if(btn) btn.innerText = '☀️ Claro';
+    }
 });
 
 </script>
