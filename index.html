@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -153,6 +154,7 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 .tax-tbl tbody td:first-child{text-align:left;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--gray7);font-weight:500;}
 .tax-tbl tr.tax-tot td{font-weight:700;background:var(--amber-bg);color:var(--b900);border-top:2px solid #FDE68A;font-size:11px;}
 .tax-tbl tr.tax-rate td{font-size:10px;color:var(--gray5);background:var(--gray1);font-style:italic;}
+.tax-tbl tr.tax-pct td{font-size:10px;color:var(--gray8);background:var(--gray1);font-style:italic;}
 
 .tax-co-panels .tax-co-panel{display:none;}
 .tax-co-panels .tax-co-panel.active{display:block;}
@@ -251,6 +253,24 @@ body.dark-mode #panel-icms .icms-table-wrap table {
 body.dark-mode .hdr { background: #020617; }
 body.dark-mode .nav { background: #0F172A; }
 body.dark-mode .tco-tab.active { background: var(--b600); color: #fff; border-color: var(--b600); }
+
+/* Dark mode ajustes para cabeçalhos e títulos */
+body.dark-mode .sec { background: linear-gradient(90deg, #1E293B 0%, #334155 100%); color: #fff; padding: 8px 12px; border-radius: 6px; border-bottom: none; }
+body.dark-mode .co-name { color: #fff; background: linear-gradient(90deg, #1E293B 0%, #334155 100%); padding: 8px 12px; border-radius: 6px; }
+body.dark-mode .chart-card h3 { color: #fff; background: linear-gradient(90deg, #1E293B 0%, #334155 100%); padding: 8px 12px; border-radius: 6px; margin-bottom: 22px; }
+
+/* Dark mode ajustes para ICMS */
+body.dark-mode #panel-icms .sec-title h2 { color: #fff; background: linear-gradient(90deg, #1E293B 0%, #334155 100%); padding: 8px 12px; border-radius: 6px; }
+body.dark-mode #panel-icms .sec-pill { background: #1E293B; color: #fff; border: 1px solid #334155; }
+body.dark-mode #panel-icms .sec-pill.red { background: #7F1D1D; color: #fff; border: 1px solid #991B1B; }
+body.dark-mode #panel-icms .kpi-card-value { color: #fff; }
+body.dark-mode #panel-icms .icms-table-wrap thead th { background: #0F172A; color: #fff; }
+body.dark-mode #panel-icms .icms-table-wrap thead th.total-col { background: #334155; }
+body.dark-mode #panel-icms .icms-table-wrap tbody td { color: #fff; }
+body.dark-mode #panel-icms .icms-table-wrap tbody td:first-child { color: #E2E8F0; }
+body.dark-mode #panel-icms .icms-table-wrap tbody tr:hover td { background: #334155; }
+body.dark-mode #panel-icms .icms-table-wrap tbody tr.row-total td { background: #334155; color: #fff; }
+body.dark-mode #panel-icms .axis-label { fill: #94A3B8; }
 body.dark-mode #panel-icms .bar-label { fill: #fff; }
 
 @media print {
@@ -291,14 +311,14 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
 </div>
 
 <div class="nav">
-  <div class="tab active" onclick="show('geral')">Visão Geral</div>
-  <div class="tab" onclick="show('alim')">Tatico</div>
-  <div class="tab" onclick="show('montemar')">Monte Mar</div>
-  <div class="tab" onclick="show('cota')">Transportes</div> 
-  <div class="tab" onclick="show('agro')">JE Agropecuária</div>
-  <div class="tab" onclick="show('part')">Participações</div>
-  <div class="tab tax-tab" onclick="show('impostos')">⚡ Impostos</div>
-  <div class="tab" onclick="show('icms')" style="color: #6A9AF5;">📊 ICMS 2026</div>
+  <div class="tab active" onclick="show('geral', this)">Visão Geral</div>
+  <div class="tab" onclick="show('alim', this)">Tatico</div>
+  <div class="tab" onclick="show('montemar', this)">Monte Mar</div>
+  <div class="tab" onclick="show('cota', this)">Transportes</div> 
+  <div class="tab" onclick="show('agro', this)">JE Agropecuária</div>
+  <div class="tab" onclick="show('part', this)">Participações</div>
+  <div class="tab tax-tab" onclick="show('impostos', this)">⚡ Impostos</div>
+  <div class="tab" onclick="show('icms', this)" style="color: #6A9AF5;">📊 ICMS 2026</div>
 </div>
 
 <div class="panel active" id="panel-geral">
@@ -911,11 +931,11 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
 
   <div class="sec">Detalhamento Impostos por Empresa</div>
   <div class="tax-co-tabs">
-    <div class="tco-tab active" onclick="showTaxCo('calim')">Tatico</div>
-    <div class="tco-tab" onclick="showTaxCo('montemar')">Monte Mar</div>
-    <div class="tco-tab" onclick="showTaxCo('cota')">Transportes</div>
-    <div class="tco-tab" onclick="showTaxCo('agro')">JE Agropecuária</div>
-    <div class="tco-tab" onclick="showTaxCo('jebrasil')">J&E Brasil</div>
+    <div class="tco-tab active" onclick="showTaxCo('calim', this)">Tatico</div>
+    <div class="tco-tab" onclick="showTaxCo('montemar', this)">Monte Mar</div>
+    <div class="tco-tab" onclick="showTaxCo('cota', this)">Transportes</div>
+    <div class="tco-tab" onclick="showTaxCo('agro', this)">JE Agropecuária</div>
+    <div class="tco-tab" onclick="showTaxCo('jebrasil', this)">J&E Brasil</div>
   </div>
 
   <div class="tax-co-panels">
@@ -1058,11 +1078,13 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
   </div>
 
   <div class="icms-nav">
-    <button class="icms-btn active" onclick="showIcmsTab('icms-visao-geral')">Visão Geral</button>
-    <button class="icms-btn" onclick="showIcmsTab('icms-go-jan')">GO — Jan/2026</button>
-    <button class="icms-btn" onclick="showIcmsTab('icms-go-fev')">GO — Fev/2026</button>
-    <button class="icms-btn" onclick="showIcmsTab('icms-df-jan')">DF — Jan/2026</button>
-    <button class="icms-btn" onclick="showIcmsTab('icms-df-fev')">DF — Fev/2026</button>
+    <button class="icms-btn active" onclick="showIcmsTab('icms-visao-geral', this)">Visão Geral</button>
+    <button class="icms-btn" onclick="showIcmsTab('icms-go-jan', this)">GO — Jan/2026</button>
+    <button class="icms-btn" onclick="showIcmsTab('icms-go-fev', this)">GO — Fev/2026</button>
+    <button class="icms-btn" onclick="showIcmsTab('icms-go-mar', this)">GO — Mar/2026</button>
+    <button class="icms-btn" onclick="showIcmsTab('icms-df-jan', this)">DF — Jan/2026</button>
+    <button class="icms-btn" onclick="showIcmsTab('icms-df-fev', this)">DF — Fev/2026</button>
+    <button class="icms-btn" onclick="showIcmsTab('icms-df-mar', this)">DF — Mar/2026</button>
   </div>
 
   <div class="icms-panel active" id="icms-visao-geral">
@@ -1133,6 +1155,18 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
     <div class="sec-title"><h2>VENDAS — DF</h2><span class="sec-pill red">Fev/2026</span></div>
     <div class="icms-table-wrap" id="tbl-df-fev-vnd"></div>
   </div>
+  <div class="icms-panel" id="icms-go-mar">
+    <div class="sec-title"><h2>ENTRADAS — GO</h2><span class="sec-pill">Mar/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-mar-ent"></div>
+    <div class="sec-title"><h2>VENDAS — GO</h2><span class="sec-pill red">Mar/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-mar-vnd"></div>
+  </div>
+  <div class="icms-panel" id="icms-df-mar">
+    <div class="sec-title"><h2>ENTRADAS — DF</h2><span class="sec-pill">Mar/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-mar-ent"></div>
+    <div class="sec-title"><h2>VENDAS — DF</h2><span class="sec-pill red">Mar/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-mar-vnd"></div>
+  </div>
 
 </div>
 
@@ -1140,14 +1174,16 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
 /* ══════════════════════════════════════════════════════════
    1. FUNÇÕES DE NAVEGAÇÃO DO PAINEL GERAL
 ══════════════════════════════════════════════════════════ */
-function show(id) {
+function show(id, element) {
+  console.log('show called with id:', id, 'element:', element);
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav .tab').forEach(t => t.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
-  event.currentTarget.classList.add('active');
+  const target = element || (typeof event !== 'undefined' ? event.currentTarget : null);
+  if (target) target.classList.add('active');
 }
 
-function showTaxCo(id) {
+function showTaxCo(id, element) {
   // 1. Esconde todos os painéis de impostos
   document.querySelectorAll('.tax-co-panel').forEach(p => p.classList.remove('active'));
   
@@ -1161,9 +1197,8 @@ function showTaxCo(id) {
   }
   
   // 4. Pinta o botão clicado de azul
-  if (event && event.currentTarget) {
-    event.currentTarget.classList.add('active');
-  }
+  const target = element || (typeof event !== 'undefined' ? event.currentTarget : null);
+  if (target) target.classList.add('active');
 }
 
 function mudarTema() {
@@ -1196,6 +1231,7 @@ const dadosVisaoGeral = {
 };
 
 function preencherVisaoGeral() {
+  console.log('preencherVisaoGeral called');
   document.getElementById('vg-trans-fat').innerText = dadosVisaoGeral.transportes.fat;
   document.getElementById('vg-trans-cmv').innerText = dadosVisaoGeral.transportes.cmv;
   document.getElementById('vg-trans-desp').innerText = dadosVisaoGeral.transportes.desp;
@@ -1469,16 +1505,21 @@ function preencherLinhaImposto(prefixoID, dados) {
 
 function carregarTodosOsImpostos() {
   // Executa para a Monte Mar
+  createAllTaxPercentRows();
   preencherLinhaImposto('mm-1t-25', impostosMonteMar.tri1_25);
+  preencherLinhaPercentual('mm-1t-25', impostosMonteMar.tri1_25);
   preencherLinhaImposto('mm-1t-24', impostosMonteMar.tri1_24);
   preencherLinhaImposto('mm-1t-var', impostosMonteMar.tri1_var);
   preencherLinhaImposto('mm-2t-25', impostosMonteMar.tri2_25);
+  preencherLinhaPercentual('mm-2t-25', impostosMonteMar.tri2_25);
   preencherLinhaImposto('mm-2t-24', impostosMonteMar.tri2_24);
   preencherLinhaImposto('mm-2t-var', impostosMonteMar.tri2_var);
   preencherLinhaImposto('mm-3t-25', impostosMonteMar.tri3_25);
+  preencherLinhaPercentual('mm-3t-25', impostosMonteMar.tri3_25);
   preencherLinhaImposto('mm-3t-24', impostosMonteMar.tri3_24);
   preencherLinhaImposto('mm-3t-var', impostosMonteMar.tri3_var);
   preencherLinhaImposto('mm-4t-25', impostosMonteMar.tri4_25);
+  preencherLinhaPercentual('mm-4t-25', impostosMonteMar.tri4_25);
   preencherLinhaImposto('mm-4t-24', impostosMonteMar.tri4_24);
   preencherLinhaImposto('mm-4t-var', impostosMonteMar.tri4_var);
   preencherLinhaImposto('mm-tot-25', impostosMonteMar.tot_25);
@@ -1487,15 +1528,19 @@ function carregarTodosOsImpostos() {
 
   // Executa para o Tatico
   preencherLinhaImposto('tat-1t-25', impostosTatico.tri1_25);
+  preencherLinhaPercentual('tat-1t-25', impostosTatico.tri1_25);
   preencherLinhaImposto('tat-1t-24', impostosTatico.tri1_24);
   preencherLinhaImposto('tat-1t-var', impostosTatico.tri1_var);
   preencherLinhaImposto('tat-2t-25', impostosTatico.tri2_25);
+  preencherLinhaPercentual('tat-2t-25', impostosTatico.tri2_25);
   preencherLinhaImposto('tat-2t-24', impostosTatico.tri2_24);
   preencherLinhaImposto('tat-2t-var', impostosTatico.tri2_var);
   preencherLinhaImposto('tat-3t-25', impostosTatico.tri3_25);
+  preencherLinhaPercentual('tat-3t-25', impostosTatico.tri3_25);
   preencherLinhaImposto('tat-3t-24', impostosTatico.tri3_24);
   preencherLinhaImposto('tat-3t-var', impostosTatico.tri3_var);
   preencherLinhaImposto('tat-4t-25', impostosTatico.tri4_25);
+  preencherLinhaPercentual('tat-4t-25', impostosTatico.tri4_25);
   preencherLinhaImposto('tat-4t-24', impostosTatico.tri4_24);
   preencherLinhaImposto('tat-4t-var', impostosTatico.tri4_var);
   preencherLinhaImposto('tat-tot-25', impostosTatico.tot_25);
@@ -1504,15 +1549,19 @@ function carregarTodosOsImpostos() {
 
   // Executa para a Transportes
   preencherLinhaImposto('trans-1t-25', impostosTransportes.tri1_25);
+  preencherLinhaPercentual('trans-1t-25', impostosTransportes.tri1_25);
   preencherLinhaImposto('trans-1t-24', impostosTransportes.tri1_24);
   preencherLinhaImposto('trans-1t-var', impostosTransportes.tri1_var);
   preencherLinhaImposto('trans-2t-25', impostosTransportes.tri2_25);
+  preencherLinhaPercentual('trans-2t-25', impostosTransportes.tri2_25);
   preencherLinhaImposto('trans-2t-24', impostosTransportes.tri2_24);
   preencherLinhaImposto('trans-2t-var', impostosTransportes.tri2_var);
   preencherLinhaImposto('trans-3t-25', impostosTransportes.tri3_25);
+  preencherLinhaPercentual('trans-3t-25', impostosTransportes.tri3_25);
   preencherLinhaImposto('trans-3t-24', impostosTransportes.tri3_24);
   preencherLinhaImposto('trans-3t-var', impostosTransportes.tri3_var);
   preencherLinhaImposto('trans-4t-25', impostosTransportes.tri4_25);
+  preencherLinhaPercentual('trans-4t-25', impostosTransportes.tri4_25);
   preencherLinhaImposto('trans-4t-24', impostosTransportes.tri4_24);
   preencherLinhaImposto('trans-4t-var', impostosTransportes.tri4_var);
   preencherLinhaImposto('trans-tot-25', impostosTransportes.tot_25);
@@ -1521,15 +1570,19 @@ function carregarTodosOsImpostos() {
   
   // Executa para a JE Agropecuária
   preencherLinhaAgro('agro-1t-25', impostosAgro.tri1_25);
+  preencherLinhaPercentual('agro-1t-25', impostosAgro.tri1_25);
   preencherLinhaAgro('agro-1t-24', impostosAgro.tri1_24);
   preencherLinhaAgro('agro-1t-var', impostosAgro.tri1_var);
   preencherLinhaAgro('agro-2t-25', impostosAgro.tri2_25);
+  preencherLinhaPercentual('agro-2t-25', impostosAgro.tri2_25);
   preencherLinhaAgro('agro-2t-24', impostosAgro.tri2_24);
   preencherLinhaAgro('agro-2t-var', impostosAgro.tri2_var);
   preencherLinhaAgro('agro-3t-25', impostosAgro.tri3_25);
+  preencherLinhaPercentual('agro-3t-25', impostosAgro.tri3_25);
   preencherLinhaAgro('agro-3t-24', impostosAgro.tri3_24);
   preencherLinhaAgro('agro-3t-var', impostosAgro.tri3_var);
   preencherLinhaAgro('agro-4t-25', impostosAgro.tri4_25);
+  preencherLinhaPercentual('agro-4t-25', impostosAgro.tri4_25);
   preencherLinhaAgro('agro-4t-24', impostosAgro.tri4_24);
   preencherLinhaAgro('agro-4t-var', impostosAgro.tri4_var);
   preencherLinhaAgro('agro-tot-25', impostosAgro.tot_25);
@@ -1540,11 +1593,12 @@ function carregarTodosOsImpostos() {
 /* ══════════════════════════════════════════════════════════
    2. LÓGICA EXCLUSIVA DA ABA ICMS
 ══════════════════════════════════════════════════════════ */
-function showIcmsTab(id) {
+function showIcmsTab(id, element) {
   document.querySelectorAll('.icms-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.icms-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  event.currentTarget.classList.add('active');
+  const target = element || (typeof event !== 'undefined' ? event.currentTarget : null);
+  if (target) target.classList.add('active');
 }
 // --- COLE ESTE BLOCO AQUI ---
 const LOJAS_GO = ['CAMPINAS','PAPILLON','PORTAL','GARAVELO','T7','CENTRO','ÁGUAS LINDAS-01','ÁGUAS LINDAS-02','LUZIÂNIA'];
@@ -1592,6 +1646,48 @@ const goFevVnd = {
 const goFevTotalDeb = LOJAS_GO.map((_,i)=> goFevVnd.debitoIcms[i]+goFevVnd.estornoCredito[i]+goFevVnd.difal[i]);
 const goFevAPagar = LOJAS_GO.map((_,i)=> goFevTotalDeb[i]-goFevTotalCred[i]);
 
+// GO - MARÇO ENTRADAS
+const goMarEnt = {
+  icmsCredito:   [1333908.14, 1447354.98,  921623.77, 1784206.27, 1014449.82, 1152456.53, 1270550.94, 1707525.34, 1976469.02],
+  ciap:          [1312.21,     1191.13,     515.78,    1527.18,    1969.70,    1049.65,    1270.76,     188.13,    1362.72],
+  icmsAntecipado:[9105.49,    13592.03,    9576.16,   12384.12,    5684.32,   19460.33,   71500.80,   92007.43,  110614.32],
+  acumulado:     [443982.00,       0,        0,         0,          0,         0,        0,         0,         0],
+  valorContabil: [20252780.24, 18930637.53, 12553159.73, 23901165.00, 14170693.30, 15269577.56, 15482487.89, 20323305.39, 23162807.35],
+  baseCalculo:   [11531271.13, 11590236.66,  7411288.02, 14490360.10,  8149074.62,  9441135.58, 11430129.13, 14245964.74, 17292866.25]
+};
+const goMarTotalCred = LOJAS_GO.map((_,i)=> goMarEnt.icmsCredito[i]+goMarEnt.ciap[i]+goMarEnt.icmsAntecipado[i]+goMarEnt.acumulado[i]);
+
+const goMarVnd = {
+  debitoIcms:    [1969566.77, 2544809.43, 1621523.62, 3019736.53, 1878466.73, 2014953.57, 1669782.02, 2548922.56, 2526272.53],
+  estornoCredito:[20664.47,     18819.68,   11648.38,   17557.89,   22655.20,   17861.07,   88730.21,  126247.26,  135919.16],
+  difal:         [6876.52,     7741.37,    5140.88,    6223.90,    2246.10,    3379.38,    5517.49,    9271.28,    6579.86],
+  valorContabil: [20118741.85, 22468351.70, 14623039.34, 27005458.50, 17937441.97, 18717156.75, 17627817.14, 23467511.65, 25761105.08],
+  baseCalculo:   [12529630.19, 16083023.82, 10246968.39, 19370779.11, 11961088.20, 12726385.81, 10927250.87, 16642581.16, 16442724.36]
+};
+const goMarTotalDeb = LOJAS_GO.map((_,i)=> goMarVnd.debitoIcms[i]+goMarVnd.estornoCredito[i]+goMarVnd.difal[i]);
+const goMarAPagar = LOJAS_GO.map((_,i)=> goMarTotalDeb[i]-goMarTotalCred[i]);
+
+// DF - MARÇO ENTRADAS
+const dfMarEnt = {
+  icmsCredito:   [1662442.89, 1190465.42, 460093.36, 904104.02, 1130728.41, 1223171.89, 794279.24, 10350429.14, 0],
+  icmsAntecipado:[33293.03, 24764.70, 509.28, 20592.16, 19740.27, 18772.04, 9811.12, 0, 0],
+  ciap:          [4438.29, 4876.80, 79.96, 237.04, 543.52, 4656.59, 955.72, 0, 2866.88],
+  creditoAnterior:[0, 1256942.74, 0, 0, 0, 0, 0, 0, 0],
+  valorContabil: [28584349.26, 29584920.84, 9502489.14, 15870303.92, 20377771.52, 22529428.66, 13699784.43, 41460556.26, 695918.85],
+  baseCalculo:   [8902640.25, 6928801.64, 2379985.73, 4861327.49, 6030757.85, 6596742.59, 4165920.96, 39933260.66, 0]
+};
+const dfMarTotalCred = LOJAS_DF.map((_,i)=> dfMarEnt.icmsCredito[i]+dfMarEnt.icmsAntecipado[i]+dfMarEnt.ciap[i]+dfMarEnt.creditoAnterior[i]);
+
+const dfMarVnd = {
+  debitoIcms:    [1900381.01, 1290350.13, 594590.54, 990884.50, 1272922.33, 1357152.94, 890573.88, 10737672.52, 105399.40],
+  estornoCredito:[29807.81, 11795.70, 1048.87, 15249.25, 13201.52, 14729.32, 6204.30, 0, 0],
+  difal:         [155.21, 87.36, 183.63, 145.44, 249.33, 6649.87, 200.19, 0, 24886.00],
+  valorContabil: [32323716.82, 32199856.36, 11038327.63, 17935720.91, 22908189.71, 25426289.18, 16004465.02, 42458560.56, 722889.74],
+  baseCalculo:   [9531663.19, 6591307.20, 2987904.39, 4972992.93, 6390859.20, 6819495.33, 4472050.20, 38805399.89, 722827.77]
+};
+const dfMarTotalDeb = LOJAS_DF.map((_,i)=> dfMarVnd.debitoIcms[i]+dfMarVnd.estornoCredito[i]+dfMarVnd.difal[i]);
+const dfMarAPagar = LOJAS_DF.map((_,i)=> dfMarTotalDeb[i]-dfMarTotalCred[i]);
+
 // DF - JANEIRO ENTRADAS E VENDAS
 const dfJanEnt = {
   icmsCredito:   [1538402.33,  1280353.87,   466419.39,   780678.76,  1169592.92,  1143467.17,   683348.89, 8367705.10, 0],
@@ -1636,35 +1732,103 @@ const dfFevAPagar = LOJAS_DF.map((_,i)=> dfFevTotalDeb[i]-dfFevTotalCred[i]);
 
 const fmt = v => v == null || isNaN(v) ? '—' : 'R$ ' + Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const sum = arr => arr.reduce((a,b)=>a+(b||0),0);
+const sumPos = arr => arr.filter(v => v > 0).reduce((a,b)=>a+b,0);
 
 function setKpisIcms() {
-  const goJanDeb = sum(goJanTotalDeb); const goFevDeb = sum(goFevTotalDeb);
-  const goJanCred = sum(goJanTotalCred); const goFevCred = sum(goFevTotalCred);
-  const dfJanDeb = sum(dfJanTotalDeb); const dfFevDeb = sum(dfFevTotalDeb);
-  const dfJanCred = sum(dfJanTotalCred); const dfFevCred = sum(dfFevTotalCred);
+  const goJanDeb = sum(goJanTotalDeb); const goFevDeb = sum(goFevTotalDeb); const goMarDeb = sum(goMarTotalDeb);
+  const goJanCred = sum(goJanTotalCred); const goFevCred = sum(goFevTotalCred); const goMarCred = sum(goMarTotalCred);
+  const dfJanDeb = sum(dfJanTotalDeb); const dfFevDeb = sum(dfFevTotalDeb); const dfMarDeb = typeof dfMarTotalDeb !== 'undefined' ? sum(dfMarTotalDeb) : 0;
+  const dfJanCred = sum(dfJanTotalCred); const dfFevCred = sum(dfFevTotalCred); const dfMarCred = typeof dfMarTotalCred !== 'undefined' ? sum(dfMarTotalCred) : 0;
 
-  preencher('kpi-debito-go', fmt(goJanDeb+goFevDeb));
-  preencher('kpi-credito-go', fmt(goJanCred+goFevCred));
-  preencher('kpi-pagar-go', fmt(sum(goJanAPagar)+sum(goFevAPagar)));
+  preencher('kpi-debito-go', fmt(goJanDeb+goFevDeb+goMarDeb));
+  preencher('kpi-credito-go', fmt(goJanCred+goFevCred+goMarCred));
+  preencher('kpi-pagar-go', fmt(sum(goJanAPagar)+sum(goFevAPagar)+sum(goMarAPagar)));
 
-  preencher('kpi-debito-df', fmt(dfJanDeb+dfFevDeb));
-  preencher('kpi-credito-df', fmt(dfJanCred+dfFevCred));
-  preencher('kpi-pagar-df', fmt(sum(dfJanAPagar)+sum(dfFevAPagar)));
+  preencher('kpi-debito-df', fmt(dfJanDeb+dfFevDeb+dfMarDeb));
+  preencher('kpi-credito-df', fmt(dfJanCred+dfFevCred+dfMarCred));
+  preencher('kpi-pagar-df', fmt(sumPos(dfJanAPagar)+sumPos(dfFevAPagar)+ (typeof dfMarAPagar !== 'undefined' ? sumPos(dfMarAPagar) : 0)));
 }
 
 // ══════════════════════════════════════════
 //  CONSTRUTORES DE TABELAS (ICMS)
 // ══════════════════════════════════════════
+const fmtPct = v => v == null || isNaN(v) ? '—' : Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '%';
+
+function parseDisplayNumber(value) {
+  if (value == null) return null;
+  const str = String(value).trim();
+  if (!str || str === '—' || str === '-') return null;
+  const normalized = str.replace(/\+/g, '').replace(/\./g, '').replace(',', '.').replace('%', '');
+  const num = parseFloat(normalized);
+  return Number.isFinite(num) ? num : null;
+}
+
+function preencherLinhaPercentual(prefixoID, dados) {
+  const fat = parseDisplayNumber(dados.fat);
+  const pis = parseDisplayNumber(dados.pis);
+  const cof = parseDisplayNumber(dados.cof);
+  const prev = parseDisplayNumber(dados.prev);
+  const irpj = parseDisplayNumber(dados.irpj);
+  const csll = parseDisplayNumber(dados.csll);
+  const icst = parseDisplayNumber(dados.icst);
+  const icdf = parseDisplayNumber(dados.icdf);
+  const total = parseDisplayNumber(dados.tot);
+
+  preencher(prefixoID + '-fat-pct', '—');
+  preencher(prefixoID + '-pis-pct', fmtPct(fat != null && pis != null ? pis / fat * 100 : null));
+  preencher(prefixoID + '-cof-pct', fmtPct(fat != null && cof != null ? cof / fat * 100 : null));
+  preencher(prefixoID + '-prev-pct', fmtPct(fat != null && prev != null ? prev / fat * 100 : null));
+  preencher(prefixoID + '-irpj-pct', fmtPct(fat != null && irpj != null ? irpj / fat * 100 : null));
+  preencher(prefixoID + '-csll-pct', fmtPct(fat != null && csll != null ? csll / fat * 100 : null));
+  preencher(prefixoID + '-icst-pct', fmtPct(fat != null && icst != null ? icst / fat * 100 : null));
+  preencher(prefixoID + '-icdf-pct', fmtPct(fat != null && icdf != null ? icdf / fat * 100 : null));
+  preencher(prefixoID + '-tot-pct', fmtPct(fat != null && total != null ? total / fat * 100 : null));
+}
+
+function createTaxPercentRow(prefixoID, columns, label) {
+  const varId = prefixoID.replace(/-25$/, '-var') + '-fat';
+  const variationCell = document.getElementById(varId);
+  if (!variationCell) return;
+
+  const variationRow = variationCell.closest('tr');
+  if (!variationRow) return;
+  if (document.getElementById(prefixoID + '-pis-pct')) return;
+
+  const row = document.createElement('tr');
+  row.className = 'tax-pct';
+  const cells = [`<td>${label}</td>`];
+  columns.forEach(column => {
+    const id = `${prefixoID}-${column}-pct`;
+    cells.push(`<td id="${id}"></td>`);
+  });
+  row.innerHTML = cells.join('');
+  variationRow.insertAdjacentElement('afterend', row);
+}
+
+function createAllTaxPercentRows() {
+  const definitions = [
+    { prefix: 'tat', columns: ['fat','pis','cof','prev','irpj','csll','icst','icdf','tot'] },
+    { prefix: 'mm', columns: ['fat','pis','cof','prev','irpj','csll','icst','icdf','tot'] },
+    { prefix: 'trans', columns: ['fat','pis','cof','prev','irpj','csll','icst','icdf','tot'] },
+    { prefix: 'agro', columns: ['fat','pis','cof','prev','irpj','csll','icdf','tot'] }
+  ];
+  const quarters = ['1t','2t','3t','4t'];
+  definitions.forEach(def => {
+    quarters.forEach(q => createTaxPercentRow(`${def.prefix}-${q}-25`, def.columns, 'Percentual sobre faturamento 2025'));
+  });
+}
+
 function makeTable(containerId, lojas, rows) {
-  const totalCol = r => r.values.reduce((a,b)=>a+(b||0),0);
+  const totalCol = r => r.type === 'pagar' ? r.values.filter(v => v > 0).reduce((a,b)=>a+(b||0),0) : r.values.reduce((a,b)=>a+(b||0),0);
   let html = '<table><thead><tr><th>Item</th>';
   lojas.forEach(l=> html+=`<th>${l}</th>`);
   html+='<th class="total-col">TOTAL</th></tr></thead><tbody>';
   rows.forEach(r=>{
     const cls = r.type==='total'?'row-total': r.type==='pagar'?'row-pagar': r.type==='highlight'?'row-highlight':'';
+    const fmtFunc = r.format==='percent' ? fmtPct : fmt;
     html+=`<tr class="${cls}"><td>${r.label}</td>`;
-    r.values.forEach(v=> html+=`<td>${fmt(v)}</td>`);
-    html+=`<td class="total-col">${fmt(totalCol(r))}</td></tr>`;
+    r.values.forEach(v=> html+=`<td>${fmtFunc(v)}</td>`);
+    html+=`<td class="total-col">${fmtFunc(totalCol(r))}</td></tr>`;
   });
   html+='</tbody></table>';
   const container = document.getElementById(containerId);
@@ -1690,6 +1854,7 @@ function buildTables() {
     {label:'DIFAL', values: goJanVnd.difal},
     {label:'TOTAL DÉBITO', values: goJanTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: goJanAPagar, type:'pagar'},
+    {label:'% Faturamento', values: goJanAPagar.map((v,i)=> goJanVnd.valorContabil[i]>0 ? (v/goJanVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
   ]);
 
   // GO FEV ENTRADAS
@@ -1710,6 +1875,28 @@ function buildTables() {
     {label:'DIFAL', values: goFevVnd.difal},
     {label:'TOTAL DÉBITO', values: goFevTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: goFevAPagar, type:'pagar'},
+    {label:'% Faturamento', values: goFevAPagar.map((v,i)=> goFevVnd.valorContabil[i]>0 ? (v/goFevVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
+  ]);
+
+  // GO MAR ENTRADAS
+  makeTable('tbl-go-mar-ent', LOJAS_GO, [
+    {label:'Valor Contábil', values: goMarEnt.valorContabil},
+    {label:'Base de Cálculo', values: goMarEnt.baseCalculo},
+    {label:'ICMS Crédito', values: goMarEnt.icmsCredito},
+    {label:'CIAP', values: goMarEnt.ciap},
+    {label:'ICMS Antecipado', values: goMarEnt.icmsAntecipado},
+    {label:'ICMS Acumulado Entrada', values: goMarEnt.acumulado},
+    {label:'TOTAL CRÉDITOS', values: goMarTotalCred, type:'total'},
+  ]);
+  makeTable('tbl-go-mar-vnd', LOJAS_GO, [
+    {label:'Valor Contábil', values: goMarVnd.valorContabil},
+    {label:'Base de Cálculo', values: goMarVnd.baseCalculo},
+    {label:'Débito ICMS', values: goMarVnd.debitoIcms},
+    {label:'Estorno de Crédito', values: goMarVnd.estornoCredito},
+    {label:'DIFAL', values: goMarVnd.difal},
+    {label:'TOTAL DÉBITO', values: goMarTotalDeb, type:'total'},
+    {label:'TOTAL A PAGAR', values: goMarAPagar, type:'pagar'},
+    {label:'% Faturamento', values: goMarAPagar.map((v,i)=> goMarVnd.valorContabil[i]>0 ? (v/goMarVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
   ]);
 
   // DF JAN ENTRADAS
@@ -1730,6 +1917,7 @@ function buildTables() {
     {label:'DIFAL', values: dfJanVnd.difal},
     {label:'TOTAL DÉBITO', values: dfJanTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: dfJanAPagar, type:'pagar'},
+    {label:'% Faturamento', values: dfJanAPagar.map((v,i)=> dfJanVnd.valorContabil[i]>0 ? (v/dfJanVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
   ]);
 
   // DF FEV ENTRADAS
@@ -1750,6 +1938,28 @@ function buildTables() {
     {label:'DIFAL', values: dfFevVnd.difal},
     {label:'TOTAL DÉBITO', values: dfFevTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: dfFevAPagar, type:'pagar'},
+    {label:'% Faturamento', values: dfFevAPagar.map((v,i)=> dfFevVnd.valorContabil[i]>0 ? (v/dfFevVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
+  ]);
+
+  // DF MAR ENTRADAS
+  makeTable('tbl-df-mar-ent', LOJAS_DF, [
+    {label:'Valor Contábil', values: dfMarEnt.valorContabil},
+    {label:'Base de Cálculo', values: dfMarEnt.baseCalculo},
+    {label:'ICMS Crédito', values: dfMarEnt.icmsCredito},
+    {label:'CIAP', values: dfMarEnt.ciap},
+    {label:'ICMS Antecipado', values: dfMarEnt.icmsAntecipado},
+    {label:'Crédito Período Anterior', values: dfMarEnt.creditoAnterior},
+    {label:'TOTAL CRÉDITOS', values: dfMarTotalCred, type:'total'},
+  ]);
+  makeTable('tbl-df-mar-vnd', LOJAS_DF, [
+    {label:'Valor Contábil', values: dfMarVnd.valorContabil},
+    {label:'Base de Cálculo', values: dfMarVnd.baseCalculo},
+    {label:'Débito ICMS', values: dfMarVnd.debitoIcms},
+    {label:'Estorno de Crédito', values: dfMarVnd.estornoCredito},
+    {label:'DIFAL', values: dfMarVnd.difal},
+    {label:'TOTAL DÉBITO', values: dfMarTotalDeb, type:'total'},
+    {label:'TOTAL A PAGAR', values: dfMarAPagar, type:'pagar'},
+    {label:'% Faturamento', values: dfMarAPagar.map((v,i)=> dfMarVnd.valorContabil[i]>0 ? (v/dfMarVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
   ]);
 }
 
@@ -1761,11 +1971,11 @@ function drawEvolutionIcms() {
   if(!svg) return;
   const W=820, H=280, padL=70, padB=50, padT=30, padR=20;
   const chartW = W-padL-padR, chartH = H-padT-padB;
-  const months = ['Jan/2026','Fev/2026'];
-  const goDebitos = [sum(goJanTotalDeb), sum(goFevTotalDeb)];
-  const dfDebitos = [sum(dfJanTotalDeb), sum(dfFevTotalDeb)];
-  const goCreditos = [sum(goJanTotalCred), sum(goFevTotalCred)];
-  const dfCreditos = [sum(dfJanTotalCred), sum(dfFevTotalCred)];
+  const months = ['Jan/2026','Fev/2026','Mar/2026'];
+  const goDebitos = [sum(goJanTotalDeb), sum(goFevTotalDeb), sum(goMarTotalDeb)];
+  const dfDebitos = [sum(dfJanTotalDeb), sum(dfFevTotalDeb), sum(dfMarTotalDeb)];
+  const goCreditos = [sum(goJanTotalCred), sum(goFevTotalCred), sum(goMarTotalCred)];
+  const dfCreditos = [sum(dfJanTotalCred), sum(dfFevTotalCred), sum(dfMarTotalCred)];
   const allVals = [...goDebitos,...dfDebitos,...goCreditos,...dfCreditos];
   const maxV = Math.max(...allVals) || 1;
   const groupW = chartW/months.length;
@@ -1796,33 +2006,33 @@ function drawEvolutionIcms() {
   svg.innerHTML = `<g>${yLines}${bars}${xLabels}${legSVG}</g>`;
 }
 
-function drawLojasChartIcms(svgId, lojas, janDebitos, fevDebitos) {
+function drawLojasChartIcms(svgId, lojas, janDebitos, fevDebitos, marDebitos = []) {
   const svg = document.getElementById(svgId);
   if(!svg) return;
   const W=820, H=300, padL=90, padB=80, padT=30, padR=20;
   const chartW=W-padL-padR, chartH=H-padT-padB;
   const n=lojas.length;
-  const maxV=Math.max(...janDebitos,...fevDebitos) || 1;
-  const groupW=chartW/n, bW=groupW/3;
+  const maxV=Math.max(...janDebitos,...fevDebitos,...marDebitos) || 1;
+  const groupW=chartW/n, bW=groupW/4;
 
   let bars='',xLabels='',yLines='';
   for(let t=0;t<=4;t++){
     const v=maxV*t/4, y=padT+chartH-chartH*t/4;
-    yLines+=`<line x1="${padL}" x2="${padL+chartW}" y1="${y}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/><text class="axis-label" x="${padL-6}" y="${y+4}" text-anchor="end" font-size="9.5">R$${v>=1e6?(Math.round(v/1e5)/10)+'M':(Math.round(v/1e3))+'K'}</text>`;
+    yLines+=`<line x1="${padL}" x2="${padL+chartW}" y1="${y}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/><text class="axis-label" x="${padL-6}" y="${y+4}" text-anchor="end" font-size="9.5">R$${v>=1e6?(Math.round(v/1000000*10)/10)+'M':(Math.round(v/1e3))+'K'}</text>`;
   }
 
   lojas.forEach((l,i)=>{
     const gx=padL+i*groupW+bW*0.2;
-    [{v:janDebitos[i],fill:'#0a1f5c'},{v:fevDebitos[i],fill:'#c0112b'}].forEach((d,di)=>{
+    [{v:janDebitos[i],fill:'#0a1f5c'},{v:fevDebitos[i],fill:'#c0112b'},{v:marDebitos[i]||0,fill:'#2b5be0'}].forEach((d,di)=>{
       const x=gx+di*bW, h=d.v?chartH*(d.v/maxV):2, y=padT+chartH-h;
-      bars+=`<g class="bar-group"><rect class="bar-rect" x="${x}" y="${y}" width="${bW*0.85}" height="${h}" fill="${d.fill}" rx="2"/><text class="bar-label" x="${x+bW*0.42}" y="${y-4}" text-anchor="middle" font-size="8.5">${d.v>=1e6?(Math.round(d.v/1e5)/10)+'M':(Math.round(d.v/1e3))+'K'}</text></g>`;
+      bars+=`<g class="bar-group"><rect class="bar-rect" x="${x}" y="${y}" width="${bW*0.85}" height="${h}" fill="${d.fill}" rx="2"/><text class="bar-label" x="${x+bW*0.42}" y="${y-4}" text-anchor="middle" font-size="8.5">${d.v>=1e6?(Math.round(d.v/1000000*10)/10)+'M':(Math.round(d.v/1e3))+'K'}</text></g>`;
     });
     const lx=padL+i*groupW+groupW/2, ly=padT+chartH+14;
     xLabels+=`<text class="axis-label" x="${lx}" y="${ly}" text-anchor="end" font-size="9.5" transform="rotate(-35,${lx},${ly})">${l}</text>`;
   });
 
   const legY=H-10;
-  svg.innerHTML=`<g>${yLines}${bars}${xLabels}<rect x="${padL}" y="${legY-12}" width="12" height="12" fill="#0a1f5c" rx="2"/><text class="axis-label" x="${padL+16}" y="${legY}" font-size="10.5">Jan/2026</text><rect x="${padL+100}" y="${legY-12}" width="12" height="12" fill="#c0112b" rx="2"/><text class="axis-label" x="${padL+116}" y="${legY}" font-size="10.5">Fev/2026</text></g>`;
+  svg.innerHTML=`<g>${yLines}${bars}${xLabels}<rect x="${padL}" y="${legY-12}" width="12" height="12" fill="#0a1f5c" rx="2"/><text class="axis-label" x="${padL+16}" y="${legY}" font-size="10.5">Jan/2026</text><rect x="${padL+100}" y="${legY-12}" width="12" height="12" fill="#c0112b" rx="2"/><text class="axis-label" x="${padL+116}" y="${legY}" font-size="10.5">Fev/2026</text><rect x="${padL+200}" y="${legY-12}" width="12" height="12" fill="#2b5be0" rx="2"/><text class="axis-label" x="${padL+216}" y="${legY}" font-size="10.5">Mar/2026</text></g>`;
 }
 
 // ══════════════════════════════════════════
@@ -2025,8 +2235,8 @@ window.addEventListener('load', function() {
     setKpisIcms();
     buildTables();
     drawEvolutionIcms();
-    drawLojasChartIcms('chart-lojas-go', LOJAS_GO, goJanTotalDeb, goFevTotalDeb);
-    drawLojasChartIcms('chart-lojas-df', LOJAS_DF, dfJanTotalDeb, dfFevTotalDeb);
+    drawLojasChartIcms('chart-lojas-go', LOJAS_GO, goJanTotalDeb, goFevTotalDeb, goMarTotalDeb);
+    drawLojasChartIcms('chart-lojas-df', LOJAS_DF, dfJanTotalDeb, dfFevTotalDeb, dfMarTotalDeb);
 
     // 4. Verifica o Modo Escuro
     if (localStorage.getItem('temaCentroOeste') === 'escuro') {
