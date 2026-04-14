@@ -1819,16 +1819,33 @@ function createAllTaxPercentRows() {
 }
 
 function makeTable(containerId, lojas, rows) {
-  const totalCol = r => r.type === 'pagar' ? r.values.filter(v => v > 0).reduce((a,b)=>a+(b||0),0) : r.values.reduce((a,b)=>a+(b||0),0);
+  const totalCol = r => {
+    if (r.type === 'pagar') return r.values.filter(v => v > 0).reduce((a,b)=>a+(b||0),0);
+    if (r.type === 'highlight' && r.denominator) {
+      const numerator = (r.usePositives ? r.values.filter(v => v > 0) : r.values)
+        .reduce((a,b)=>a+(b||0),0);
+      const denominator = r.denominator.reduce((a,b)=>a+(b||0),0);
+      return denominator ? numerator/denominator*100 : null;
+    }
+    return r.values.reduce((a,b)=>a+(b||0),0);
+  };
   let html = '<table><thead><tr><th>Item</th>';
   lojas.forEach(l=> html+=`<th>${l}</th>`);
   html+='<th class="total-col">TOTAL</th></tr></thead><tbody>';
   rows.forEach(r=>{
     const cls = r.type==='total'?'row-total': r.type==='pagar'?'row-pagar': r.type==='highlight'?'row-highlight':'';
-    const fmtFunc = r.format==='percent' ? fmtPct : fmt;
     html+=`<tr class="${cls}"><td>${r.label}</td>`;
-    r.values.forEach(v=> html+=`<td>${fmtFunc(v)}</td>`);
-    html+=`<td class="total-col">${fmtFunc(totalCol(r))}</td></tr>`;
+    if (r.type==='highlight' && r.denominator) {
+      r.values.forEach((v,i)=> {
+        const pct = r.denominator[i] > 0 ? v / r.denominator[i] * 100 : null;
+        html += `<td>${fmtPct(pct)}</td>`;
+      });
+    } else {
+      const fmtFunc = r.format==='percent' ? fmtPct : fmt;
+      r.values.forEach(v=> html+=`<td>${fmtFunc(v)}</td>`);
+    }
+    const totalValue = totalCol(r);
+    html+=`<td class="total-col">${(r.type==='highlight' && r.denominator) ? fmtPct(totalValue) : (r.format==='percent' ? fmtPct(totalValue) : fmt(totalValue))}</td></tr>`;
   });
   html+='</tbody></table>';
   const container = document.getElementById(containerId);
@@ -1854,7 +1871,7 @@ function buildTables() {
     {label:'DIFAL', values: goJanVnd.difal},
     {label:'TOTAL DÉBITO', values: goJanTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: goJanAPagar, type:'pagar'},
-    {label:'% Faturamento', values: goJanAPagar.map((v,i)=> goJanVnd.valorContabil[i]>0 ? (v/goJanVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
+    {label:'% Faturamento', values: goJanAPagar, denominator: goJanVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
   ]);
 
   // GO FEV ENTRADAS
@@ -1875,7 +1892,7 @@ function buildTables() {
     {label:'DIFAL', values: goFevVnd.difal},
     {label:'TOTAL DÉBITO', values: goFevTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: goFevAPagar, type:'pagar'},
-    {label:'% Faturamento', values: goFevAPagar.map((v,i)=> goFevVnd.valorContabil[i]>0 ? (v/goFevVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
+    {label:'% Faturamento', values: goFevAPagar, denominator: goFevVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
   ]);
 
   // GO MAR ENTRADAS
@@ -1896,7 +1913,7 @@ function buildTables() {
     {label:'DIFAL', values: goMarVnd.difal},
     {label:'TOTAL DÉBITO', values: goMarTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: goMarAPagar, type:'pagar'},
-    {label:'% Faturamento', values: goMarAPagar.map((v,i)=> goMarVnd.valorContabil[i]>0 ? (v/goMarVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
+    {label:'% Faturamento', values: goMarAPagar, denominator: goMarVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
   ]);
 
   // DF JAN ENTRADAS
@@ -1917,7 +1934,7 @@ function buildTables() {
     {label:'DIFAL', values: dfJanVnd.difal},
     {label:'TOTAL DÉBITO', values: dfJanTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: dfJanAPagar, type:'pagar'},
-    {label:'% Faturamento', values: dfJanAPagar.map((v,i)=> dfJanVnd.valorContabil[i]>0 ? (v/dfJanVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
+    {label:'% Faturamento', values: dfJanAPagar, denominator: dfJanVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
   ]);
 
   // DF FEV ENTRADAS
@@ -1938,7 +1955,7 @@ function buildTables() {
     {label:'DIFAL', values: dfFevVnd.difal},
     {label:'TOTAL DÉBITO', values: dfFevTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: dfFevAPagar, type:'pagar'},
-    {label:'% Faturamento', values: dfFevAPagar.map((v,i)=> dfFevVnd.valorContabil[i]>0 ? (v/dfFevVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
+    {label:'% Faturamento', values: dfFevAPagar, denominator: dfFevVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
   ]);
 
   // DF MAR ENTRADAS
@@ -1959,7 +1976,7 @@ function buildTables() {
     {label:'DIFAL', values: dfMarVnd.difal},
     {label:'TOTAL DÉBITO', values: dfMarTotalDeb, type:'total'},
     {label:'TOTAL A PAGAR', values: dfMarAPagar, type:'pagar'},
-    {label:'% Faturamento', values: dfMarAPagar.map((v,i)=> dfMarVnd.valorContabil[i]>0 ? (v/dfMarVnd.valorContabil[i])*100 : 0), type:'highlight', format:'percent'},
+    {label:'% Faturamento', values: dfMarAPagar, denominator: dfMarVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
   ]);
 }
 
