@@ -18,6 +18,7 @@
   --b400: #6A9AF5;
   --b200: #BDD0FA;
   --b100: #E6EDFD;
+  --b50: #F3F7FF;
   --r700: #B91C1C;
   --r600: #DC2626;
   --r500: #EF4444;
@@ -28,6 +29,7 @@
   --gray7: #374151;
   --gray5: #6B7280;
   --gray3: #D1D5DB;
+  --gray2: #E5E7EB;
   --gray1: #F3F4F6;
   --amber: #D97706;
   --amber-bg: #FEF3C7;
@@ -154,7 +156,11 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 .tax-tbl tbody td:first-child{text-align:left;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--gray7);font-weight:500;}
 .tax-tbl tr.tax-tot td{font-weight:700;background:var(--amber-bg);color:var(--b900);border-top:2px solid #FDE68A;font-size:11px;}
 .tax-tbl tr.tax-rate td{font-size:10px;color:var(--gray5);background:var(--gray1);font-style:italic;}
-.tax-tbl tr.tax-pct td{font-size:10px;color:var(--gray8);background:var(--gray1);font-style:italic;}
+.tax-tbl tr.tax-pct td{font-size:10px;color:var(--gray7);background:var(--gray1);font-style:italic;}
+.tax-tbl tr.annual-pct td{background:#FFF7ED!important;border-top:2px solid var(--amber);font-weight:700;font-style:normal;}
+.tax-tbl tr.annual-pct td:first-child{color:var(--amber);}
+.tax-tbl tr.tax-pct td.pos{color:var(--g600)!important;}
+.tax-tbl tr.tax-pct td.neg{color:var(--r600)!important;}
 
 .tax-co-panels .tax-co-panel{display:none;}
 .tax-co-panels .tax-co-panel.active{display:block;}
@@ -182,6 +188,16 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
   max-width: 100%;
   overflow-x: auto;
   border-radius: 8px;
+  margin-bottom: 12px;
+}
+#panel-icms .icms-month-nav {
+  background: #fff;
+  border: 1px solid var(--gray2);
+  display: flex;
+  gap: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
   margin-bottom: 24px;
 }
 #panel-icms .icms-btn {
@@ -201,9 +217,36 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 }
 #panel-icms .icms-btn:hover { color: #fff; background: rgba(255,255,255,.06); }
 #panel-icms .icms-btn.active { color: #fff; border-bottom-color: var(--r500); background: rgba(255,255,255,.08); }
+#panel-icms .icms-month-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gray5);
+  background: transparent;
+  border: none;
+  padding: 13px 18px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all .2s;
+  white-space: nowrap;
+}
+#panel-icms .icms-month-btn:hover { color: var(--b700); background: var(--gray1); }
+#panel-icms .icms-month-btn.active { color: var(--b800); border-bottom-color: var(--r500); background: var(--b50); }
 
 #panel-icms .icms-panel { display: none; }
 #panel-icms .icms-panel.active { display: block; animation:fadeIn .25s ease;}
+#panel-icms .icms-empty {
+  background: #fff;
+  border: 1px dashed var(--gray3);
+  border-radius: 8px;
+  padding: 36px 24px;
+  color: var(--gray5);
+  font-weight: 600;
+  text-align: center;
+}
+#panel-icms .icms-month-nav.hidden { display: none; }
 
 #panel-icms .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 36px; }
 #panel-icms .kpi-card { background: #fff; border-radius: 10px; padding: 22px 24px; box-shadow: 0 2px 16px var(--icms-sombra); border-top: 4px solid var(--b400); transition: transform .2s, box-shadow .2s; }
@@ -294,7 +337,21 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
   .nav{padding:0 16px;}
   .hdr{padding:16px 16px;}
 }
+/* ── Tax filter + chart ── */
+.tax-month-filter{display:flex;gap:5px;flex-wrap:wrap;padding:10px 0 8px;border-bottom:1px solid var(--gray2);margin-bottom:2px;}
+.tax-fbtn{padding:4px 11px;border-radius:14px;border:1px solid var(--gray3);background:white;font-size:10px;font-weight:600;cursor:pointer;color:var(--gray6);transition:.15s;}
+.tax-fbtn:hover{border-color:var(--b400);color:var(--b500);}
+.tax-fbtn.active{background:var(--b500);color:white;border-color:var(--b500);}
+.tax-chart-wrap{position:relative;height:210px;padding:10px 0 4px;}
+.tax-summary-row{cursor:pointer;}
+.tax-summary-row:hover td{background:var(--b50)!important;}
+.tax-summary-row td{padding:5px 8px!important;vertical-align:top;}
+.sm-val{font-size:11px;font-weight:500;display:block;}
+.sm-ah{font-size:9px;font-weight:700;display:block;margin-top:1px;}
+.sm-ah.pos{color:#16a34a;}.sm-ah.neg{color:#dc2626;}
+.tax-tbl tr.tax-detail-row.hidden{display:none;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -311,17 +368,17 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
 </div>
 
 <div class="nav">
-  <div class="tab active" onclick="show('geral', this)">Visão Geral</div>
+  <div class="tab tax-tab active" onclick="show('impostos', this)">⚡ Impostos</div>
+  <div class="tab" onclick="show('icms', this)" style="color: #6A9AF5;">📊 ICMS 2026</div>
+  <div class="tab" onclick="show('geral', this)">Visão Geral</div>
   <div class="tab" onclick="show('alim', this)">Tatico</div>
   <div class="tab" onclick="show('montemar', this)">Monte Mar</div>
   <div class="tab" onclick="show('cota', this)">Transportes</div> 
   <div class="tab" onclick="show('agro', this)">JE Agropecuária</div>
   <div class="tab" onclick="show('part', this)">Participações</div>
-  <div class="tab tax-tab" onclick="show('impostos', this)">⚡ Impostos</div>
-  <div class="tab" onclick="show('icms', this)" style="color: #6A9AF5;">📊 ICMS 2026</div>
 </div>
 
-<div class="panel active" id="panel-geral">
+<div class="panel" id="panel-geral">
   <div class="co-head">
     <div>
       <div class="co-name">Geral</div>
@@ -907,26 +964,26 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
   </div>
 </div>
 
-<div class="panel" id="panel-impostos">
+<div class="panel active" id="panel-impostos">
   <div class="co-head">
     <div>
       <div class="co-name">Demonstrativo de Impostos<br>Grupo Centro Oeste</div>
-      <div class="co-cnpj">Apuração Mensal por Empresa · 2025 vs 2024</div>
+      <div class="co-cnpj">Apuração Mensal por Empresa · 2025 vs 2026</div>
       <div class="co-sector">Consolidado</div>
     </div>
     <div class="co-period">
-      <span>Competência</span><strong>2024 | 2025</strong><br>
+      <span>Competência</span><strong>2026 | 2025</strong><br>
       <button class="btn-pdf" style="margin-top: 8px;" onclick="exportarPDF()">📄 Exportar para PDF</button>
     </div>
   </div>
 
-  <div class="sec">Consolidado — Grupo 2025</div>
+  <div class="sec">Consolidado — Grupo 2026</div>
   <div class="tax-grid-top">
-    <div class="tax-kpi"><div class="tax-kpi-lbl">Tatico</div><div class="tax-kpi-v">R$ 124,8 M</div><div class="tax-kpi-v2">2024: R$ 155,0 M</div><div class="badge dn">▼ 19%</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">Monte Mar</div><div class="tax-kpi-v">R$ 8,3 M</div><div class="tax-kpi-v2">2024: R$ 13,2 M</div><div class="badge dn">▼ 27%</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">Transportes</div><div class="tax-kpi-v">R$ 2,4 M</div><div class="tax-kpi-v2">2024: R$ 0,6 M</div><div class="badge up">▲ 270%</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">JE Agropecuária</div><div class="tax-kpi-v">R$ 3,98 M</div><div class="tax-kpi-v2">2024: R$ 2,9 M</div><div class="badge up">▲ 37,24%</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">J&E Brasil</div><div class="tax-kpi-v">R$ 6.713</div><div class="tax-kpi-v2">2024: R$ 0</div><div class="badge up">▲ 100%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">Tatico</div><div class="tax-kpi-v">R$ 37,0 M</div><div class="tax-kpi-v2">2025: R$ 124,8 M</div><div class="badge dn">▼ 238%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">Monte Mar</div><div class="tax-kpi-v">R$ 5,7 M</div><div class="tax-kpi-v2">2025: R$ 17,4 M</div><div class="badge dn">▼ 208%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">Transportes</div><div class="tax-kpi-v">R$ 714,1 mil</div><div class="tax-kpi-v2">2025: R$ 2,2 M</div><div class="badge dn">▼ 212%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">JE Agropecuária</div><div class="tax-kpi-v">R$ 1.663</div><div class="tax-kpi-v2">2025: R$ 2,94 M</div><div class="badge dn">▼ 176.775%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">J&E Brasil</div><div class="tax-kpi-v">R$ 631</div><div class="tax-kpi-v2">2025: R$ 6.713</div><div class="badge dn">▼ 963%</div></div>
   </div>
 
   <div class="sec">Detalhamento Impostos por Empresa</div>
@@ -938,6 +995,22 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
     <div class="tco-tab" onclick="showTaxCo('jebrasil', this)">J&E Brasil</div>
   </div>
 
+  <div class="tax-month-filter">
+    <button class="tax-fbtn active" onclick="filterTaxMonth('all',this)">Ano Completo</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('jan',this)">Jan</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('fev',this)">Fev</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('mar',this)">Mar</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('abr',this)">Abr</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('mai',this)">Mai</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('jun',this)">Jun</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('jul',this)">Jul</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('ago',this)">Ago</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('set',this)">Set</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('out',this)">Out</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('nov',this)">Nov</button>
+    <button class="tax-fbtn" onclick="filterTaxMonth('dez',this)">Dez</button>
+  </div>
+
   <div class="tax-co-panels">
     <div class="tax-co-panel active" id="taxco-calim">
       <div class="tax-table-wrap">
@@ -945,27 +1018,12 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
           <h3>CENTRO OESTE COMERCIAL DE ALIMENTOS LTDA</h3>
           <span class="cnpj-tag">CNPJ 24.447.350/0001-69</span>
         </div>
+        <div class="tax-chart-wrap"><canvas id="chart-calim"></canvas></div>
         <table class="tax-tbl">
           <thead>
             <tr><th>Período</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Prev. Patronal</th><th>IRPJ</th><th>CSLL</th><th>ICMS GO</th><th>ICMS DF</th><th>TOTAL</th></tr>
           </thead>
-          <tbody>
-            <tr class="sub"><td>1º Trimestre 2025</td><td id="tat-1t-25-fat"></td><td id="tat-1t-25-pis"></td><td id="tat-1t-25-cof"></td><td id="tat-1t-25-prev"></td><td id="tat-1t-25-irpj"></td><td id="tat-1t-25-csll"></td><td id="tat-1t-25-icst"></td><td id="tat-1t-25-icdf"></td><td id="tat-1t-25-tot"></td></tr>
-            <tr><td>1º Trimestre 2024</td><td id="tat-1t-24-fat"></td><td id="tat-1t-24-pis"></td><td id="tat-1t-24-cof"></td><td id="tat-1t-24-prev"></td><td id="tat-1t-24-irpj"></td><td id="tat-1t-24-csll"></td><td id="tat-1t-24-icst"></td><td id="tat-1t-24-icdf"></td><td id="tat-1t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="tat-1t-var-fat" class="pos"></td><td id="tat-1t-var-pis" class="pos"></td><td id="tat-1t-var-cof" class="pos"></td><td id="tat-1t-var-prev" class="neg"></td><td id="tat-1t-var-irpj" class="neg"></td><td id="tat-1t-var-csll" class="neg"></td><td id="tat-1t-var-icst" class="pos"></td><td id="tat-1t-var-icdf" class="neg"></td><td id="tat-1t-var-tot" class="neg"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>2º Trimestre 2025</td><td id="tat-2t-25-fat"></td><td id="tat-2t-25-pis"></td><td id="tat-2t-25-cof"></td><td id="tat-2t-25-prev"></td><td id="tat-2t-25-irpj"></td><td id="tat-2t-25-csll"></td><td id="tat-2t-25-icst"></td><td id="tat-2t-25-icdf"></td><td id="tat-2t-25-tot"></td></tr>
-            <tr><td>2º Trimestre 2024</td><td id="tat-2t-24-fat"></td><td id="tat-2t-24-pis"></td><td id="tat-2t-24-cof"></td><td id="tat-2t-24-prev"></td><td id="tat-2t-24-irpj"></td><td id="tat-2t-24-csll"></td><td id="tat-2t-24-icst"></td><td id="tat-2t-24-icdf"></td><td id="tat-2t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="tat-2t-var-fat" class="pos"></td><td id="tat-2t-var-pis" class="pos"></td><td id="tat-2t-var-cof" class="pos"></td><td id="tat-2t-var-prev" class="neg"></td><td id="tat-2t-var-irpj" class="neg"></td><td id="tat-2t-var-csll" class="neg"></td><td id="tat-2t-var-icst" class="pos"></td><td id="tat-2t-var-icdf" class="neg"></td><td id="tat-2t-var-tot" class="neg"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>3º Trimestre 2025</td><td id="tat-3t-25-fat"></td><td id="tat-3t-25-pis"></td><td id="tat-3t-25-cof"></td><td id="tat-3t-25-prev"></td><td id="tat-3t-25-irpj"></td><td id="tat-3t-25-csll"></td><td id="tat-3t-25-icst"></td><td id="tat-3t-25-icdf"></td><td id="tat-3t-25-tot"></td></tr>
-            <tr><td>3º Trimestre 2024</td><td id="tat-3t-24-fat"></td><td id="tat-3t-24-pis"></td><td id="tat-3t-24-cof"></td><td id="tat-3t-24-prev"></td><td id="tat-3t-24-irpj"></td><td id="tat-3t-24-csll"></td><td id="tat-3t-24-icst"></td><td id="tat-3t-24-icdf"></td><td id="tat-3t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="tat-3t-var-fat" class="pos"></td><td id="tat-3t-var-pis" class="pos"></td><td id="tat-3t-var-cof" class="pos"></td><td id="tat-3t-var-prev" class="neg"></td><td id="tat-3t-var-irpj" class="neg"></td><td id="tat-3t-var-csll" class="neg"></td><td id="tat-3t-var-icst" class="neg"></td><td id="tat-3t-var-icdf" class="neg"></td><td id="tat-3t-var-tot" class="neg"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>4º Trimestre 2025</td><td id="tat-4t-25-fat"></td><td id="tat-4t-25-pis"></td><td id="tat-4t-25-cof"></td><td id="tat-4t-25-prev"></td><td id="tat-4t-25-irpj"></td><td id="tat-4t-25-csll"></td><td id="tat-4t-25-icst"></td><td id="tat-4t-25-icdf"></td><td id="tat-4t-25-tot"></td></tr>
-            <tr><td>4º Trimestre 2024</td><td id="tat-4t-24-fat"></td><td id="tat-4t-24-pis"></td><td id="tat-4t-24-cof"></td><td id="tat-4t-24-prev"></td><td id="tat-4t-24-irpj"></td><td id="tat-4t-24-csll"></td><td id="tat-4t-24-icst"></td><td id="tat-4t-24-icdf"></td><td id="tat-4t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="tat-4t-var-fat" class="pos"></td><td id="tat-4t-var-pis" class="pos"></td><td id="tat-4t-var-cof" class="pos"></td><td id="tat-4t-var-prev" class="neg"></td><td id="tat-4t-var-irpj" class="neu"></td><td id="tat-4t-var-csll" class="neu"></td><td id="tat-4t-var-icst" class="pos"></td><td id="tat-4t-var-icdf" class="neg"></td><td id="tat-4t-var-tot" class="neg"></td></tr>
-            <tr class="tax-tot" style="border-top: 3px solid var(--amber);"><td>TOTAL ANO 2025</td><td id="tat-tot-25-fat"></td><td id="tat-tot-25-pis"></td><td id="tat-tot-25-cof"></td><td id="tat-tot-25-prev"></td><td id="tat-tot-25-irpj"></td><td id="tat-tot-25-csll"></td><td id="tat-tot-25-icst"></td><td id="tat-tot-25-icdf"></td><td id="tat-tot-25-tot"></td></tr>
-            <tr class="tax-tot" style="background: var(--gray1); color: var(--gray7); border-top: none;"><td>TOTAL ANO 2024</td><td id="tat-tot-24-fat"></td><td id="tat-tot-24-pis"></td><td id="tat-tot-24-cof"></td><td id="tat-tot-24-prev"></td><td id="tat-tot-24-irpj"></td><td id="tat-tot-24-csll"></td><td id="tat-tot-24-icst"></td><td id="tat-tot-24-icdf"></td><td id="tat-tot-24-tot"></td></tr>
-            <tr class="tax-rate" style="font-weight: bold; background: #fff;"><td>VARIAÇÃO ANUAL</td><td id="tat-tot-var-fat" class="pos"></td><td id="tat-tot-var-pis" class="pos"></td><td id="tat-tot-var-cof" class="pos"></td><td id="tat-tot-var-prev" class="neg"></td><td id="tat-tot-var-irpj" class="neg"></td><td id="tat-tot-var-csll" class="neg"></td><td id="tat-tot-var-icst" class="pos"></td><td id="tat-tot-var-icdf" class="neg"></td><td id="tat-tot-var-tot" class="neg"></td></tr>
-          </tbody>
+          <tbody id="tbody-calim"></tbody>
         </table>
       </div>
     </div>
@@ -976,27 +1034,12 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
           <h3>Montemar Distribuidor Atacadista Ltda</h3>
           <span class="cnpj-tag">CNPJ 05.589.952/0001-06</span>
         </div>
+        <div class="tax-chart-wrap"><canvas id="chart-montemar"></canvas></div>
         <table class="tax-tbl">
           <thead>
             <tr><th>Período</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Prev. Patronal</th><th>IRPJ</th><th>CSLL</th><th>ICMS ST</th><th>ICMS DF</th><th>TOTAL</th></tr>
           </thead>
-          <tbody>
-            <tr class="sub"><td>1º Trimestre 2025</td><td id="mm-1t-25-fat"></td><td id="mm-1t-25-pis"></td><td id="mm-1t-25-cof"></td><td id="mm-1t-25-prev"></td><td id="mm-1t-25-irpj"></td><td id="mm-1t-25-csll"></td><td id="mm-1t-25-icst"></td><td id="mm-1t-25-icdf"></td><td id="mm-1t-25-tot"></td></tr>
-            <tr><td>1º Trimestre 2024</td><td id="mm-1t-24-fat"></td><td id="mm-1t-24-pis"></td><td id="mm-1t-24-cof"></td><td id="mm-1t-24-prev"></td><td id="mm-1t-24-irpj"></td><td id="mm-1t-24-csll"></td><td id="mm-1t-24-icst"></td><td id="mm-1t-24-icdf"></td><td id="mm-1t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="mm-1t-var-fat" class="pos"></td><td id="mm-1t-var-pis" class="neu"></td><td id="mm-1t-var-cof" class="neu"></td><td id="mm-1t-var-prev" class="neu"></td><td id="mm-1t-var-irpj" class="neu"></td><td id="mm-1t-var-csll" class="neu"></td><td id="mm-1t-var-icst" class="neu"></td><td id="mm-1t-var-icdf" class="neu"></td><td id="mm-1t-var-tot" class="neu"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>2º Trimestre 2025</td><td id="mm-2t-25-fat"></td><td id="mm-2t-25-pis"></td><td id="mm-2t-25-cof"></td><td id="mm-2t-25-prev"></td><td id="mm-2t-25-irpj"></td><td id="mm-2t-25-csll"></td><td id="mm-2t-25-icst"></td><td id="mm-2t-25-icdf"></td><td id="mm-2t-25-tot"></td></tr>
-            <tr><td>2º Trimestre 2024</td><td id="mm-2t-24-fat"></td><td id="mm-2t-24-pis"></td><td id="mm-2t-24-cof"></td><td id="mm-2t-24-prev"></td><td id="mm-2t-24-irpj"></td><td id="mm-2t-24-csll"></td><td id="mm-2t-24-icst"></td><td id="mm-2t-24-icdf"></td><td id="mm-2t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="mm-2t-var-fat" class="pos"></td><td id="mm-2t-var-pis" class="neu"></td><td id="mm-2t-var-cof" class="neu"></td><td id="mm-2t-var-prev" class="neu"></td><td id="mm-2t-var-irpj" class="neu"></td><td id="mm-2t-var-csll" class="neu"></td><td id="mm-2t-var-icst" class="neu"></td><td id="mm-2t-var-icdf" class="neu"></td><td id="mm-2t-var-tot" class="neu"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>3º Trimestre 2025</td><td id="mm-3t-25-fat"></td><td id="mm-3t-25-pis"></td><td id="mm-3t-25-cof"></td><td id="mm-3t-25-prev"></td><td id="mm-3t-25-irpj"></td><td id="mm-3t-25-csll"></td><td id="mm-3t-25-icst"></td><td id="mm-3t-25-icdf"></td><td id="mm-3t-25-tot"></td></tr>
-            <tr><td>3º Trimestre 2024</td><td id="mm-3t-24-fat"></td><td id="mm-3t-24-pis"></td><td id="mm-3t-24-cof"></td><td id="mm-3t-24-prev"></td><td id="mm-3t-24-irpj"></td><td id="mm-3t-24-csll"></td><td id="mm-3t-24-icst"></td><td id="mm-3t-24-icdf"></td><td id="mm-3t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="mm-3t-var-fat" class="pos"></td><td id="mm-3t-var-pis" class="neu"></td><td id="mm-3t-var-cof" class="neu"></td><td id="mm-3t-var-prev" class="neu"></td><td id="mm-3t-var-irpj" class="neu"></td><td id="mm-3t-var-csll" class="neu"></td><td id="mm-3t-var-icst" class="neu"></td><td id="mm-3t-var-icdf" class="neu"></td><td id="mm-3t-var-tot" class="neu"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>4º Trimestre 2025</td><td id="mm-4t-25-fat"></td><td id="mm-4t-25-pis"></td><td id="mm-4t-25-cof"></td><td id="mm-4t-25-prev"></td><td id="mm-4t-25-irpj"></td><td id="mm-4t-25-csll"></td><td id="mm-4t-25-icst"></td><td id="mm-4t-25-icdf"></td><td id="mm-4t-25-tot"></td></tr>
-            <tr><td>4º Trimestre 2024</td><td id="mm-4t-24-fat"></td><td id="mm-4t-24-pis"></td><td id="mm-4t-24-cof"></td><td id="mm-4t-24-prev"></td><td id="mm-4t-24-irpj"></td><td id="mm-4t-24-csll"></td><td id="mm-4t-24-icst"></td><td id="mm-4t-24-icdf"></td><td id="mm-4t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="mm-4t-var-fat" class="pos"></td><td id="mm-4t-var-pis" class="neu"></td><td id="mm-4t-var-cof" class="neu"></td><td id="mm-4t-var-prev" class="neu"></td><td id="mm-4t-var-irpj" class="neu"></td><td id="mm-4t-var-csll" class="neu"></td><td id="mm-4t-var-icst" class="neu"></td><td id="mm-4t-var-icdf" class="neu"></td><td id="mm-4t-var-tot" class="neu"></td></tr>
-            <tr class="tax-tot" style="border-top: 3px solid var(--amber);"><td>TOTAL 2025</td><td id="mm-tot-25-fat"></td><td id="mm-tot-25-pis"></td><td id="mm-tot-25-cof"></td><td id="mm-tot-25-prev"></td><td id="mm-tot-25-irpj"></td><td id="mm-tot-25-csll"></td><td id="mm-tot-25-icst"></td><td id="mm-tot-25-icdf"></td><td id="mm-tot-25-tot"></td></tr>
-            <tr class="tax-tot" style="background: var(--gray1); color: var(--gray7); border-top: none;"><td>TOTAL 2024</td><td id="mm-tot-24-fat"></td><td id="mm-tot-24-pis"></td><td id="mm-tot-24-cof"></td><td id="mm-tot-24-prev"></td><td id="mm-tot-24-irpj"></td><td id="mm-tot-24-csll"></td><td id="mm-tot-24-icst"></td><td id="mm-tot-24-icdf"></td><td id="mm-tot-24-tot"></td></tr>
-            <tr class="tax-rate" style="font-weight: bold; background: #fff;"><td>VARIAÇÃO ANUAL</td><td id="mm-tot-var-fat" class="pos"></td><td id="mm-tot-var-pis" class="neu"></td><td id="mm-tot-var-cof" class="neu"></td><td id="mm-tot-var-prev" class="neu"></td><td id="mm-tot-var-irpj" class="neu"></td><td id="mm-tot-var-csll" class="neu"></td><td id="mm-tot-var-icst" class="neu"></td><td id="mm-tot-var-icdf" class="neu"></td><td id="mm-tot-var-tot" class="neg"></td></tr>
-          </tbody>
+          <tbody id="tbody-montemar"></tbody>
         </table>
       </div>
     </div>
@@ -1007,27 +1050,12 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
           <h3>Centro Oeste Serviços Transportes de Cargas Ltda</h3>
           <span class="cnpj-tag">CNPJ 35.081.412/0001-88</span>
         </div>
+        <div class="tax-chart-wrap"><canvas id="chart-cota"></canvas></div>
         <table class="tax-tbl">
           <thead>
             <tr><th>Período</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Previdência</th><th>IRPJ</th><th>CSLL</th><th>ICMS DF</th><th>ISS DF</th><th>TOTAL</th></tr>
           </thead>
-          <tbody>
-            <tr class="sub"><td>1º Trimestre 2025</td><td id="trans-1t-25-fat"></td><td id="trans-1t-25-pis"></td><td id="trans-1t-25-cof"></td><td id="trans-1t-25-prev"></td><td id="trans-1t-25-irpj"></td><td id="trans-1t-25-csll"></td><td id="trans-1t-25-icst"></td><td id="trans-1t-25-icdf"></td><td id="trans-1t-25-tot"></td></tr>
-            <tr><td>1º Trimestre 2024</td><td id="trans-1t-24-fat"></td><td id="trans-1t-24-pis"></td><td id="trans-1t-24-cof"></td><td id="trans-1t-24-prev"></td><td id="trans-1t-24-irpj"></td><td id="trans-1t-24-csll"></td><td id="trans-1t-24-icst"></td><td id="trans-1t-24-icdf"></td><td id="trans-1t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="trans-1t-var-fat" class="pos"></td><td id="trans-1t-var-pis" class="neu"></td><td id="trans-1t-var-cof" class="neu"></td><td id="trans-1t-var-prev" class="neu"></td><td id="trans-1t-var-irpj" class="neu"></td><td id="trans-1t-var-csll" class="neu"></td><td id="trans-1t-var-icst" class="neu"></td><td id="trans-1t-var-icdf" class="neu"></td><td id="trans-1t-var-tot" class="neu"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>2º Trimestre 2025</td><td id="trans-2t-25-fat"></td><td id="trans-2t-25-pis"></td><td id="trans-2t-25-cof"></td><td id="trans-2t-25-prev"></td><td id="trans-2t-25-irpj"></td><td id="trans-2t-25-csll"></td><td id="trans-2t-25-icst"></td><td id="trans-2t-25-icdf"></td><td id="trans-2t-25-tot"></td></tr>
-            <tr><td>2º Trimestre 2024</td><td id="trans-2t-24-fat"></td><td id="trans-2t-24-pis"></td><td id="trans-2t-24-cof"></td><td id="trans-2t-24-prev"></td><td id="trans-2t-24-irpj"></td><td id="trans-2t-24-csll"></td><td id="trans-2t-24-icst"></td><td id="trans-2t-24-icdf"></td><td id="trans-2t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="trans-2t-var-fat" class="pos"></td><td id="trans-2t-var-pis" class="neu"></td><td id="trans-2t-var-cof" class="neu"></td><td id="trans-2t-var-prev" class="neu"></td><td id="trans-2t-var-irpj" class="neu"></td><td id="trans-2t-var-csll" class="neu"></td><td id="trans-2t-var-icst" class="neu"></td><td id="trans-2t-var-icdf" class="neu"></td><td id="trans-2t-var-tot" class="neu"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>3º Trimestre 2025</td><td id="trans-3t-25-fat"></td><td id="trans-3t-25-pis"></td><td id="trans-3t-25-cof"></td><td id="trans-3t-25-prev"></td><td id="trans-3t-25-irpj"></td><td id="trans-3t-25-csll"></td><td id="trans-3t-25-icst"></td><td id="trans-3t-25-icdf"></td><td id="trans-3t-25-tot"></td></tr>
-            <tr><td>3º Trimestre 2024</td><td id="trans-3t-24-fat"></td><td id="trans-3t-24-pis"></td><td id="trans-3t-24-cof"></td><td id="trans-3t-24-prev"></td><td id="trans-3t-24-irpj"></td><td id="trans-3t-24-csll"></td><td id="trans-3t-24-icst"></td><td id="trans-3t-24-icdf"></td><td id="trans-3t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="trans-3t-var-fat" class="pos"></td><td id="trans-3t-var-pis" class="neu"></td><td id="trans-3t-var-cof" class="neu"></td><td id="trans-3t-var-prev" class="neu"></td><td id="trans-3t-var-irpj" class="neu"></td><td id="trans-3t-var-csll" class="neu"></td><td id="trans-3t-var-icst" class="neu"></td><td id="trans-3t-var-icdf" class="neu"></td><td id="trans-3t-var-tot" class="neu"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>4º Trimestre 2025</td><td id="trans-4t-25-fat"></td><td id="trans-4t-25-pis"></td><td id="trans-4t-25-cof"></td><td id="trans-4t-25-prev"></td><td id="trans-4t-25-irpj"></td><td id="trans-4t-25-csll"></td><td id="trans-4t-25-icst"></td><td id="trans-4t-25-icdf"></td><td id="trans-4t-25-tot"></td></tr>
-            <tr><td>4º Trimestre 2024</td><td id="trans-4t-24-fat"></td><td id="trans-4t-24-pis"></td><td id="trans-4t-24-cof"></td><td id="trans-4t-24-prev"></td><td id="trans-4t-24-irpj"></td><td id="trans-4t-24-csll"></td><td id="trans-4t-24-icst"></td><td id="trans-4t-24-icdf"></td><td id="trans-4t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="trans-4t-var-fat" class="pos"></td><td id="trans-4t-var-pis" class="neu"></td><td id="trans-4t-var-cof" class="neu"></td><td id="trans-4t-var-prev" class="neu"></td><td id="trans-4t-var-irpj" class="neu"></td><td id="trans-4t-var-csll" class="neu"></td><td id="trans-4t-var-icst" class="neu"></td><td id="trans-4t-var-icdf" class="neu"></td><td id="trans-4t-var-tot" class="neu"></td></tr>
-            <tr class="tax-tot" style="border-top: 3px solid var(--amber);"><td>TOTAL ANO 2025</td><td id="trans-tot-25-fat"></td><td id="trans-tot-25-pis"></td><td id="trans-tot-25-cof"></td><td id="trans-tot-25-prev"></td><td id="trans-tot-25-irpj"></td><td id="trans-tot-25-csll"></td><td id="trans-tot-25-icst"></td><td id="trans-tot-25-icdf"></td><td id="trans-tot-25-tot"></td></tr>
-            <tr class="tax-tot" style="background: var(--gray1); color: var(--gray7); border-top: none;"><td>TOTAL ANO 2024</td><td id="trans-tot-24-fat"></td><td id="trans-tot-24-pis"></td><td id="trans-tot-24-cof"></td><td id="trans-tot-24-prev"></td><td id="trans-tot-24-irpj"></td><td id="trans-tot-24-csll"></td><td id="trans-tot-24-icst"></td><td id="trans-tot-24-icdf"></td><td id="trans-tot-24-tot"></td></tr>
-            <tr class="tax-rate" style="font-weight: bold; background: #fff;"><td>VARIAÇÃO ANUAL</td><td id="trans-tot-var-fat" class="pos"></td><td id="trans-tot-var-pis" class="neu"></td><td id="trans-tot-var-cof" class="neu"></td><td id="trans-tot-var-prev" class="neu"></td><td id="trans-tot-var-irpj" class="neu"></td><td id="trans-tot-var-csll" class="neu"></td><td id="trans-tot-var-icst" class="neu"></td><td id="trans-tot-var-icdf" class="neu"></td><td id="trans-tot-var-tot" class="pos"></td></tr>
-          </tbody>
+          <tbody id="tbody-cota"></tbody>
         </table>
       </div>
     </div>
@@ -1038,27 +1066,28 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
           <h3>JE Centro Oeste Agropecuária Ltda</h3>
           <span class="cnpj-tag">CNPJ 37.116.939/0001-26</span>
         </div>
-       <table class="tax-tbl">
+        <div class="tax-chart-wrap"><canvas id="chart-agro"></canvas></div>
+        <table class="tax-tbl">
           <thead>
             <tr><th>Período</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>Previdência</th><th>IRPJ</th><th>CSLL</th><th>ICMS DF</th><th>TOTAL</th></tr>
           </thead>
-          <tbody>
-            <tr class="sub"><td>1º Trimestre 2025</td><td id="agro-1t-25-fat"></td><td id="agro-1t-25-pis"></td><td id="agro-1t-25-cof"></td><td id="agro-1t-25-prev"></td><td id="agro-1t-25-irpj"></td><td id="agro-1t-25-csll"></td><td id="agro-1t-25-icdf"></td><td id="agro-1t-25-tot"></td></tr>
-            <tr><td>1º Trimestre 2024</td><td id="agro-1t-24-fat"></td><td id="agro-1t-24-pis"></td><td id="agro-1t-24-cof"></td><td id="agro-1t-24-prev"></td><td id="agro-1t-24-irpj"></td><td id="agro-1t-24-csll"></td><td id="agro-1t-24-icdf"></td><td id="agro-1t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-1t-var-fat" class="pos"></td><td id="agro-1t-var-pis" class="neu"></td><td id="agro-1t-var-cof" class="neu"></td><td id="agro-1t-var-prev" class="neu"></td><td id="agro-1t-var-irpj" class="neu"></td><td id="agro-1t-var-csll" class="neu"></td><td id="agro-1t-var-icdf" class="neu"></td><td id="agro-1t-var-tot" class="pos"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>2º Trimestre 2025</td><td id="agro-2t-25-fat"></td><td id="agro-2t-25-pis"></td><td id="agro-2t-25-cof"></td><td id="agro-2t-25-prev"></td><td id="agro-2t-25-irpj"></td><td id="agro-2t-25-csll"></td><td id="agro-2t-25-icdf"></td><td id="agro-2t-25-tot"></td></tr>
-            <tr><td>2º Trimestre 2024</td><td id="agro-2t-24-fat"></td><td id="agro-2t-24-pis"></td><td id="agro-2t-24-cof"></td><td id="agro-2t-24-prev"></td><td id="agro-2t-24-irpj"></td><td id="agro-2t-24-csll"></td><td id="agro-2t-24-icdf"></td><td id="agro-2t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-2t-var-fat" class="pos"></td><td id="agro-2t-var-pis" class="neu"></td><td id="agro-2t-var-cof" class="neu"></td><td id="agro-2t-var-prev" class="neu"></td><td id="agro-2t-var-irpj" class="neu"></td><td id="agro-2t-var-csll" class="neu"></td><td id="agro-2t-var-icdf" class="neu"></td><td id="agro-2t-var-tot" class="pos"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>3º Trimestre 2025</td><td id="agro-3t-25-fat"></td><td id="agro-3t-25-pis"></td><td id="agro-3t-25-cof"></td><td id="agro-3t-25-prev"></td><td id="agro-3t-25-irpj"></td><td id="agro-3t-25-csll"></td><td id="agro-3t-25-icdf"></td><td id="agro-3t-25-tot"></td></tr>
-            <tr><td>3º Trimestre 2024</td><td id="agro-3t-24-fat"></td><td id="agro-3t-24-pis"></td><td id="agro-3t-24-cof"></td><td id="agro-3t-24-prev"></td><td id="agro-3t-24-irpj"></td><td id="agro-3t-24-csll"></td><td id="agro-3t-24-icdf"></td><td id="agro-3t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-3t-var-fat" class="pos"></td><td id="agro-3t-var-pis" class="neu"></td><td id="agro-3t-var-cof" class="neu"></td><td id="agro-3t-var-prev" class="neu"></td><td id="agro-3t-var-irpj" class="neu"></td><td id="agro-3t-var-csll" class="neu"></td><td id="agro-3t-var-icdf" class="neu"></td><td id="agro-3t-var-tot" class="pos"></td></tr>
-            <tr class="sub" style="border-top: 2px solid var(--gray3);"><td>4º Trimestre 2025</td><td id="agro-4t-25-fat"></td><td id="agro-4t-25-pis"></td><td id="agro-4t-25-cof"></td><td id="agro-4t-25-prev"></td><td id="agro-4t-25-irpj"></td><td id="agro-4t-25-csll"></td><td id="agro-4t-25-icdf"></td><td id="agro-4t-25-tot"></td></tr>
-            <tr><td>4º Trimestre 2024</td><td id="agro-4t-24-fat"></td><td id="agro-4t-24-pis"></td><td id="agro-4t-24-cof"></td><td id="agro-4t-24-prev"></td><td id="agro-4t-24-irpj"></td><td id="agro-4t-24-csll"></td><td id="agro-4t-24-icdf"></td><td id="agro-4t-24-tot"></td></tr>
-            <tr class="tax-rate"><td>Variação (Δ)</td><td id="agro-4t-var-fat" class="pos"></td><td id="agro-4t-var-pis" class="neu"></td><td id="agro-4t-var-cof" class="neu"></td><td id="agro-4t-var-prev" class="neu"></td><td id="agro-4t-var-irpj" class="neu"></td><td id="agro-4t-var-csll" class="neu"></td><td id="agro-4t-var-icdf" class="neu"></td><td id="agro-4t-var-tot" class="pos"></td></tr>
-            <tr class="tax-tot" style="border-top: 3px solid var(--amber);"><td>TOTAL ANO 2025</td><td id="agro-tot-25-fat"></td><td id="agro-tot-25-pis"></td><td id="agro-tot-25-cof"></td><td id="agro-tot-25-prev"></td><td id="agro-tot-25-irpj"></td><td id="agro-tot-25-csll"></td><td id="agro-tot-25-icdf"></td><td id="agro-tot-25-tot"></td></tr>
-            <tr class="tax-tot" style="background: var(--gray1); color: var(--gray7); border-top: none;"><td>TOTAL ANO 2024</td><td id="agro-tot-24-fat"></td><td id="agro-tot-24-pis"></td><td id="agro-tot-24-cof"></td><td id="agro-tot-24-prev"></td><td id="agro-tot-24-irpj"></td><td id="agro-tot-24-csll"></td><td id="agro-tot-24-icdf"></td><td id="agro-tot-24-tot"></td></tr>
-            <tr class="tax-rate" style="font-weight: bold; background: #fff;"><td>VARIAÇÃO ANUAL</td><td id="agro-tot-var-fat" class="pos"></td><td id="agro-tot-var-pis" class="neu"></td><td id="agro-tot-var-cof" class="neu"></td><td id="agro-tot-var-prev" class="neu"></td><td id="agro-tot-var-irpj" class="pos"></td><td id="agro-tot-var-csll" class="pos"></td><td id="agro-tot-var-icdf" class="neu"></td><td id="agro-tot-var-tot" class="pos"></td></tr>
-          </tbody>
+          <tbody id="tbody-agro"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tax-co-panel" id="taxco-jebrasil">
+      <div class="tax-table-wrap">
+        <div class="tax-table-hdr">
+          <h3>J&amp;E Brasil Participações Ltda</h3>
+          <span class="cnpj-tag">CNPJ 57.768.052/0001-20</span>
+        </div>
+        <div class="tax-chart-wrap"><canvas id="chart-jebrasil"></canvas></div>
+        <table class="tax-tbl">
+          <thead>
+            <tr><th>Período</th><th>Faturamento</th><th>PIS</th><th>COFINS</th><th>IRPJ</th><th>CSLL</th><th>ICMS</th><th>ISS</th><th>TOTAL</th></tr>
+          </thead>
+          <tbody id="tbody-jebrasil"></tbody>
         </table>
       </div>
     </div>
@@ -1078,13 +1107,9 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
   </div>
 
   <div class="icms-nav">
-    <button class="icms-btn active" onclick="showIcmsTab('icms-visao-geral', this)">Visão Geral</button>
-    <button class="icms-btn" onclick="showIcmsTab('icms-go-jan', this)">GO — Jan/2026</button>
-    <button class="icms-btn" onclick="showIcmsTab('icms-go-fev', this)">GO — Fev/2026</button>
-    <button class="icms-btn" onclick="showIcmsTab('icms-go-mar', this)">GO — Mar/2026</button>
-    <button class="icms-btn" onclick="showIcmsTab('icms-df-jan', this)">DF — Jan/2026</button>
-    <button class="icms-btn" onclick="showIcmsTab('icms-df-fev', this)">DF — Fev/2026</button>
-    <button class="icms-btn" onclick="showIcmsTab('icms-df-mar', this)">DF — Mar/2026</button>
+    <button class="icms-btn active" data-uf="geral" onclick="showIcmsOverview(this)">Visão Geral</button>
+    <button class="icms-btn" data-uf="go" onclick="showIcmsUf('go', this)">GO</button>
+    <button class="icms-btn" data-uf="df" onclick="showIcmsUf('df', this)">DF</button>
   </div>
 
   <div class="icms-panel active" id="icms-visao-geral">
@@ -1116,19 +1141,34 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
     </div>
 
     <div class="chart-card">
-      <h3>Evolução Mensal — Débito ICMS por Estado</h3>
+      <h3>Débito ICMS por Estado</h3>
       <svg class="bar-chart" viewBox="0 0 820 280" id="chart-evolucao"></svg>
     </div>
 
-    <div class="sec-title"><h2>Comparativo por Loja — GO</h2><span class="sec-pill">Jan vs Fev</span></div>
+    <div class="sec-title"><h2>Lojas — GO</h2><span class="sec-pill">Jan-Mar/2026</span></div>
     <div class="chart-card">
       <svg class="bar-chart" viewBox="0 0 820 300" id="chart-lojas-go"></svg>
     </div>
 
-    <div class="sec-title"><h2>Comparativo por Loja — DF</h2><span class="sec-pill">Jan vs Fev</span></div>
+    <div class="sec-title"><h2>Lojas — DF</h2><span class="sec-pill">Jan-Mar/2026</span></div>
     <div class="chart-card">
       <svg class="bar-chart" viewBox="0 0 820 300" id="chart-lojas-df"></svg>
     </div>
+  </div>
+
+  <div class="icms-month-nav hidden">
+    <button class="icms-month-btn active" data-month="jan" onclick="showIcmsMonth('jan', this)">Jan</button>
+    <button class="icms-month-btn" data-month="fev" onclick="showIcmsMonth('fev', this)">Fev</button>
+    <button class="icms-month-btn" data-month="mar" onclick="showIcmsMonth('mar', this)">Mar</button>
+    <button class="icms-month-btn" data-month="abr" onclick="showIcmsMonth('abr', this)">Abr</button>
+    <button class="icms-month-btn" data-month="mai" onclick="showIcmsMonth('mai', this)">Mai</button>
+    <button class="icms-month-btn" data-month="jun" onclick="showIcmsMonth('jun', this)">Jun</button>
+    <button class="icms-month-btn" data-month="jul" onclick="showIcmsMonth('jul', this)">Jul</button>
+    <button class="icms-month-btn" data-month="ago" onclick="showIcmsMonth('ago', this)">Ago</button>
+    <button class="icms-month-btn" data-month="set" onclick="showIcmsMonth('set', this)">Set</button>
+    <button class="icms-month-btn" data-month="out" onclick="showIcmsMonth('out', this)">Out</button>
+    <button class="icms-month-btn" data-month="nov" onclick="showIcmsMonth('nov', this)">Nov</button>
+    <button class="icms-month-btn" data-month="dez" onclick="showIcmsMonth('dez', this)">Dez</button>
   </div>
 
   <div class="icms-panel" id="icms-go-jan">
@@ -1167,6 +1207,9 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
     <div class="sec-title"><h2>VENDAS — DF</h2><span class="sec-pill red">Mar/2026</span></div>
     <div class="icms-table-wrap" id="tbl-df-mar-vnd"></div>
   </div>
+  <div class="icms-panel" id="icms-empty">
+    <div class="icms-empty" id="icms-empty-text">Apuração ainda não cadastrada.</div>
+  </div>
 
 </div>
 
@@ -1184,21 +1227,14 @@ function show(id, element) {
 }
 
 function showTaxCo(id, element) {
-  // 1. Esconde todos os painéis de impostos
   document.querySelectorAll('.tax-co-panel').forEach(p => p.classList.remove('active'));
-  
-  // 2. Remove a cor "ativa" de todos os botões
   document.querySelectorAll('.tco-tab').forEach(t => t.classList.remove('active'));
-  
-  // 3. Mostra o painel correto (com proteção caso o painel não exista, como o da J&E Brasil)
   const painel = document.getElementById('taxco-' + id);
-  if (painel) {
-    painel.classList.add('active');
-  }
-  
-  // 4. Pinta o botão clicado de azul
+  if (painel) painel.classList.add('active');
   const target = element || (typeof event !== 'undefined' ? event.currentTarget : null);
   if (target) target.classList.add('active');
+  currentTaxCo = id;
+  renderTaxChart(id);
 }
 
 function mudarTema() {
@@ -1392,213 +1428,234 @@ function preencherTaticoPainel() {
 /* ══════════════════════════════════════════════════════════
    4. BANCO DE DADOS E FUNÇÕES DE IMPOSTOS
 ══════════════════════════════════════════════════════════ */
-const impostosMonteMar = {
-  tri1_25:  { fat: "72.130.952", pis: "—", cof: "—", prev: "19.262", irpj: "918.381", csll: "332.777", icst: "—", icdf: "473.216", tot: "1.743.638" },
-  tri1_24:  { fat: "51.094.908", pis: "—", cof: "—", prev: "23.487", irpj: "555.189", csll: "202.028", icst: "1.494.985", icdf: "152.294", tot: "2.387.556" },
-  tri1_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icst: "—", icdf: "%", tot: "%" },
-
-  tri2_25:  { fat: "88.806.351", pis: "—", cof: "—", prev: "19.150", irpj: "1.477.059", csll: "533.901", icst: "—", icdf: "839.085", tot: "2.869.197" },
-  tri2_24:  { fat: "73.208.446", pis: "—", cof: "—", prev: "20.986", irpj: "899.616", csll: "326.021", icst: "1.968.110", icdf: "588.341", tot: "3.793.279" },
-  tri2_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icst: "—", icdf: "%", tot: "%" },
-
-  tri3_25:  { fat: "91.629.691", pis: "—", cof: "—", prev: "18.478", irpj: "1.342.297", csll: "—", icst: "—", icdf: "950.653", tot: "2.311.429" },
-  tri3_24:  { fat: "74.412.251", pis: "—", cof: "—", prev: "24.071", irpj: "864.772", csll: "313.477", icst: "2.091.692", icdf: "890.917", tot: "4.184.932" },
-  tri3_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "%", csll: "%", icst: "—", icdf: "%", tot: "%" },
-
-  tri4_25:  { fat: "101.739.985", pis: "—", cof: "—", prev: "19.948", irpj: "1.342.297", csll: "485.387", icst: "—", icdf: "914.846", tot: "2.762.479" },
-  tri4_24:  { fat: "69.067.773", pis: "—", cof: "—", prev: "32.850", irpj: "—", csll: "—", icst: "1.871.233", icdf: "967.539", tot: "2.871.623" },
-  tri4_var: { fat: "%", pis: "—", cof: "—", prev: "%", irpj: "+100%", csll: "+100%", icst: "—", icdf: "%", tot: "%" },
-
-  tot_25:   { fat: "354.306.981", pis: "—", cof: "—", prev: "76.839", irpj: "3.737.739", csll: "1.352.065", icst: "—", icdf: "3.177.800", tot: "8.344.451" },
-  tot_24:   { fat: "267.783.380", pis: "—", cof: "—", prev: "101.396", irpj: "2.319.577", csll: "841.527", icst: "7.426.021", icdf: "2.548.869", tot: "13.237.391" },
-  tot_var:  { fat: "+32,3%", pis: "—", cof: "—", prev: "%", irpj: "+31,9%", csll: "+62,1%", icst: "+100%", icdf: "+100%", tot: "-26,6%" }
-};
-
-const impostosTatico = {
-  tri1_25:  { fat: "802.859.445", pis: "—", cof: "—", prev: "5.677.237", irpj: "1.092.410", csll: "395.427", icst: "17.350.588", icdf: "2.361.099", tot: "31.190.812" },
-  tri1_24:  { fat: "659.289.243", pis: "—", cof: "—", prev: "6.635.869", irpj: "5.908.975", csll: "2.129.391", icst: "14.447.684", icdf: "3.309.677", tot: "32.431.601" },
-  tri1_var: { fat: "+21,7%", pis: "—", cof: "—", prev: "-14,4%", irpj: "-81,5%", csll: "-81,4%", icst: "+20,0%", icdf: "-28,6%", tot: "-3,8%" },
-
-  tri2_25:  { fat: "871.201.143", pis: "—", cof: "—", prev: "6.153.255", irpj: "3.117.157", csll: "1.124.336", icst: "19.184.333", icdf: "2.795.176", tot: "36.176.084" },
-  tri2_24:  { fat: "720.081.061", pis: "—", cof: "—", prev: "7.272.804", irpj: "8.976.377", csll: "3.233.655", icst: "17.763.129", icdf: "3.422.116", tot: "40.668.085" },
-  tri2_var: { fat: "+20,9%", pis: "—", cof: "—", prev: "-15,3%", irpj: "-65,2%", csll: "-65,2%", icst: "+8,0%", icdf: "-18,3%", tot: "-11,0%" },
-
-  tri3_25:  { fat: "878.658.545", pis: "—", cof: "—", prev: "6.118.106", irpj: "1.574.217", csll: "568.878", icst: "12.759.487", icdf: "1.033.317", tot: "26.046.795" },
-  tri3_24:  { fat: "735.730.082", pis: "—", cof: "—", prev: "7.395.411", irpj: "8.844.959", csll: "3.186.345", icst: "15.842.825", icdf: "3.141.520", tot: "38.411.064" },
-  tri3_var: { fat: "+19,4%", pis: "—", cof: "—", prev: "-17,2%", irpj: "-82,2%", csll: "-82,1%", icst: "-19,4%", icdf: "-67,1%", tot: "-32,1%" },
-
-  tri4_25:  { fat: "924.844.917", pis: "—", cof: "—", prev: "7.543.526", irpj: "—", csll: "—", icst: "18.809.733", icdf: "1.252.778", tot: "31.434.828" },
-  tri4_24:  { fat: "829.288.199", pis: "—", cof: "—", prev: "9.891.943", irpj: "8.934.575", csll: "3.218.607", icst: "17.943.019", icdf: "3.522.970", tot: "43.511.466" },
-  tri4_var: { fat: "+11,5%", pis: "—", cof: "—", prev: "-23,7%", irpj: "—", csll: "—", icst: "+4,8%", icdf: "-64,4%", tot: "-27,7%" },
-
-  tot_25:   { fat: "3.477.564.055", pis: "—", cof: "—", prev: "25.492.129", irpj: "5.783.784", csll: "2.088.642", icst: "68.104.173", icdf: "7.442.374", tot: "124.848.520" },
-  tot_24:   { fat: "2.944.388.590", pis: "—", cof: "—", prev: "31.196.033", irpj: "32.664.888", csll: "11.767.999", icst: "65.996.662", icdf: "13.396.289", tot: "155.021.873" },
-  tot_var:  { fat: "+18,1%", pis: "—", cof: "—", prev: "-18,2%", irpj: "-82,2%", csll: "-82,2%", icst: "+3,1%", icdf: "-44,4%", tot: "-19,4%" }
-};
-
-const impostosTransportes = {
-  tri1_25:  { fat: "1.985.109", pis: "24.599", cof: "113.291", prev: "119.209", irpj: "—", csll: "—", icst: "334.212", icdf: "—", tot: "591.316" },
-  tri1_24:  { fat: "—", pis: "—", cof: "—", prev: "—", irpj: "—", csll: "—", icst: "—", icdf: "—", tot: "—" },
-  tri1_var: { fat: "+100%", pis: "+100%", cof: "+100%", prev: "+100%", irpj: "—", csll: "—", icst: "+100%", icdf: "—", tot: "+100%" },
-
-  tri2_25:  { fat: "2.471.575", pis: "25.459", cof: "117.273", prev: "128.994", irpj: "55.129", csll: "22.006", icst: "223.450", icdf: "50.583", tot: "622.901" },
-  tri2_24:  { fat: "—", pis: "—", cof: "—", prev: "329", irpj: "—", csll: "—", icst: "—", icdf: "—", tot: "329" },
-  tri2_var: { fat: "+100%", pis: "+100%", cof: "+100%", prev: "+155,05%", irpj: "+100%", csll: "+100%", icst: "+100%", icdf: "+100%", tot: "+1829,4%" },
-
-  tri3_25:  { fat: "3.057.892", pis: "20.843", cof: "96.008", prev: "131.782", irpj: "37.240", csll: "15.566", icst: "246.430", icdf: "72.091", tot: "619.966" },
-  tri3_24:  { fat: "440.678", pis: "1.300", cof: "5.991", prev: "9.397", irpj: "4.939", csll: "2.963", icst: "15.367", icdf: "—", tot: "39.961" },
-  tri3_var: { fat: "%", pis: "%", cof: "%", prev: "%", irpj: "%", csll: "%", icst: "%", icdf: "%", tot: "%" },
-
-  tri4_25:  { fat: "3.194.061", pis: "4.703", cof: "21.663", prev: "183.950", irpj: "48.818", csll: "19.737", icst: "237.917", icdf: "84.924", tot: "601.716" },
-  tri4_24:  { fat: "1.785.585", pis: "24.758", cof: "114.037", prev: "140.571", irpj: "—", csll: "—", icst: "282.316", icdf: "—", tot: "561.684" },
-  tri4_var: { fat: "%", pis: "%", cof: "%", prev: "%", irpj: "%", csll: "%", icst: "%", icdf: "%", tot: "%" },
-
-  tot_25:   { fat: "10.708.639", pis: "75.608", cof: "348.239", prev: "563.942", irpj: "141.187", csll: "57.310", icst: "1.042.014", icdf: "207.602", tot: "2.435.905" },
-  tot_24:   { fat: "2.226.263", pis: "26.058", cof: "120.029", prev: "150.298", irpj: "4.939", csll: "2.963", icst: "297.684", icdf: "—", tot: "601.975" },
-  tot_var:  { fat: "+698,5%", pis: "%", cof: "%", prev: "%", irpj: "%", csll: "%", icst: "%", icdf: "+100%", tot: "+271,3%" }
-};
-
-const impostosAgro = {
-  tri1_25:  { fat: "36.000.618", pis: "—", cof: "—", prev: "1.284", irpj: "2.157.243", csll: "778.767", icdf: "—", tot: "2.937.295" },
-  tri1_24:  { fat: "498.191", pis: "—", cof: "—", prev: "—", irpj: "—", csll: "—", icdf: "—", tot: "—" },
-  tri1_var: { fat: "%", pis: "—", cof: "—", prev: "+100%", irpj: "+100%", csll: "+100%", icdf: "—", tot: "+100%" },
-
-  tri2_25:  { fat: "40.906.927", pis: "—", cof: "—", prev: "1.284", irpj: "—", csll: "—", icdf: "—", tot: "1.284" },
-  tri2_24:  { fat: "7.176.012", pis: "—", cof: "—", prev: "—", irpj: "—", csll: "—", icdf: "—", tot: "—" },
-  tri2_var: { fat: "%", pis: "—", cof: "—", prev: "+100%", irpj: "—", csll: "—", icdf: "—", tot: "+100%" },
-
-  tri3_25:  { fat: "47.851.151", pis: "—", cof: "—", prev: "1.284", irpj: "—", csll: "—", icdf: "—", tot: "1.284" },
-  tri3_24:  { fat: "22.599.841", pis: "—", cof: "—", prev: "—", irpj: "1.963.289", csll: "708.944", icdf: "—", tot: "2.672.233" },
-  tri3_var: { fat: "%", pis: "—", cof: "—", prev: "+100%", irpj: "+100%", csll: "+100%", icdf: "—", tot: "%" },
-
-  tri4_25:  { fat: "31.975.972", pis: "—", cof: "—", prev: "1.712", irpj: "—", csll: "—", icdf: "—", tot: "1.712" },
-  tri4_24:  { fat: "12.523.368", pis: "—", cof: "—", prev: "—", irpj: "166.848", csll: "62.225", icdf: "—", tot: "229.074" },
-  tri4_var: { fat: "%", pis: "—", cof: "—", prev: "+100%", irpj: "+100%", csll: "+100%", icdf: "—", tot: "%" },
-
-  tot_25:   { fat: "156.734.672", pis: "—", cof: "—", prev: "5.564", irpj: "2.157.243", csll: "778.767", icdf: "—", tot: "2.941.575" },
-  tot_24:   { fat: "42.797.414", pis: "—", cof: "—", prev: "—", irpj: "2.130.138", csll: "771.169", icdf: "—", tot: "2.901.308" },
-  tot_var:  { fat: "+266,2%", pis: "—", cof: "—", prev: "+100%", irpj: "+1,2%", csll: "+0,9%", icdf: "—", tot: "+37,3%" }
-};
-
-function preencherLinhaAgro(prefixoID, dados) {
-  document.getElementById(prefixoID + '-fat').innerText = dados.fat;
-  document.getElementById(prefixoID + '-pis').innerText = dados.pis;
-  document.getElementById(prefixoID + '-cof').innerText = dados.cof;
-  document.getElementById(prefixoID + '-prev').innerText = dados.prev;
-  document.getElementById(prefixoID + '-irpj').innerText = dados.irpj;
-  document.getElementById(prefixoID + '-csll').innerText = dados.csll;
-  document.getElementById(prefixoID + '-icdf').innerText = dados.icdf;
-  document.getElementById(prefixoID + '-tot').innerText = dados.tot;
+const _m9  = () => ({ fat:"—",pis:"—",cof:"—",prev:"—",irpj:"—",csll:"—",icst:"—",icdf:"—",tot:"—" });
+const _m8  = () => ({ fat:"—",pis:"—",cof:"—",prev:"—",irpj:"—",csll:"—",icdf:"—",tot:"—" });
+const _mjb = () => ({ fat:"—",pis:"—",cof:"—",irpj:"—",csll:"—",icms:"—",iss:"—",tot:"—" });
+const _MONTHS = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+function _fillMonths(fn) {
+  const o = {};
+  _MONTHS.forEach(m => { o[m+'_25']=fn(); o[m+'_24']=fn(); o[m+'_var']=fn(); });
+  return o;
 }
 
-function preencherLinhaImposto(prefixoID, dados) {
-  document.getElementById(prefixoID + '-fat').innerText = dados.fat;
-  document.getElementById(prefixoID + '-pis').innerText = dados.pis;
-  document.getElementById(prefixoID + '-cof').innerText = dados.cof;
-  document.getElementById(prefixoID + '-prev').innerText = dados.prev;
-  document.getElementById(prefixoID + '-irpj').innerText = dados.irpj;
-  document.getElementById(prefixoID + '-csll').innerText = dados.csll;
-  document.getElementById(prefixoID + '-icst').innerText = dados.icst;
-  document.getElementById(prefixoID + '-icdf').innerText = dados.icdf;
-  document.getElementById(prefixoID + '-tot').innerText = dados.tot;
+const impostosMonteMar = Object.assign(_fillMonths(_m9), {
+  jan_25: {fat:"22.595.067",pis:"—",cof:"—",prev:"6.421",irpj:"—",csll:"—",icst:"639.048",icdf:"148.490",tot:"793.959"},
+  fev_25: {fat:"21.935.162",pis:"—",cof:"—",prev:"6.421",irpj:"—",csll:"—",icst:"648.550",icdf:"157.566",tot:"812.537"},
+  mar_25: {fat:"27.600.725",pis:"—",cof:"—",prev:"6.421",irpj:"918.382",csll:"332.777",icst:"753.628",icdf:"167.161",tot:"2.178.369"},
+  abr_25: {fat:"29.494.216",pis:"—",cof:"—",prev:"6.746",irpj:"—",csll:"—",icst:"844.660",icdf:"91.236",tot:"942.641"},
+  mai_25: {fat:"30.490.711",pis:"—",cof:"—",prev:"6.753",irpj:"—",csll:"—",icst:"735.909",icdf:"465.798",tot:"1.208.460"},
+  jun_25: {fat:"28.821.425",pis:"—",cof:"—",prev:"5.652",irpj:"1.477.060",csll:"533.902",icst:"684.023",icdf:"282.053",tot:"2.982.690"},
+  jul_25: {fat:"31.442.062",pis:"—",cof:"—",prev:"5.163",irpj:"—",csll:"—",icst:"839.855",icdf:"290.567",tot:"1.135.586"},
+  ago_25: {fat:"25.485.595",pis:"—",cof:"—",prev:"6.518",irpj:"—",csll:"—",icst:"658.270",icdf:"316.833",tot:"981.621"},
+  set_25: {fat:"34.702.034",pis:"—",cof:"—",prev:"6.797",irpj:"1.342.297",csll:"485.387",icst:"851.536",icdf:"343.255",tot:"3.029.272"},
+  out_25: {fat:"32.936.086",pis:"—",cof:"—",prev:"5.511",irpj:"—",csll:"—",icst:"802.768",icdf:"219.683",tot:"1.027.963"},
+  nov_25: {fat:"31.738.904",pis:"—",cof:"—",prev:"5.579",irpj:"—",csll:"—",icst:"771.080",icdf:"369.560",tot:"1.146.219"},
+  dez_25: {fat:"37.064.996",pis:"—",cof:"—",prev:"4.910",irpj:"—",csll:"—",icst:"852.626",icdf:"325.605",tot:"1.183.141"},
+  jan_24: {fat:"33.513.278",pis:"—",cof:"—",prev:"7.126",irpj:"—",csll:"—",icst:"825.329",icdf:"392.281",tot:"1.224.736"},
+  fev_24: {fat:"35.506.710",pis:"—",cof:"—",prev:"6.610",irpj:"—",csll:"—",icst:"909.834",icdf:"360.233",tot:"1.276.677"},
+  mar_24: {fat:"41.899.126",pis:"—",cof:"—",prev:"6.614",irpj:"1.294.665",csll:"468.239",icst:"996.778",icdf:"387.243",tot:"3.153.539"},
+  tot_25: {fat:"354.306.982",pis:"—",cof:"—",prev:"76.839",irpj:"3.737.739",csll:"1.352.066",icst:"9.081.953",icdf:"3.177.807",tot:"17.426.404"},
+  tot_24: {fat:"110.919.115",pis:"—",cof:"—",prev:"20.351",irpj:"1.294.665",csll:"468.239",icst:"2.731.941",icdf:"1.139.758",tot:"5.654.953"},
+  tot_var:{fat:"+32,3%",pis:"—",cof:"—",prev:"—",irpj:"+31,9%",csll:"+62,1%",icst:"—",icdf:"—",tot:"-26,6%"}
+});
+
+const impostosTatico = Object.assign(_fillMonths(_m9), {
+  jan_25: {fat:"258.608.711",pis:"316.125",cof:"1.456.091",prev:"1.926.941",irpj:"—",csll:"—",icst:"5.686.015",icdf:"1.018.239",tot:"10.403.411"},
+  fev_25: {fat:"256.562.593",pis:"231.117",cof:"1.064.542",prev:"1.870.428",irpj:"—",csll:"—",icst:"5.469.552",icdf:"486.724",tot:"9.122.364"},
+  mar_25: {fat:"287.688.143",pis:"222.290",cof:"1.023.881",prev:"1.879.869",irpj:"1.092.410",csll:"395.428",icst:"6.195.022",icdf:"856.138",tot:"11.665.038"},
+  abr_25: {fat:"287.515.802",pis:"212.931",cof:"980.773",prev:"2.003.726",irpj:"—",csll:"—",icst:"6.202.704",icdf:"419.575",tot:"9.819.709"},
+  mai_25: {fat:"302.850.512",pis:"231.557",cof:"1.066.564",prev:"2.133.374",irpj:"—",csll:"—",icst:"6.768.089",icdf:"1.086.694",tot:"11.286.278"},
+  jun_25: {fat:"280.834.832",pis:"233.676",cof:"1.076.324",prev:"2.016.156",irpj:"3.117.157",csll:"1.124.337",icst:"6.213.542",icdf:"1.288.908",tot:"15.070.100"},
+  jul_25: {fat:"294.584.893",pis:"230.054",cof:"1.059.644",prev:"1.992.484",irpj:"—",csll:"—",icst:"6.393.963",icdf:"963.518",tot:"10.639.664"},
+  ago_25: {fat:"303.572.268",pis:"373.165",cof:"1.718.822",prev:"2.048.698",irpj:"—",csll:"—",icst:"1.018.938",icdf:"—",tot:"5.159.623"},
+  set_25: {fat:"280.501.385",pis:"109.002",cof:"502.072",prev:"2.076.925",irpj:"1.574.217",csll:"568.878",icst:"5.346.614",icdf:"69.800",tot:"10.247.509"},
+  out_25: {fat:"297.550.905",pis:"128.991",cof:"594.140",prev:"2.084.981",irpj:"—",csll:"—",icst:"5.619.317",icdf:"76.261",tot:"8.503.689"},
+  nov_25: {fat:"301.030.799",pis:"251.908",cof:"1.160.303",prev:"2.347.738",irpj:"—",csll:"—",icst:"7.388.435",icdf:"524.011",tot:"11.672.395"},
+  dez_25: {fat:"326.263.213",pis:"302.073",cof:"1.391.368",prev:"2.297.617",irpj:"—",csll:"—",icst:"5.801.982",icdf:"652.507",tot:"10.445.548"},
+  jan_24: {fat:"295.535.544",pis:"274.422",cof:"1.264.003",prev:"2.964.752",irpj:"—",csll:"—",icst:"7.383.601",icdf:"1.192.418",tot:"13.079.195"},
+  fev_24: {fat:"282.621.152",pis:"239.667",cof:"1.103.921",prev:"2.812.097",irpj:"—",csll:"—",icst:"6.302.220",icdf:"1.339.764",tot:"11.797.669"},
+  mar_24: {fat:"310.841.301",pis:"170.100",cof:"783.493",prev:"2.933.668",irpj:"—",csll:"—",icst:"6.900.275",icdf:"1.320.225",tot:"12.107.762"},
+  tot_25: {fat:"3.477.564.056",pis:"2.842.890",cof:"13.094.525",prev:"25.492.130",irpj:"5.783.785",csll:"2.088.643",icst:"68.104.173",icdf:"7.442.375",tot:"124.848.520"},
+  tot_24: {fat:"888.997.997",pis:"684.189",cof:"3.151.417",prev:"8.710.517",irpj:"—",csll:"—",icst:"20.586.096",icdf:"3.852.407",tot:"36.984.626"},
+  tot_var:{fat:"+18,1%",pis:"—",cof:"—",prev:"-18,2%",irpj:"-82,2%",csll:"-82,2%",icst:"+3,1%",icdf:"-44,4%",tot:"-19,4%"}
+});
+
+const impostosTransportes = Object.assign(_fillMonths(_m9), {
+  jan_25: {fat:"777.609",pis:"8.881",cof:"40.909",prev:"39.033",irpj:"—",csll:"—",icst:"129.516",icdf:"—",tot:"218.339"},
+  fev_25: {fat:"703.059",pis:"9.054",cof:"41.682",prev:"39.801",irpj:"—",csll:"—",icst:"121.143",icdf:"—",tot:"211.680"},
+  mar_25: {fat:"504.441",pis:"6.665",cof:"30.701",prev:"40.378",irpj:"—",csll:"—",icst:"83.554",icdf:"—",tot:"161.298"},
+  abr_25: {fat:"726.856",pis:"8.237",cof:"37.929",prev:"41.439",irpj:"—",csll:"—",icst:"102.207",icdf:"5.090",tot:"194.901"},
+  mai_25: {fat:"869.426",pis:"8.675",cof:"39.957",prev:"44.431",irpj:"—",csll:"—",icst:"61.035",icdf:"22.336",tot:"176.433"},
+  jun_25: {fat:"875.293",pis:"8.550",cof:"39.390",prev:"43.126",irpj:"55.129",csll:"22.007",icst:"60.209",icdf:"23.159",tot:"251.569"},
+  jul_25: {fat:"1.185.142",pis:"13.328",cof:"61.388",prev:"43.762",irpj:"—",csll:"—",icst:"99.489",icdf:"27.143",tot:"245.110"},
+  ago_25: {fat:"862.429",pis:"7.516",cof:"34.621",prev:"44.178",irpj:"—",csll:"—",icst:"73.677",icdf:"18.074",tot:"178.066"},
+  set_25: {fat:"1.010.322",pis:"—",cof:"—",prev:"43.842",irpj:"37.240",csll:"15.566",icst:"73.267",icdf:"26.876",tot:"196.792"},
+  out_25: {fat:"1.100.684",pis:"—",cof:"—",prev:"42.632",irpj:"—",csll:"—",icst:"90.437",icdf:"27.957",tot:"161.026"},
+  nov_25: {fat:"942.647",pis:"—",cof:"—",prev:"50.335",irpj:"—",csll:"—",icst:"66.753",icdf:"26.450",tot:"143.538"},
+  dez_25: {fat:"1.150.731",pis:"4.703",cof:"21.663",prev:"50.638",irpj:"48.818",csll:"19.737",icst:"80.728",icdf:"30.518",tot:"256.805"},
+  jan_24: {fat:"956.524",pis:"8.634",cof:"39.770",prev:"65.582",irpj:"—",csll:"—",icst:"75.561",icdf:"21.298",tot:"210.844"},
+  fev_24: {fat:"1.218.068",pis:"12.529",cof:"57.709",prev:"59.802",irpj:"—",csll:"—",icst:"85.655",icdf:"29.942",tot:"245.638"},
+  mar_24: {fat:"1.404.396",pis:"11.472",cof:"52.840",prev:"60.961",irpj:"39.733",csll:"16.464",icst:"127.419",icdf:"34.095",tot:"342.983"},
+  tot_25: {fat:"10.708.640",pis:"75.609",cof:"348.239",prev:"563.943",irpj:"141.188",csll:"57.311",icst:"1.042.014",icdf:"—",tot:"2.228.303"},
+  tot_24: {fat:"3.578.988",pis:"32.635",cof:"150.319",prev:"186.345",irpj:"39.733",csll:"16.464",icst:"288.634",icdf:"—",tot:"714.130"},
+  tot_var:{fat:"+698,5%",pis:"—",cof:"—",prev:"—",irpj:"—",csll:"—",icst:"—",icdf:"+100%",tot:"+271,3%"}
+});
+
+const impostosAgro = Object.assign(_fillMonths(_m8), {
+  jan_25: {fat:"12.973.090",pis:"—",cof:"—",prev:"428",irpj:"—",csll:"—",icdf:"—",tot:"428"},
+  fev_25: {fat:"10.072.487",pis:"—",cof:"—",prev:"428",irpj:"—",csll:"—",icdf:"—",tot:"428"},
+  mar_25: {fat:"12.955.041",pis:"—",cof:"—",prev:"428",irpj:"2.157.243",csll:"778.768",icdf:"—",tot:"2.936.439"},
+  abr_25: {fat:"12.342.402",pis:"—",cof:"—",prev:"428",irpj:"—",csll:"—",icdf:"—",tot:"428"},
+  mai_25: {fat:"14.898.813",pis:"—",cof:"—",prev:"428",irpj:"—",csll:"—",icdf:"—",tot:"428"},
+  jun_25: {fat:"13.665.714",pis:"—",cof:"—",prev:"428",irpj:"—",csll:"—",icdf:"—",tot:"428"},
+  jul_25: {fat:"16.692.942",pis:"—",cof:"—",prev:"428",irpj:"—",csll:"—",icdf:"—",tot:"428"},
+  ago_25: {fat:"15.534.644",pis:"—",cof:"—",prev:"428",irpj:"—",csll:"—",icdf:"—",tot:"428"},
+  set_25: {fat:"15.623.566",pis:"—",cof:"—",prev:"428",irpj:"—",csll:"—",icdf:"—",tot:"428"},
+  out_25: {fat:"14.105.950",pis:"—",cof:"—",prev:"428",irpj:"—",csll:"—",icdf:"—",tot:"428"},
+  nov_25: {fat:"7.301.402",pis:"—",cof:"—",prev:"428",irpj:"—",csll:"—",icdf:"—",tot:"428"},
+  dez_25: {fat:"10.568.620",pis:"—",cof:"—",prev:"428",irpj:"—",csll:"—",icdf:"—",tot:"428"},
+  jan_24: {fat:"14.337.000",pis:"—",cof:"—",prev:"554",irpj:"—",csll:"—",icdf:"—",tot:"554"},
+  fev_24: {fat:"8.365.542",pis:"—",cof:"—",prev:"554",irpj:"—",csll:"—",icdf:"—",tot:"554"},
+  mar_24: {fat:"16.024.400",pis:"—",cof:"—",prev:"554",irpj:"—",csll:"—",icdf:"—",tot:"554"},
+  tot_25: {fat:"156.734.672",pis:"—",cof:"—",prev:"5.565",irpj:"2.157.243",csll:"778.768",icdf:"—",tot:"2.941.576"},
+  tot_24: {fat:"38.726.942",pis:"—",cof:"—",prev:"1.663",irpj:"—",csll:"—",icdf:"—",tot:"1.663"},
+  tot_var:{fat:"+266,2%",pis:"—",cof:"—",prev:"+100%",irpj:"+1,2%",csll:"+0,9%",icdf:"—",tot:"+37,3%"}
+});
+
+const impostosJeBrasil = Object.assign(_fillMonths(_mjb), {
+  dez_25: {fat:"17.553",pis:"290",cof:"1.334",irpj:"2.633",csll:"1.580",icms:"—",iss:"878",tot:"6.714"},
+  jan_24: {fat:"1.911",pis:"32",cof:"145",irpj:"—",csll:"—",icms:"—",iss:"96",tot:"272"},
+  fev_24: {fat:"5.789",pis:"—",cof:"—",irpj:"—",csll:"—",icms:"—",iss:"289",tot:"289"},
+  mar_24: {fat:"1.394",pis:"—",cof:"—",irpj:"—",csll:"—",icms:"—",iss:"70",tot:"70"},
+  tot_25: {fat:"17.553",pis:"290",cof:"1.334",irpj:"2.633",csll:"1.580",icms:"—",iss:"878",tot:"6.714"},
+  tot_24: {fat:"9.094",pis:"32",cof:"145",irpj:"—",csll:"—",icms:"—",iss:"455",tot:"631"},
+  tot_var:{fat:"+100%",pis:"—",cof:"—",irpj:"—",csll:"—",icms:"—",iss:"—",tot:"+100%"}
+});
+
+function preencherLinha(prefixoID, dados) {
+  Object.keys(dados).forEach(col => preencher(prefixoID + '-' + col, dados[col]));
 }
+
+function preencherLinhaVariacao(prefixoID, dados) {
+  Object.keys(dados).forEach(col => {
+    const id = prefixoID + '-' + col;
+    const elem = document.getElementById(id);
+    if (!elem) return;
+    const txt = String(dados[col]).trim();
+    elem.innerText = txt;
+    if (txt.startsWith('+')) { elem.classList.add('pos'); elem.classList.remove('neg'); }
+    else if (txt.startsWith('-') && txt !== '—') { elem.classList.add('neg'); elem.classList.remove('pos'); }
+    else { elem.classList.remove('pos','neg'); }
+  });
+}
+
+function calcularVariacaoImposto(atual, base) {
+  const vAtual = parseDisplayNumber(atual);
+  const vBase = parseDisplayNumber(base);
+  if (vAtual == null || vBase == null || vBase === 0) return '—';
+  const pct = ((vBase - vAtual) / vBase) * 100;
+  const sinal = pct >= 0 ? '+' : '';
+  return sinal + pct.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+}
+
+function atualizarVariacoesImpostos(data) {
+  const baseCols = Object.keys(data.tot_25 || data.tot_24 || {});
+  _MONTHS.forEach(m => {
+    const d25 = data[m + '_25'];
+    const d24 = data[m + '_24'];
+    if (!d25 || !d24) return;
+    data[m + '_var'] = {};
+    baseCols.forEach(col => { data[m + '_var'][col] = calcularVariacaoImposto(d25[col], d24[col]); });
+  });
+  if (data.tot_25 && data.tot_24) {
+    data.tot_var = {};
+    baseCols.forEach(col => { data.tot_var[col] = calcularVariacaoImposto(data.tot_25[col], data.tot_24[col]); });
+  }
+}
+
+function preencherLinhaAgro(prefixoID, dados) { preencherLinha(prefixoID, dados); }
+function preencherLinhaImposto(prefixoID, dados) { preencherLinha(prefixoID, dados); }
 
 function carregarTodosOsImpostos() {
-  // Executa para a Monte Mar
-  createAllTaxPercentRows();
-  preencherLinhaImposto('mm-1t-25', impostosMonteMar.tri1_25);
-  preencherLinhaPercentual('mm-1t-25', impostosMonteMar.tri1_25);
-  preencherLinhaImposto('mm-1t-24', impostosMonteMar.tri1_24);
-  preencherLinhaImposto('mm-1t-var', impostosMonteMar.tri1_var);
-  preencherLinhaImposto('mm-2t-25', impostosMonteMar.tri2_25);
-  preencherLinhaPercentual('mm-2t-25', impostosMonteMar.tri2_25);
-  preencherLinhaImposto('mm-2t-24', impostosMonteMar.tri2_24);
-  preencherLinhaImposto('mm-2t-var', impostosMonteMar.tri2_var);
-  preencherLinhaImposto('mm-3t-25', impostosMonteMar.tri3_25);
-  preencherLinhaPercentual('mm-3t-25', impostosMonteMar.tri3_25);
-  preencherLinhaImposto('mm-3t-24', impostosMonteMar.tri3_24);
-  preencherLinhaImposto('mm-3t-var', impostosMonteMar.tri3_var);
-  preencherLinhaImposto('mm-4t-25', impostosMonteMar.tri4_25);
-  preencherLinhaPercentual('mm-4t-25', impostosMonteMar.tri4_25);
-  preencherLinhaImposto('mm-4t-24', impostosMonteMar.tri4_24);
-  preencherLinhaImposto('mm-4t-var', impostosMonteMar.tri4_var);
-  preencherLinhaImposto('mm-tot-25', impostosMonteMar.tot_25);
-  preencherLinhaImposto('mm-tot-24', impostosMonteMar.tot_24);
-  preencherLinhaImposto('mm-tot-var', impostosMonteMar.tot_var);
-
-  // Executa para o Tatico
-  preencherLinhaImposto('tat-1t-25', impostosTatico.tri1_25);
-  preencherLinhaPercentual('tat-1t-25', impostosTatico.tri1_25);
-  preencherLinhaImposto('tat-1t-24', impostosTatico.tri1_24);
-  preencherLinhaImposto('tat-1t-var', impostosTatico.tri1_var);
-  preencherLinhaImposto('tat-2t-25', impostosTatico.tri2_25);
-  preencherLinhaPercentual('tat-2t-25', impostosTatico.tri2_25);
-  preencherLinhaImposto('tat-2t-24', impostosTatico.tri2_24);
-  preencherLinhaImposto('tat-2t-var', impostosTatico.tri2_var);
-  preencherLinhaImposto('tat-3t-25', impostosTatico.tri3_25);
-  preencherLinhaPercentual('tat-3t-25', impostosTatico.tri3_25);
-  preencherLinhaImposto('tat-3t-24', impostosTatico.tri3_24);
-  preencherLinhaImposto('tat-3t-var', impostosTatico.tri3_var);
-  preencherLinhaImposto('tat-4t-25', impostosTatico.tri4_25);
-  preencherLinhaPercentual('tat-4t-25', impostosTatico.tri4_25);
-  preencherLinhaImposto('tat-4t-24', impostosTatico.tri4_24);
-  preencherLinhaImposto('tat-4t-var', impostosTatico.tri4_var);
-  preencherLinhaImposto('tat-tot-25', impostosTatico.tot_25);
-  preencherLinhaImposto('tat-tot-24', impostosTatico.tot_24);
-  preencherLinhaImposto('tat-tot-var', impostosTatico.tot_var);
-
-  // Executa para a Transportes
-  preencherLinhaImposto('trans-1t-25', impostosTransportes.tri1_25);
-  preencherLinhaPercentual('trans-1t-25', impostosTransportes.tri1_25);
-  preencherLinhaImposto('trans-1t-24', impostosTransportes.tri1_24);
-  preencherLinhaImposto('trans-1t-var', impostosTransportes.tri1_var);
-  preencherLinhaImposto('trans-2t-25', impostosTransportes.tri2_25);
-  preencherLinhaPercentual('trans-2t-25', impostosTransportes.tri2_25);
-  preencherLinhaImposto('trans-2t-24', impostosTransportes.tri2_24);
-  preencherLinhaImposto('trans-2t-var', impostosTransportes.tri2_var);
-  preencherLinhaImposto('trans-3t-25', impostosTransportes.tri3_25);
-  preencherLinhaPercentual('trans-3t-25', impostosTransportes.tri3_25);
-  preencherLinhaImposto('trans-3t-24', impostosTransportes.tri3_24);
-  preencherLinhaImposto('trans-3t-var', impostosTransportes.tri3_var);
-  preencherLinhaImposto('trans-4t-25', impostosTransportes.tri4_25);
-  preencherLinhaPercentual('trans-4t-25', impostosTransportes.tri4_25);
-  preencherLinhaImposto('trans-4t-24', impostosTransportes.tri4_24);
-  preencherLinhaImposto('trans-4t-var', impostosTransportes.tri4_var);
-  preencherLinhaImposto('trans-tot-25', impostosTransportes.tot_25);
-  preencherLinhaImposto('trans-tot-24', impostosTransportes.tot_24);
-  preencherLinhaImposto('trans-tot-var', impostosTransportes.tot_var);
-  
-  // Executa para a JE Agropecuária
-  preencherLinhaAgro('agro-1t-25', impostosAgro.tri1_25);
-  preencherLinhaPercentual('agro-1t-25', impostosAgro.tri1_25);
-  preencherLinhaAgro('agro-1t-24', impostosAgro.tri1_24);
-  preencherLinhaAgro('agro-1t-var', impostosAgro.tri1_var);
-  preencherLinhaAgro('agro-2t-25', impostosAgro.tri2_25);
-  preencherLinhaPercentual('agro-2t-25', impostosAgro.tri2_25);
-  preencherLinhaAgro('agro-2t-24', impostosAgro.tri2_24);
-  preencherLinhaAgro('agro-2t-var', impostosAgro.tri2_var);
-  preencherLinhaAgro('agro-3t-25', impostosAgro.tri3_25);
-  preencherLinhaPercentual('agro-3t-25', impostosAgro.tri3_25);
-  preencherLinhaAgro('agro-3t-24', impostosAgro.tri3_24);
-  preencherLinhaAgro('agro-3t-var', impostosAgro.tri3_var);
-  preencherLinhaAgro('agro-4t-25', impostosAgro.tri4_25);
-  preencherLinhaPercentual('agro-4t-25', impostosAgro.tri4_25);
-  preencherLinhaAgro('agro-4t-24', impostosAgro.tri4_24);
-  preencherLinhaAgro('agro-4t-var', impostosAgro.tri4_var);
-  preencherLinhaAgro('agro-tot-25', impostosAgro.tot_25);
-  preencherLinhaAgro('agro-tot-24', impostosAgro.tot_24);
-  preencherLinhaAgro('agro-tot-var', impostosAgro.tot_var);
+  buildAllMonthlyTaxTables();
+  const companies = [
+    { prefix: 'mm',    data: impostosMonteMar },
+    { prefix: 'tat',   data: impostosTatico },
+    { prefix: 'trans', data: impostosTransportes },
+    { prefix: 'agro',  data: impostosAgro },
+    { prefix: 'jeb',   data: impostosJeBrasil }
+  ];
+  companies.forEach(({ data }) => atualizarVariacoesImpostos(data));
+  companies.forEach(({ prefix, data }) => {
+    _MONTHS.forEach(m => {
+      const d25 = data[m + '_25'], d24 = data[m + '_24'], dv = data[m + '_var'];
+      if (d25) { preencherLinha(`${prefix}-${m}-25`, d25); preencherLinhaPercentual(`${prefix}-${m}-25`, d25); }
+      if (d24) preencherLinha(`${prefix}-${m}-24`, d24);
+      if (dv)  preencherLinhaVariacao(`${prefix}-${m}-var`, dv);
+      preencherLinhaSummary(prefix, m, d25, dv);
+    });
+    if (data.tot_25) { preencherLinha(`${prefix}-tot-25`, data.tot_25); preencherLinhaPercentual(`${prefix}-tot-25`, data.tot_25); }
+    if (data.tot_24) preencherLinha(`${prefix}-tot-24`, data.tot_24);
+    if (data.tot_var) preencherLinhaVariacao(`${prefix}-tot-var`, data.tot_var);
+  });
+  renderTaxChart('calim');
 }
 
 /* ══════════════════════════════════════════════════════════
    2. LÓGICA EXCLUSIVA DA ABA ICMS
 ══════════════════════════════════════════════════════════ */
-function showIcmsTab(id, element) {
+let currentIcmsUf = 'go';
+let currentIcmsMonth = 'jan';
+const ICMS_MONTH_LABELS = {
+  jan: 'Janeiro', fev: 'Fevereiro', mar: 'Março', abr: 'Abril',
+  mai: 'Maio', jun: 'Junho', jul: 'Julho', ago: 'Agosto',
+  set: 'Setembro', out: 'Outubro', nov: 'Novembro', dez: 'Dezembro'
+};
+
+function showIcmsTab(id) {
   document.querySelectorAll('.icms-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.icms-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  const panel = document.getElementById(id);
+  if (panel) {
+    panel.classList.add('active');
+    return;
+  }
+  const emptyPanel = document.getElementById('icms-empty');
+  const emptyText = document.getElementById('icms-empty-text');
+  if (emptyText) {
+    const uf = currentIcmsUf.toUpperCase();
+    const mes = ICMS_MONTH_LABELS[currentIcmsMonth] || currentIcmsMonth;
+    emptyText.innerText = `Apuração de ${mes}/2026 — ${uf} ainda não cadastrada.`;
+  }
+  if (emptyPanel) emptyPanel.classList.add('active');
+}
+
+function setActiveIcmsMainButton(element) {
+  document.querySelectorAll('.icms-nav .icms-btn').forEach(b => b.classList.remove('active'));
   const target = element || (typeof event !== 'undefined' ? event.currentTarget : null);
   if (target) target.classList.add('active');
+}
+
+function showIcmsOverview(element) {
+  setActiveIcmsMainButton(element);
+  const monthNav = document.querySelector('#panel-icms .icms-month-nav');
+  if (monthNav) monthNav.classList.add('hidden');
+  showIcmsTab('icms-visao-geral');
+}
+
+function showIcmsUf(uf, element) {
+  currentIcmsUf = uf;
+  setActiveIcmsMainButton(element);
+  const monthNav = document.querySelector('#panel-icms .icms-month-nav');
+  if (monthNav) monthNav.classList.remove('hidden');
+  showIcmsTab(`icms-${currentIcmsUf}-${currentIcmsMonth}`);
+}
+
+function showIcmsMonth(month, element) {
+  currentIcmsMonth = month;
+  document.querySelectorAll('.icms-month-btn').forEach(b => b.classList.remove('active'));
+  const target = element || (typeof event !== 'undefined' ? event.currentTarget : null);
+  if (target) target.classList.add('active');
+  showIcmsTab(`icms-${currentIcmsUf}-${currentIcmsMonth}`);
 }
 // --- COLE ESTE BLOCO AQUI ---
 const LOJAS_GO = ['CAMPINAS','PAPILLON','PORTAL','GARAVELO','T7','CENTRO','ÁGUAS LINDAS-01','ÁGUAS LINDAS-02','LUZIÂNIA'];
@@ -1765,56 +1822,185 @@ function parseDisplayNumber(value) {
 
 function preencherLinhaPercentual(prefixoID, dados) {
   const fat = parseDisplayNumber(dados.fat);
-  const pis = parseDisplayNumber(dados.pis);
-  const cof = parseDisplayNumber(dados.cof);
-  const prev = parseDisplayNumber(dados.prev);
-  const irpj = parseDisplayNumber(dados.irpj);
-  const csll = parseDisplayNumber(dados.csll);
-  const icst = parseDisplayNumber(dados.icst);
-  const icdf = parseDisplayNumber(dados.icdf);
-  const total = parseDisplayNumber(dados.tot);
-
   preencher(prefixoID + '-fat-pct', '—');
-  preencher(prefixoID + '-pis-pct', fmtPct(fat != null && pis != null ? pis / fat * 100 : null));
-  preencher(prefixoID + '-cof-pct', fmtPct(fat != null && cof != null ? cof / fat * 100 : null));
-  preencher(prefixoID + '-prev-pct', fmtPct(fat != null && prev != null ? prev / fat * 100 : null));
-  preencher(prefixoID + '-irpj-pct', fmtPct(fat != null && irpj != null ? irpj / fat * 100 : null));
-  preencher(prefixoID + '-csll-pct', fmtPct(fat != null && csll != null ? csll / fat * 100 : null));
-  preencher(prefixoID + '-icst-pct', fmtPct(fat != null && icst != null ? icst / fat * 100 : null));
-  preencher(prefixoID + '-icdf-pct', fmtPct(fat != null && icdf != null ? icdf / fat * 100 : null));
-  preencher(prefixoID + '-tot-pct', fmtPct(fat != null && total != null ? total / fat * 100 : null));
-}
-
-function createTaxPercentRow(prefixoID, columns, label) {
-  const varId = prefixoID.replace(/-25$/, '-var') + '-fat';
-  const variationCell = document.getElementById(varId);
-  if (!variationCell) return;
-
-  const variationRow = variationCell.closest('tr');
-  if (!variationRow) return;
-  if (document.getElementById(prefixoID + '-pis-pct')) return;
-
-  const row = document.createElement('tr');
-  row.className = 'tax-pct';
-  const cells = [`<td>${label}</td>`];
-  columns.forEach(column => {
-    const id = `${prefixoID}-${column}-pct`;
-    cells.push(`<td id="${id}"></td>`);
+  ['pis','cof','prev','irpj','csll','icst','icdf','icms','iss','tot'].forEach(col => {
+    const val = parseDisplayNumber(dados[col]);
+    const pct = fat != null && val != null ? val / fat * 100 : null;
+    const elem = document.getElementById(prefixoID + '-' + col + '-pct');
+    if (!elem) return;
+    elem.innerText = fmtPct(pct);
+    elem.classList.remove('pos', 'neg');
+    if (pct > 0) elem.classList.add('pos');
+    if (pct < 0) elem.classList.add('neg');
   });
-  row.innerHTML = cells.join('');
-  variationRow.insertAdjacentElement('afterend', row);
 }
 
-function createAllTaxPercentRows() {
-  const definitions = [
-    { prefix: 'tat', columns: ['fat','pis','cof','prev','irpj','csll','icst','icdf','tot'] },
-    { prefix: 'mm', columns: ['fat','pis','cof','prev','irpj','csll','icst','icdf','tot'] },
-    { prefix: 'trans', columns: ['fat','pis','cof','prev','irpj','csll','icst','icdf','tot'] },
-    { prefix: 'agro', columns: ['fat','pis','cof','prev','irpj','csll','icdf','tot'] }
-  ];
-  const quarters = ['1t','2t','3t','4t'];
-  definitions.forEach(def => {
-    quarters.forEach(q => createTaxPercentRow(`${def.prefix}-${q}-25`, def.columns, 'Percentual sobre faturamento 2025'));
+const MESES_TAX = [
+  ['jan','Janeiro'],['fev','Fevereiro'],['mar','Março'],
+  ['abr','Abril'],['mai','Maio'],['jun','Junho'],
+  ['jul','Julho'],['ago','Agosto'],['set','Setembro'],
+  ['out','Outubro'],['nov','Novembro'],['dez','Dezembro']
+];
+
+function buildMonthlyTaxTable(tbodyId, prefix, cols) {
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody) return;
+  let html = '';
+  MESES_TAX.forEach(([m, label]) => {
+    const lbl3 = label.substring(0,3);
+    // Summary row (compact — visible in "Ano Completo" mode)
+    html += `<tr class="tax-summary-row sub" data-month="${m}" title="Clique para ver detalhes de ${label}" onclick="filterTaxMonth('${m}',null)" style="border-top:1px solid var(--gray2);cursor:pointer">`;
+    html += `<td style="font-weight:600">${lbl3}</td>`;
+    cols.forEach(c => {
+      html += `<td><span class="sm-val" id="${prefix}-${m}-sm-${c}">—</span>`;
+      html += `<span class="sm-ah" id="${prefix}-${m}-sm-ah-${c}"></span></td>`;
+    });
+    html += '</tr>';
+    // Detail rows (visible when this month is selected)
+    html += `<tr class="tax-detail-row sub" data-month="${m}" style="display:none;border-top:2px solid var(--b200)"><td>${label} 2025</td>`;
+    cols.forEach(c => { html += `<td id="${prefix}-${m}-25-${c}"></td>`; });
+    html += '</tr>';
+    html += `<tr class="tax-detail-row" data-month="${m}" style="display:none"><td>${label} 2026</td>`;
+    cols.forEach(c => { html += `<td id="${prefix}-${m}-24-${c}"></td>`; });
+    html += '</tr>';
+    html += `<tr class="tax-detail-row tax-rate" data-month="${m}" style="display:none"><td>AH % (2025/2026)</td>`;
+    cols.forEach(c => { html += `<td id="${prefix}-${m}-var-${c}"></td>`; });
+    html += '</tr>';
+    html += `<tr class="tax-detail-row tax-pct" data-month="${m}" style="display:none"><td>% sobre Faturamento</td><td id="${prefix}-${m}-25-fat-pct">—</td>`;
+    cols.filter(c => c !== 'fat').forEach(c => { html += `<td id="${prefix}-${m}-25-${c}-pct"></td>`; });
+    html += '</tr>';
+  });
+  // Annual totals (always visible)
+  html += `<tr class="tax-tot" style="border-top:3px solid var(--amber)"><td>TOTAL ANO 2025</td>`;
+  cols.forEach(c => { html += `<td id="${prefix}-tot-25-${c}"></td>`; });
+  html += '</tr>';
+  html += `<tr class="tax-tot" style="background:var(--gray1);color:var(--gray7);border-top:none"><td>TOTAL ANO 2026</td>`;
+  cols.forEach(c => { html += `<td id="${prefix}-tot-24-${c}"></td>`; });
+  html += '</tr>';
+  html += `<tr class="tax-rate" style="font-weight:bold;background:#fff"><td>VARIAÇÃO ANUAL</td>`;
+  cols.forEach(c => { html += `<td id="${prefix}-tot-var-${c}"></td>`; });
+  html += '</tr>';
+  html += `<tr class="tax-pct annual-pct"><td>% sobre Faturamento (Ano)</td><td id="${prefix}-tot-25-fat-pct">—</td>`;
+  cols.filter(c => c !== 'fat').forEach(c => { html += `<td id="${prefix}-tot-25-${c}-pct"></td>`; });
+  html += '</tr>';
+  tbody.innerHTML = html;
+}
+
+function buildAllMonthlyTaxTables() {
+  const C9   = ['fat','pis','cof','prev','irpj','csll','icst','icdf','tot'];
+  const CAGRO= ['fat','pis','cof','prev','irpj','csll','icdf','tot'];
+  const CJEB = ['fat','pis','cof','irpj','csll','icms','iss','tot'];
+  buildMonthlyTaxTable('tbody-calim',    'tat',   C9);
+  buildMonthlyTaxTable('tbody-montemar', 'mm',    C9);
+  buildMonthlyTaxTable('tbody-cota',     'trans', C9);
+  buildMonthlyTaxTable('tbody-agro',     'agro',  CAGRO);
+  buildMonthlyTaxTable('tbody-jebrasil', 'jeb',   CJEB);
+}
+
+/* ── Tax filter + chart state ── */
+let currentTaxCo    = 'calim';
+let currentTaxMonth = 'all';
+const taxChartInst  = {};
+
+const TAX_CO_MAP = {
+  calim:    { getData: function(){ return impostosTatico; } },
+  montemar: { getData: function(){ return impostosMonteMar; } },
+  cota:     { getData: function(){ return impostosTransportes; } },
+  agro:     { getData: function(){ return impostosAgro; } },
+  jebrasil: { getData: function(){ return impostosJeBrasil; } }
+};
+
+const TAX_TBODY_IDS = ['tbody-calim','tbody-montemar','tbody-cota','tbody-agro','tbody-jebrasil'];
+
+function filterTaxMonth(month, btn) {
+  currentTaxMonth = month;
+  const allBtns = document.querySelectorAll('.tax-fbtn');
+  allBtns.forEach(b => b.classList.remove('active'));
+  const target = btn || [...allBtns].find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + month + "'"));
+  if (target) target.classList.add('active');
+  TAX_TBODY_IDS.forEach(id => applyTaxFilter(id, month));
+  renderTaxChart(currentTaxCo);
+}
+
+function applyTaxFilter(tbodyId, month) {
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody) return;
+  tbody.querySelectorAll('.tax-summary-row').forEach(r => {
+    r.style.display = month === 'all' ? '' : 'none';
+  });
+  tbody.querySelectorAll('.tax-detail-row').forEach(r => {
+    r.style.display = (month === 'all' || r.dataset.month !== month) ? 'none' : '';
+  });
+}
+
+function renderTaxChart(coId) {
+  const canvas = document.getElementById('chart-' + coId);
+  if (!canvas || typeof Chart === 'undefined') return;
+  const co = TAX_CO_MAP[coId];
+  if (!co) return;
+  const data = co.getData();
+  if (taxChartInst[coId]) { taxChartInst[coId].destroy(); delete taxChartInst[coId]; }
+
+  const LABELS = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  const vals25 = _MONTHS.map(m => parseDisplayNumber((data[m+'_25']||{}).tot));
+  const vals24 = _MONTHS.map(m => parseDisplayNumber((data[m+'_24']||{}).tot));
+  const selIdx = currentTaxMonth === 'all' ? -1 : _MONTHS.indexOf(currentTaxMonth);
+
+  const c25 = vals25.map((_,i) => selIdx < 0 || i === selIdx ? 'rgba(37,99,235,0.82)' : 'rgba(37,99,235,0.22)');
+  const c24 = vals24.map((_,i) => selIdx < 0 || i === selIdx ? 'rgba(107,114,128,0.55)' : 'rgba(107,114,128,0.18)');
+
+  taxChartInst[coId] = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: LABELS,
+      datasets: [
+        { label: 'Total Impostos 2025', data: vals25, backgroundColor: c25, borderRadius: 3, order: 1 },
+        { label: 'Total Impostos 2026', data: vals24, backgroundColor: c24, borderRadius: 3, order: 2 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10 } } },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const v = ctx.raw;
+              if (v == null) return `${ctx.dataset.label}: —`;
+              return `${ctx.dataset.label}: R$ ${v.toLocaleString('pt-BR')}`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          ticks: {
+            font: { size: 9 },
+            callback: v => v >= 1e6 ? 'R$'+(v/1e6).toFixed(1)+'M' : v >= 1e3 ? 'R$'+(v/1e3).toFixed(0)+'K' : 'R$'+v
+          }
+        },
+        x: { ticks: { font: { size: 9 } } }
+      }
+    }
+  });
+}
+
+function preencherLinhaSummary(prefix, m, d25, dv) {
+  if (!d25) return;
+  Object.keys(d25).forEach(col => {
+    const valEl = document.getElementById(`${prefix}-${m}-sm-${col}`);
+    if (valEl) valEl.innerText = d25[col] || '—';
+    const ahEl = document.getElementById(`${prefix}-${m}-sm-ah-${col}`);
+    if (ahEl && dv) {
+      const ah = String(dv[col] || '').trim();
+      if (ah && ah !== '—') {
+        ahEl.innerText = ah;
+        ahEl.className = 'sm-ah ' + (ah.startsWith('+') ? 'pos' : ah.startsWith('-') ? 'neg' : '');
+      } else {
+        ahEl.innerText = '';
+      }
+    }
   });
 }
 
@@ -2241,12 +2427,8 @@ window.addEventListener('load', function() {
     preencherMonteMar();
     preencherTaticoPainel();
 
-    // 2. PROCESSAMENTO AUTOMÁTICO DE IMPOSTOS (A MÁGICA)
-    // Aqui ligamos os IDs do HTML aos dados do JavaScript
-    processarTabelaImpostos('mm', impostosMonteMar);      // Para a Monte Mar
-    processarTabelaImpostos('tat', impostosTatico);     // Para o Tatico
-    processarTabelaImpostos('trans', impostosTransportes); // Para a Transportes
-    processarTabelaImpostos('agro', impostosAgro);       // Para a JE Agro
+    // 2. PROCESSAMENTO DE IMPOSTOS — visão mensal com AH% e % sobre faturamento
+    carregarTodosOsImpostos();
 
     // 3. Inicializa Gráficos e ICMS 2026
     setKpisIcms();
