@@ -1559,18 +1559,40 @@ function calcularVariacaoImposto(atual, base) {
 }
 
 function atualizarVariacoesImpostos(data) {
-  const baseCols = Object.keys(data.tot_25 || data.tot_24 || {});
+  const baseCols = [...new Set([
+    ...Object.keys(data.tot_25 || {}),
+    ...Object.keys(data.tot_24 || {})
+  ])];
   _MONTHS.forEach(m => {
     const d25 = data[m + '_25'];
     const d24 = data[m + '_24'];
     if (!d25 || !d24) return;
     data[m + '_var'] = {};
-    baseCols.forEach(col => { data[m + '_var'][col] = calcularVariacaoImposto(d25[col], d24[col]); });
+    const cols = [...new Set([...baseCols, ...Object.keys(d25), ...Object.keys(d24)])];
+    cols.forEach(col => { data[m + '_var'][col] = calcularVariacaoImposto(d25[col], d24[col]); });
   });
   if (data.tot_25 && data.tot_24) {
     data.tot_var = {};
     baseCols.forEach(col => { data.tot_var[col] = calcularVariacaoImposto(data.tot_25[col], data.tot_24[col]); });
   }
+}
+
+function preencherVariacoesPendentes(prefix, cols) {
+  const periodos = [..._MONTHS, 'tot'];
+  periodos.forEach(periodo => {
+    cols.forEach(col => {
+      const varEl = document.getElementById(`${prefix}-${periodo}-var-${col}`);
+      if (!varEl) return;
+      const atualEl = document.getElementById(`${prefix}-${periodo}-25-${col}`);
+      const baseEl = document.getElementById(`${prefix}-${periodo}-24-${col}`);
+      const atual = atualEl ? atualEl.innerText : null;
+      const base = baseEl ? baseEl.innerText : null;
+      const calculado = calcularVariacaoImposto(atual, base);
+      if (calculado !== '—' && (!varEl.innerText.trim() || varEl.innerText.trim() === '—')) {
+        preencherLinhaVariacao(`${prefix}-${periodo}-var`, { [col]: calculado });
+      }
+    });
+  });
 }
 
 function preencherLinhaAgro(prefixoID, dados) { preencherLinha(prefixoID, dados); }
@@ -1597,6 +1619,7 @@ function carregarTodosOsImpostos() {
     if (data.tot_25) { preencherLinha(`${prefix}-tot-25`, data.tot_25); preencherLinhaPercentual(`${prefix}-tot-25`, data.tot_25); }
     if (data.tot_24) preencherLinha(`${prefix}-tot-24`, data.tot_24);
     if (data.tot_var) preencherLinhaVariacao(`${prefix}-tot-var`, data.tot_var);
+    preencherVariacoesPendentes(prefix, Object.keys(data.tot_25 || data.tot_24 || {}));
   });
   renderTaxChart('calim');
 }
@@ -2368,12 +2391,7 @@ function drawLojasChart(svgId, lojas, janDebitos, fevDebitos) {
 ══════════════════════════════════════════════════════════ */
 
 function calcularDelta(atual, anterior) {
-    const nAtu = parseFloat(String(atual).replace(/\./g, '').replace(',', '.')) || 0;
-    const nAnt = parseFloat(String(anterior).replace(/\./g, '').replace(',', '.')) || 0;
-    if (nAnt === 0) return "—";
-    const variacao = ((nAtu - nAnt) / Math.abs(nAnt)) * 100;
-    const sinal = variacao > 0 ? '+' : '';
-    return sinal + variacao.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+    return calcularVariacaoImposto(atual, anterior);
 }
 
 function preencherSmart(id, valor) {
@@ -2410,10 +2428,8 @@ function processarTabelaImpostos(prefixo, dadosEmpresa) {
                 preencherSmart(`${prefixo}-${idPeriodo}-24-${campo}`, val24);
             }
             // 3. Calcula e preenche a variação
-            if (val25 && val24) {
-                const delta = calcularDelta(val25, val24);
-                preencherSmart(`${prefixo}-${idPeriodo}-var-${campo}`, delta);
-            }
+            const delta = calcularDelta(val25, val24);
+            preencherSmart(`${prefixo}-${idPeriodo}-var-${campo}`, delta);
         });
     });
 }
