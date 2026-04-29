@@ -349,6 +349,11 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
 .sm-val{font-size:11px;font-weight:500;display:block;}
 .sm-ah{font-size:9px;font-weight:700;display:block;margin-top:1px;}
 .sm-ah.pos{color:#16a34a;}.sm-ah.neg{color:#dc2626;}
+.sm-val-26{font-size:12px;font-weight:600;display:block;color:var(--b700);}
+.sm-val-25{font-size:9px;font-weight:500;display:block;color:var(--gray5);margin-top:1px;}
+.sm-yr{font-size:8px;font-weight:700;display:block;line-height:1.4;}
+.sm-yr-26{color:var(--b500);}
+.sm-yr-25{color:var(--gray5);}
 .tax-tbl tr.tax-detail-row.hidden{display:none;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -1614,7 +1619,7 @@ function carregarTodosOsImpostos() {
       if (d25) { preencherLinha(`${prefix}-${m}-25`, d25); preencherLinhaPercentual(`${prefix}-${m}-25`, d25); }
       if (d24) preencherLinha(`${prefix}-${m}-24`, d24);
       if (dv)  preencherLinhaVariacao(`${prefix}-${m}-var`, dv);
-      preencherLinhaSummary(prefix, m, d25, dv);
+      preencherLinhaSummary(prefix, m, d25, dv, d24);
     });
     if (data.tot_25) { preencherLinha(`${prefix}-tot-25`, data.tot_25); preencherLinhaPercentual(`${prefix}-tot-25`, data.tot_25); }
     if (data.tot_24) preencherLinha(`${prefix}-tot-24`, data.tot_24);
@@ -1622,6 +1627,7 @@ function carregarTodosOsImpostos() {
     preencherVariacoesPendentes(prefix, Object.keys(data.tot_25 || data.tot_24 || {}));
   });
   renderTaxChart('calim');
+  filterTaxMonth('all', null);
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -1873,10 +1879,13 @@ function buildMonthlyTaxTable(tbodyId, prefix, cols) {
     const lbl3 = label.substring(0,3);
     // Summary row (compact — visible in "Ano Completo" mode)
     html += `<tr class="tax-summary-row sub" data-month="${m}" title="Clique para ver detalhes de ${label}" onclick="filterTaxMonth('${m}',null)" style="border-top:1px solid var(--gray2);cursor:pointer">`;
-    html += `<td style="font-weight:600">${lbl3}</td>`;
+    html += `<td style="font-weight:600">${lbl3}<span class="sm-yr sm-yr-26">2026</span><span class="sm-yr sm-yr-25">2025</span></td>`;
     cols.forEach(c => {
-      html += `<td><span class="sm-val" id="${prefix}-${m}-sm-${c}">—</span>`;
-      html += `<span class="sm-ah" id="${prefix}-${m}-sm-ah-${c}"></span></td>`;
+      html += `<td>`;
+      html += `<span class="sm-val-26" id="${prefix}-${m}-sm26-${c}">—</span>`;
+      html += `<span class="sm-val-25" id="${prefix}-${m}-sm-${c}">—</span>`;
+      html += `<span class="sm-ah" id="${prefix}-${m}-sm-ah-${c}"></span>`;
+      html += `</td>`;
     });
     html += '</tr>';
     // Detail rows (visible when this month is selected)
@@ -1949,7 +1958,14 @@ function applyTaxFilter(tbodyId, month) {
   const tbody = document.getElementById(tbodyId);
   if (!tbody) return;
   tbody.querySelectorAll('.tax-summary-row').forEach(r => {
-    r.style.display = month === 'all' ? '' : 'none';
+    if (month === 'all') {
+      // Mostra apenas meses que têm dados reais de 2026 (valor não-vazio no span sm26-tot)
+      const sm26El = r.querySelector('span[id$="-sm26-tot"]');
+      const has26 = sm26El && sm26El.innerText && sm26El.innerText !== '—' && sm26El.innerText.trim() !== '';
+      r.style.display = has26 ? '' : 'none';
+    } else {
+      r.style.display = 'none';
+    }
   });
   tbody.querySelectorAll('.tax-detail-row').forEach(r => {
     r.style.display = (month === 'all' || r.dataset.month !== month) ? 'none' : '';
@@ -2009,11 +2025,20 @@ function renderTaxChart(coId) {
   });
 }
 
-function preencherLinhaSummary(prefix, m, d25, dv) {
-  if (!d25) return;
-  Object.keys(d25).forEach(col => {
-    const valEl = document.getElementById(`${prefix}-${m}-sm-${col}`);
-    if (valEl) valEl.innerText = d25[col] || '—';
+function preencherLinhaSummary(prefix, m, d25, dv, d24) {
+  const allCols = new Set([
+    ...(d25 ? Object.keys(d25) : []),
+    ...(d24 ? Object.keys(d24) : [])
+  ]);
+  allCols.forEach(col => {
+    if (d25) {
+      const valEl = document.getElementById(`${prefix}-${m}-sm-${col}`);
+      if (valEl) valEl.innerText = d25[col] || '—';
+    }
+    if (d24) {
+      const val26El = document.getElementById(`${prefix}-${m}-sm26-${col}`);
+      if (val26El) val26El.innerText = d24[col] || '—';
+    }
     const ahEl = document.getElementById(`${prefix}-${m}-sm-ah-${col}`);
     if (ahEl && dv) {
       const ah = String(dv[col] || '').trim();
