@@ -1163,12 +1163,12 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
       <svg class="bar-chart" viewBox="0 0 820 280" id="chart-evolucao"></svg>
     </div>
 
-    <div class="sec-title"><h2>Lojas — GO</h2><span class="sec-pill">Jan-Mar/2026</span></div>
+    <div class="sec-title"><h2>Lojas — GO</h2><span class="sec-pill">Jan-Mai/2026</span></div>
     <div class="chart-card">
       <svg class="bar-chart" viewBox="0 0 820 300" id="chart-lojas-go"></svg>
     </div>
 
-    <div class="sec-title"><h2>Lojas — DF</h2><span class="sec-pill">Jan-Mar/2026</span></div>
+    <div class="sec-title"><h2>Lojas — DF</h2><span class="sec-pill">Jan-Mai/2026</span></div>
     <div class="chart-card">
       <svg class="bar-chart" viewBox="0 0 820 300" id="chart-lojas-df"></svg>
     </div>
@@ -1224,6 +1224,30 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
     <div class="icms-table-wrap" id="tbl-df-mar-ent"></div>
     <div class="sec-title"><h2>VENDAS — DF</h2><span class="sec-pill red">Mar/2026</span></div>
     <div class="icms-table-wrap" id="tbl-df-mar-vnd"></div>
+  </div>
+  <div class="icms-panel" id="icms-go-abr">
+    <div class="sec-title"><h2>ENTRADAS — GO</h2><span class="sec-pill">Abr/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-abr-ent"></div>
+    <div class="sec-title"><h2>VENDAS — GO</h2><span class="sec-pill red">Abr/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-abr-vnd"></div>
+  </div>
+  <div class="icms-panel" id="icms-df-abr">
+    <div class="sec-title"><h2>ENTRADAS — DF</h2><span class="sec-pill">Abr/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-abr-ent"></div>
+    <div class="sec-title"><h2>VENDAS — DF</h2><span class="sec-pill red">Abr/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-abr-vnd"></div>
+  </div>
+  <div class="icms-panel" id="icms-go-mai">
+    <div class="sec-title"><h2>ENTRADAS — GO</h2><span class="sec-pill">Mai/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-mai-ent"></div>
+    <div class="sec-title"><h2>VENDAS — GO</h2><span class="sec-pill red">Mai/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-mai-vnd"></div>
+  </div>
+  <div class="icms-panel" id="icms-df-mai">
+    <div class="sec-title"><h2>ENTRADAS — DF</h2><span class="sec-pill">Mai/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-mai-ent"></div>
+    <div class="sec-title"><h2>VENDAS — DF</h2><span class="sec-pill red">Mai/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-mai-vnd"></div>
   </div>
   <div class="icms-panel" id="icms-empty">
     <div class="icms-empty" id="icms-empty-text">Apuração ainda não cadastrada.</div>
@@ -1766,6 +1790,48 @@ const goMarVnd = {
 const goMarTotalDeb = LOJAS_GO.map((_,i)=> goMarVnd.debitoIcms[i]+goMarVnd.estornoCredito[i]+goMarVnd.difal[i]);
 const goMarAPagar = LOJAS_GO.map((_,i)=> goMarTotalDeb[i]-goMarTotalCred[i]);
 
+// GO - ABRIL ENTRADAS
+const goAbrEnt = {
+  icmsCredito:   [1274995.14, 1410521.79, 905109.01, 1700033.4, 1079802.47, 1206809.29, 1291058.71, 1705359.57, 1939806.15],
+  ciap:          [1346.01, 1268.43, 543.97, 1644.12, 1981.4, 1057.23, 1011.29, 193.88, 1312.32],
+  icmsAntecipado:[8557.66, 14620.78, 6925.65, 14160.62, 6738.85, 9624.57, 152227.56, 155448.23, 182994.36],
+  acumulado:     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  valorContabil: [19539707.24, 19014630.11, 12717815.22, 23136723.86, 15458650.25, 16596926.14, 16241138.27, 20379709.01, 24335532.26],
+  baseCalculo:   [10579474.96, 11145300.87, 7211475.74, 13458697.77, 8687016.39, 9514497.11, 11210239.01, 14441150.58, 17882519.34]
+};
+const goAbrTotalCred = LOJAS_GO.map((_,i)=> goAbrEnt.icmsCredito[i]+goAbrEnt.ciap[i]+goAbrEnt.icmsAntecipado[i]+goAbrEnt.acumulado[i]);
+
+const goAbrVnd = {
+  debitoIcms:    [2004178.21, 2596977.6, 1694646.38, 3066208.44, 1912260.39, 2073336.73, 1725091.65, 2640328.03, 2578100.66],
+  estornoCredito:[21588.98, 21730.28, 11898.55, 22599.89, 23651.91, 16346.48, 96986.73, 139892.26, 129998.72],
+  difal:         [18397.26, 17150.4, 4284.58, 22257.97, 7789.97, 4523.4, 9257.46, 10411.88, 12136.59],
+  valorContabil: [20664786.18, 22908386.56, 14945707.07, 27934679.29, 18162716.02, 19115747.31, 17829886.58, 23623956.9, 27275257.14],
+  baseCalculo:   [12716416.25, 16386073.25, 10662041.25, 19672078.74, 12126801.88, 13053593.38, 11277484.63, 17193185.41, 16687384.51]
+};
+const goAbrTotalDeb = LOJAS_GO.map((_,i)=> goAbrVnd.debitoIcms[i]+goAbrVnd.estornoCredito[i]+goAbrVnd.difal[i]);
+const goAbrAPagar = LOJAS_GO.map((_,i)=> goAbrTotalDeb[i]-goAbrTotalCred[i]);
+
+// GO - MAIO ENTRADAS
+const goMaiEnt = {
+  icmsCredito:   [1163004.82, 1292067.84, 810914.34, 1671714.89, 977547.57, 1122065.58, 1254667.73, 1677376.58, 1896189.66],
+  ciap:          [1389.35, 1235.18, 534.48, 1634.76, 1036.19, 1063.32, 749.99, 238.25, 1362.03],
+  icmsAntecipado:[6150.98, 0, 0, 0, 6150.98, 12585.85, 33557.65, 125632.56, 70945.78],
+  acumulado:     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  valorContabil: [17626921.29, 17267396.35, 11745795.78, 22570920.28, 14070396.61, 15398338.57, 15552669.94, 20728187.63, 23380829.12],
+  baseCalculo:   [9374039.50, 10492262.14, 6541875.20, 13480136.98, 8033073.87, 9236642.93, 10857295.57, 14044642.91, 17164284.09]
+};
+const goMaiTotalCred = LOJAS_GO.map((_,i)=> goMaiEnt.icmsCredito[i]+goMaiEnt.ciap[i]+goMaiEnt.icmsAntecipado[i]+goMaiEnt.acumulado[i]);
+
+const goMaiVnd = {
+  debitoIcms:    [2066495.30, 2688415.99, 1743904.52, 3219664.83, 1956974.02, 2189195.18, 1793288.85, 2741079.31, 2696562.85],
+  estornoCredito:[20537.23, 29806.49, 15500.51, 37971.81, 29053.87, 36359.68, 144104.54, 158056.89, 121630.14],
+  difal:         [8814.72, 10624.92, 4267.59, 9548.93, 5862.66, 6528.08, 9944.60, 14590.79, 14187.18],
+  valorContabil: [20549832.85, 24320146.19, 15670994.25, 29114417.32, 18738074.26, 20056905.55, 18513971.73, 24866072.71, 27591533.66],
+  baseCalculo:   [13159345.96, 16949368.93, 10986430.55, 20664255.29, 12431957.47, 13775010.51, 11705112.00, 17883372.10, 17499607.06]
+};
+const goMaiTotalDeb = LOJAS_GO.map((_,i)=> goMaiVnd.debitoIcms[i]+goMaiVnd.estornoCredito[i]+goMaiVnd.difal[i]);
+const goMaiAPagar = LOJAS_GO.map((_,i)=> goMaiTotalDeb[i]-goMaiTotalCred[i]);
+
 // DF - MARÇO ENTRADAS
 const dfMarEnt = {
   icmsCredito:   [1662442.89, 1190465.42, 460093.36, 904104.02, 1130728.41, 1223171.89, 794279.24, 10350746.95, 0],
@@ -1829,23 +1895,76 @@ const dfFevVnd = {
 const dfFevTotalDeb = LOJAS_DF.map((_,i)=> dfFevVnd.debitoIcms[i]+dfFevVnd.estornoCredito[i]+dfFevVnd.difal[i]);
 const dfFevAPagar = LOJAS_DF.map((_,i)=> dfFevTotalDeb[i]-dfFevTotalCred[i]);
 
+// DF - ABRIL ENTRADAS
+const dfAbrEnt = {
+  icmsCredito:    [1594317.29, 1224323.47, 496323.67, 879181.89, 1160316.3, 1201104.16, 818036.08, 9064759.94, null],
+  simplesNacionalCredito: [null, null, null, null, null, null, null, null, null],
+  icmsAntecipado: [35102.49, 24679.62, 5431.96, 23418.98, 28649.36, 30084.44, 17645.14, null, null],
+  estornoDebitoDevolucaoIcmsSt: [5679.78, 2891.69, 2709.78, 3334.3, 5107.27, 5305.3, 6153.23, null, null],
+  creditoDifalPeriodosAnteriores: [368743.34, 69399.65, 344.73, 40998.45, 17211.04, 148436.05, 21632.94, null, null],
+  ciap:           [4452.43, 2844.39, 82.64, 245.82, 553.58, 5118.34, 983.14, null, 2866.89],
+  creditoAnterior:[0, 1174816.47, null, null, null, null, 0, null, 0],
+  valorContabil:  [29121466.88, 30866517.05, 10143103.96, 16050711.64, 22266921.25, 24481435.64, 14627214.97, 36239996.55, 580660.7],
+  baseCalculo:    [8610867.31, 7337634.08, 2605314.15, 4733250.73, 6224322.69, 6552690.75, 4370111.48, 34832858.28, null]
+};
+const dfAbrTotalCred = LOJAS_DF.map((_,i)=> dfAbrEnt.icmsCredito[i]+dfAbrEnt.icmsAntecipado[i]+dfAbrEnt.estornoDebitoDevolucaoIcmsSt[i]+dfAbrEnt.creditoDifalPeriodosAnteriores[i]+dfAbrEnt.ciap[i]+dfAbrEnt.creditoAnterior[i]);
+const dfAbrTotalCredGeral = 18493286.04;
+
+const dfAbrVnd = {
+  debitoIcms:    [1937228.57, 1297459.69, 609817.5, 1016510.35, 1376071.37, 1318364.41, 904676.99, 9408160.09, 123656.32],
+  estornoCredito:[51106.07, 28434.54, 12003.86, 25427.04, 30495.69, 28563.29, 19200.73, null, null],
+  difal:         [345.1, 1017.28, 1486.81, 85.47, 2336.23, 42265.49, 150.98, null, 675.2],
+  icmsSt:        [4418.19, 1288.3, 959.18, 912.74, 3740.45, 1659.05, 628.86, null, null],
+  valorContabil: [33402886.2, 33073133.1, 11351863.93, 17862087.57, 24731846.58, 24234926.69, 15782227.8, 37459221.91, 815327.86],
+  baseCalculo:   [9705129.23, 6511105.61, 3062218.23, 5094933.29, 6900751.43, 6613645.87, 4537985.26, 33843208.33, 815327.86]
+};
+const dfAbrTotalDeb = LOJAS_DF.map((_,i)=> dfAbrVnd.debitoIcms[i]+dfAbrVnd.estornoCredito[i]+dfAbrVnd.difal[i]);
+const dfAbrAPagar = LOJAS_DF.map((_,i)=> dfAbrTotalDeb[i]-dfAbrTotalCred[i]);
+const dfAbrAPagarGeral = 934767.50;
+
+// DF - MAIO ENTRADAS
+const dfMaiEnt = {
+  icmsCredito:    [1661998.51, 1271540.14, 482476.81, 828236.50, 1123677.06, 1189785.65, 789044.05, 9071191.99, null],
+  simplesNacionalCredito: [null, null, null, null, null, null, null, null, null],
+  icmsAntecipado: [40518.62, 32569.59, 2678.64, 18206.90, 22856.47, 24011.94, 8890.04, null, null],
+  estornoDebitoDevolucaoIcmsSt: [4590.49, 3297.79, 1737.39, 3827.49, 3930.19, 3439.65, 3924.12, null, null],
+  ciap:           [4430.33, 2130.76, 82.48, 235.52, 552.99, 4649.92, 973.17, null, 2866.89],
+  creditoAnterior:[19615.59, 1172043.78, null, null, null, 855.10, null, null, 0],
+  valorContabil:  [29200869.60, 30322997.77, 9729412.08, 15675644.60, 2143126.95, 22434701.92, 14307649.30, 35847833.64, 587075.24],
+  baseCalculo:    [9035131.86, 8187857.06, 2518623.93, 4493178.17, 6072214.65, 6480210.64, 4191643.16, 34705266.74, null]
+};
+const dfMaiTotalCred = LOJAS_DF.map((_,i)=> dfMaiEnt.icmsCredito[i]+dfMaiEnt.icmsAntecipado[i]+dfMaiEnt.estornoDebitoDevolucaoIcmsSt[i]+dfMaiEnt.ciap[i]+dfMaiEnt.creditoAnterior[i]);
+const dfMaiTotalCredGeral = 17776119.44;
+
+const dfMaiVnd = {
+  debitoIcms:    [2037168.18, 1317020.70, 628711.45, 1072453.17, 1440091.78, 1411866.963, 942538.87, 9434173.43, 85364.92],
+  estornoCredito:[38829.42, 80806.34, 6324.93, 14647.34, 22503.11, 25838.48, 12981.80, null, null],
+  difal:         [6036.58, 281.16, 197.73, 1676.01, 815.62, 2340.34, 352.21, null, 3717.62],
+  icmsSt:        [3592.60, 2303.60, 125.91, 1653.02, 2050.29, 1677.71, 1161.78, null, null],
+  valorContabil: [35376948.66, 34277823.87, 11708085.77, 19458765.04, 25995486.10, 27084987.88, 16655670.57, 37513203.15, 603903.61],
+  baseCalculo:   [10226291.09, 6626811.17, 3159930.48, 5383672.23, 7232558.92, 7093215.61, 4733341.57, 33972983.96, 603903.61]
+};
+const dfMaiTotalDeb = LOJAS_DF.map((_,i)=> dfMaiVnd.debitoIcms[i]+dfMaiVnd.estornoCredito[i]+dfMaiVnd.difal[i]);
+const dfMaiAPagar = LOJAS_DF.map((_,i)=> dfMaiTotalDeb[i]-dfMaiTotalCred[i]);
+const dfMaiAPagarGeral = 1869345.453;
+
 const fmt = v => v == null || isNaN(v) ? '—' : 'R$ ' + Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const sum = arr => arr.reduce((a,b)=>a+(b||0),0);
 const sumPos = arr => arr.filter(v => v > 0).reduce((a,b)=>a+b,0);
 
 function setKpisIcms() {
-  const goJanDeb = sum(goJanTotalDeb); const goFevDeb = sum(goFevTotalDeb); const goMarDeb = sum(goMarTotalDeb);
-  const goJanCred = sum(goJanTotalCred); const goFevCred = sum(goFevTotalCred); const goMarCred = sum(goMarTotalCred);
-  const dfJanDeb = sum(dfJanTotalDeb); const dfFevDeb = sum(dfFevTotalDeb); const dfMarDeb = typeof dfMarTotalDeb !== 'undefined' ? sum(dfMarTotalDeb) : 0;
-  const dfJanCred = sum(dfJanTotalCred); const dfFevCred = sum(dfFevTotalCred); const dfMarCred = typeof dfMarTotalCred !== 'undefined' ? sum(dfMarTotalCred) : 0;
+  const goJanDeb = sum(goJanTotalDeb); const goFevDeb = sum(goFevTotalDeb); const goMarDeb = sum(goMarTotalDeb); const goAbrDeb = typeof goAbrTotalDeb !== 'undefined' ? sum(goAbrTotalDeb) : 0; const goMaiDeb = typeof goMaiTotalDeb !== 'undefined' ? sum(goMaiTotalDeb) : 0;
+  const goJanCred = sum(goJanTotalCred); const goFevCred = sum(goFevTotalCred); const goMarCred = sum(goMarTotalCred); const goAbrCred = typeof goAbrTotalCred !== 'undefined' ? sum(goAbrTotalCred) : 0; const goMaiCred = typeof goMaiTotalCred !== 'undefined' ? sum(goMaiTotalCred) : 0;
+  const dfJanDeb = sum(dfJanTotalDeb); const dfFevDeb = sum(dfFevTotalDeb); const dfMarDeb = typeof dfMarTotalDeb !== 'undefined' ? sum(dfMarTotalDeb) : 0; const dfAbrDeb = typeof dfAbrTotalDeb !== 'undefined' ? sum(dfAbrTotalDeb) : 0; const dfMaiDeb = typeof dfMaiTotalDeb !== 'undefined' ? sum(dfMaiTotalDeb) : 0;
+  const dfJanCred = sum(dfJanTotalCred); const dfFevCred = sum(dfFevTotalCred); const dfMarCred = typeof dfMarTotalCred !== 'undefined' ? sum(dfMarTotalCred) : 0; const dfAbrCred = typeof dfAbrTotalCredGeral !== 'undefined' ? dfAbrTotalCredGeral : sum(dfAbrTotalCred); const dfMaiCred = typeof dfMaiTotalCredGeral !== 'undefined' ? dfMaiTotalCredGeral : sum(dfMaiTotalCred);
 
-  preencher('kpi-debito-go', fmt(goJanDeb+goFevDeb+goMarDeb));
-  preencher('kpi-credito-go', fmt(goJanCred+goFevCred+goMarCred));
-  preencher('kpi-pagar-go', fmt(sum(goJanAPagar)+sum(goFevAPagar)+sum(goMarAPagar)));
+  preencher('kpi-debito-go', fmt(goJanDeb+goFevDeb+goMarDeb+goAbrDeb+goMaiDeb));
+  preencher('kpi-credito-go', fmt(goJanCred+goFevCred+goMarCred+goAbrCred+goMaiCred));
+  preencher('kpi-pagar-go', fmt(sum(goJanAPagar)+sum(goFevAPagar)+sum(goMarAPagar)+sum(goAbrAPagar)+sum(goMaiAPagar)));
 
-  preencher('kpi-debito-df', fmt(dfJanDeb+dfFevDeb+dfMarDeb));
-  preencher('kpi-credito-df', fmt(dfJanCred+dfFevCred+dfMarCred));
-  preencher('kpi-pagar-df', fmt(sumPos(dfJanAPagar)+sumPos(dfFevAPagar)+ (typeof dfMarAPagar !== 'undefined' ? sumPos(dfMarAPagar) : 0)));
+  preencher('kpi-debito-df', fmt(dfJanDeb+dfFevDeb+dfMarDeb+dfAbrDeb+dfMaiDeb));
+  preencher('kpi-credito-df', fmt(dfJanCred+dfFevCred+dfMarCred+dfAbrCred+dfMaiCred));
+  preencher('kpi-pagar-df', fmt(sumPos(dfJanAPagar)+sumPos(dfFevAPagar)+ (typeof dfMarAPagar !== 'undefined' ? sumPos(dfMarAPagar) : 0) + (typeof dfAbrAPagarGeral !== 'undefined' ? dfAbrAPagarGeral : sumPos(dfAbrAPagar)) + (typeof dfMaiAPagarGeral !== 'undefined' ? dfMaiAPagarGeral : sumPos(dfMaiAPagar))));
 }
 
 // ══════════════════════════════════════════
@@ -2067,6 +2186,7 @@ function preencherLinhaSummary(prefix, m, d25, dv, d24) {
 
 function makeTable(containerId, lojas, rows) {
   const totalCol = r => {
+    if (Object.prototype.hasOwnProperty.call(r, 'totalOverride')) return r.totalOverride;
     if (r.type === 'pagar') return r.values.filter(v => v > 0).reduce((a,b)=>a+(b||0),0);
     if (r.type === 'highlight' && r.denominator) {
       const numerator = (r.usePositives ? r.values.filter(v => v > 0) : r.values)
@@ -2163,6 +2283,48 @@ function buildTables() {
     {label:'% Faturamento', values: goMarAPagar, denominator: goMarVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
   ]);
 
+  // GO ABR ENTRADAS
+  makeTable('tbl-go-abr-ent', LOJAS_GO, [
+    {label:'Valor Contábil', values: goAbrEnt.valorContabil},
+    {label:'Base de Cálculo', values: goAbrEnt.baseCalculo},
+    {label:'ICMS Crédito', values: goAbrEnt.icmsCredito},
+    {label:'CIAP', values: goAbrEnt.ciap},
+    {label:'ICMS Antecipado', values: goAbrEnt.icmsAntecipado},
+    {label:'ICMS Acumulado Entrada', values: goAbrEnt.acumulado},
+    {label:'TOTAL CRÉDITOS', values: goAbrTotalCred, type:'total'},
+  ]);
+  makeTable('tbl-go-abr-vnd', LOJAS_GO, [
+    {label:'Valor Contábil', values: goAbrVnd.valorContabil},
+    {label:'Base de Cálculo', values: goAbrVnd.baseCalculo},
+    {label:'Débito ICMS', values: goAbrVnd.debitoIcms},
+    {label:'Estorno de Crédito', values: goAbrVnd.estornoCredito},
+    {label:'DIFAL', values: goAbrVnd.difal},
+    {label:'TOTAL DÉBITO', values: goAbrTotalDeb, type:'total'},
+    {label:'TOTAL A PAGAR', values: goAbrAPagar, type:'pagar'},
+    {label:'% Faturamento', values: goAbrAPagar, denominator: goAbrVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
+  ]);
+
+  // GO MAI ENTRADAS
+  makeTable('tbl-go-mai-ent', LOJAS_GO, [
+    {label:'Valor Contábil', values: goMaiEnt.valorContabil},
+    {label:'Base de Cálculo', values: goMaiEnt.baseCalculo},
+    {label:'ICMS Crédito', values: goMaiEnt.icmsCredito},
+    {label:'CIAP', values: goMaiEnt.ciap},
+    {label:'ICMS Antecipado', values: goMaiEnt.icmsAntecipado},
+    {label:'ICMS Acumulado Entrada', values: goMaiEnt.acumulado},
+    {label:'TOTAL CRÉDITOS', values: goMaiTotalCred, type:'total'},
+  ]);
+  makeTable('tbl-go-mai-vnd', LOJAS_GO, [
+    {label:'Valor Contábil', values: goMaiVnd.valorContabil},
+    {label:'Base de Cálculo', values: goMaiVnd.baseCalculo},
+    {label:'Débito ICMS', values: goMaiVnd.debitoIcms},
+    {label:'Estorno de Crédito', values: goMaiVnd.estornoCredito},
+    {label:'DIFAL', values: goMaiVnd.difal},
+    {label:'TOTAL DÉBITO', values: goMaiTotalDeb, type:'total'},
+    {label:'TOTAL A PAGAR', values: goMaiAPagar, type:'pagar'},
+    {label:'% Faturamento', values: goMaiAPagar, denominator: goMaiVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
+  ]);
+
   // DF JAN ENTRADAS
   makeTable('tbl-df-jan-ent', LOJAS_DF, [
     {label:'Valor Contábil', values: dfJanEnt.valorContabil},
@@ -2225,6 +2387,55 @@ function buildTables() {
     {label:'TOTAL A PAGAR', values: dfMarAPagar, type:'pagar'},
     {label:'% Faturamento', values: dfMarAPagar, denominator: dfMarVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
   ]);
+
+  // DF ABR ENTRADAS
+  makeTable('tbl-df-abr-ent', LOJAS_DF, [
+    {label:'Valor Contábil', values: dfAbrEnt.valorContabil, totalOverride: 184378028.64},
+    {label:'Base de Cálculo', values: dfAbrEnt.baseCalculo, totalOverride: 75267049.47},
+    {label:'ICMS Crédito', values: dfAbrEnt.icmsCredito, totalOverride: 16438362.80},
+    {label:'Simples Nacional Crédito', values: dfAbrEnt.simplesNacionalCredito, totalOverride: 0},
+    {label:'CIAP', values: dfAbrEnt.ciap, totalOverride: 17147.23},
+    {label:'ICMS Antecipado', values: dfAbrEnt.icmsAntecipado, totalOverride: 165011.99},
+    {label:'Estorno de Débito Devolução ICMS ST', values: dfAbrEnt.estornoDebitoDevolucaoIcmsSt, totalOverride: 31181.35},
+    {label:'Crédito DIFAL Períodos Anteriores', values: dfAbrEnt.creditoDifalPeriodosAnteriores, totalOverride: 666766.20},
+    {label:'Crédito Período Anterior', values: dfAbrEnt.creditoAnterior, totalOverride: 1174816.47},
+    {label:'TOTAL CRÉDITOS', values: dfAbrTotalCred, type:'total', totalOverride: dfAbrTotalCredGeral},
+  ]);
+  makeTable('tbl-df-abr-vnd', LOJAS_DF, [
+    {label:'Valor Contábil', values: dfAbrVnd.valorContabil, totalOverride: 198713521.64},
+    {label:'Base de Cálculo', values: dfAbrVnd.baseCalculo, totalOverride: 77084305.11},
+    {label:'Débito ICMS', values: dfAbrVnd.debitoIcms, totalOverride: 17991945.29},
+    {label:'Estorno de Crédito', values: dfAbrVnd.estornoCredito, totalOverride: 195231.22},
+    {label:'DIFAL', values: dfAbrVnd.difal, totalOverride: 48362.56},
+    {label:'ICMS ST', values: dfAbrVnd.icmsSt, totalOverride: 13606.77},
+    {label:'TOTAL DÉBITO', values: dfAbrTotalDeb, type:'total', totalOverride: 18235539.07},
+    {label:'TOTAL A PAGAR', values: dfAbrAPagar, type:'pagar', totalOverride: dfAbrAPagarGeral},
+    {label:'% Faturamento', values: dfAbrAPagar, denominator: dfAbrVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
+  ]);
+
+  // DF MAI ENTRADAS
+  makeTable('tbl-df-mai-ent', LOJAS_DF, [
+    {label:'Valor Contábil', values: dfMaiEnt.valorContabil, totalOverride: 160249311.10},
+    {label:'Base de Cálculo', values: dfMaiEnt.baseCalculo, totalOverride: 75684126.21},
+    {label:'ICMS Crédito', values: dfMaiEnt.icmsCredito, totalOverride: 16417950.71},
+    {label:'Simples Nacional Crédito', values: dfMaiEnt.simplesNacionalCredito, totalOverride: 0},
+    {label:'CIAP', values: dfMaiEnt.ciap, totalOverride: 15922.06},
+    {label:'ICMS Antecipado', values: dfMaiEnt.icmsAntecipado, totalOverride: 149732.20},
+    {label:'Estorno de Débito Devolução ICMS ST', values: dfMaiEnt.estornoDebitoDevolucaoIcmsSt, totalOverride: 24747.12},
+    {label:'Crédito Período Anterior', values: dfMaiEnt.creditoAnterior, totalOverride: 1192514.47},
+    {label:'TOTAL CRÉDITOS', values: dfMaiTotalCred, type:'total', totalOverride: dfMaiTotalCredGeral},
+  ]);
+  makeTable('tbl-df-mai-vnd', LOJAS_DF, [
+    {label:'Valor Contábil', values: dfMaiVnd.valorContabil, totalOverride: 208674874.65},
+    {label:'Base de Cálculo', values: dfMaiVnd.baseCalculo, totalOverride: 79032708.64},
+    {label:'Débito ICMS', values: dfMaiVnd.debitoIcms, totalOverride: 18369389.463},
+    {label:'Estorno de Crédito', values: dfMaiVnd.estornoCredito, totalOverride: 201931.42},
+    {label:'DIFAL', values: dfMaiVnd.difal, totalOverride: 15417.27},
+    {label:'ICMS ST', values: dfMaiVnd.icmsSt, totalOverride: 12564.91},
+    {label:'TOTAL DÉBITO', values: dfMaiTotalDeb, type:'total', totalOverride: 18586738.153},
+    {label:'TOTAL A PAGAR', values: dfMaiAPagar, type:'pagar', totalOverride: dfMaiAPagarGeral},
+    {label:'% Faturamento', values: dfMaiAPagar, denominator: dfMaiVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
+  ]);
 }
 
 // ══════════════════════════════════════════
@@ -2235,11 +2446,11 @@ function drawEvolutionIcms() {
   if(!svg) return;
   const W=820, H=280, padL=70, padB=50, padT=30, padR=20;
   const chartW = W-padL-padR, chartH = H-padT-padB;
-  const months = ['Jan/2026','Fev/2026','Mar/2026'];
-  const goDebitos = [sum(goJanTotalDeb), sum(goFevTotalDeb), sum(goMarTotalDeb)];
-  const dfDebitos = [sum(dfJanTotalDeb), sum(dfFevTotalDeb), sum(dfMarTotalDeb)];
-  const goCreditos = [sum(goJanTotalCred), sum(goFevTotalCred), sum(goMarTotalCred)];
-  const dfCreditos = [sum(dfJanTotalCred), sum(dfFevTotalCred), sum(dfMarTotalCred)];
+  const months = ['Jan/2026','Fev/2026','Mar/2026','Abr/2026'];
+  const goDebitos = [sum(goJanTotalDeb), sum(goFevTotalDeb), sum(goMarTotalDeb), sum(goAbrTotalDeb)];
+  const dfDebitos = [sum(dfJanTotalDeb), sum(dfFevTotalDeb), sum(dfMarTotalDeb), sum(dfAbrTotalDeb)];
+  const goCreditos = [sum(goJanTotalCred), sum(goFevTotalCred), sum(goMarTotalCred), sum(goAbrTotalCred)];
+  const dfCreditos = [sum(dfJanTotalCred), sum(dfFevTotalCred), sum(dfMarTotalCred), dfAbrTotalCredGeral];
   const allVals = [...goDebitos,...dfDebitos,...goCreditos,...dfCreditos];
   const maxV = Math.max(...allVals) || 1;
   const groupW = chartW/months.length;
@@ -2270,14 +2481,14 @@ function drawEvolutionIcms() {
   svg.innerHTML = `<g>${yLines}${bars}${xLabels}${legSVG}</g>`;
 }
 
-function drawLojasChartIcms(svgId, lojas, janDebitos, fevDebitos, marDebitos = []) {
+function drawLojasChartIcms(svgId, lojas, janDebitos, fevDebitos, marDebitos = [], abrDebitos = []) {
   const svg = document.getElementById(svgId);
   if(!svg) return;
   const W=820, H=300, padL=90, padB=80, padT=30, padR=20;
   const chartW=W-padL-padR, chartH=H-padT-padB;
   const n=lojas.length;
-  const maxV=Math.max(...janDebitos,...fevDebitos,...marDebitos) || 1;
-  const groupW=chartW/n, bW=groupW/4;
+  const maxV=Math.max(...janDebitos,...fevDebitos,...marDebitos,...abrDebitos) || 1;
+  const groupW=chartW/n, bW=groupW/5;
 
   let bars='',xLabels='',yLines='';
   for(let t=0;t<=4;t++){
@@ -2287,7 +2498,7 @@ function drawLojasChartIcms(svgId, lojas, janDebitos, fevDebitos, marDebitos = [
 
   lojas.forEach((l,i)=>{
     const gx=padL+i*groupW+bW*0.2;
-    [{v:janDebitos[i],fill:'#0a1f5c'},{v:fevDebitos[i],fill:'#c0112b'},{v:marDebitos[i]||0,fill:'#2b5be0'}].forEach((d,di)=>{
+    [{v:janDebitos[i],fill:'#0a1f5c'},{v:fevDebitos[i],fill:'#c0112b'},{v:marDebitos[i]||0,fill:'#2b5be0'},{v:abrDebitos[i]||0,fill:'#16a34a'}].forEach((d,di)=>{
       const x=gx+di*bW, h=d.v?chartH*(d.v/maxV):2, y=padT+chartH-h;
       bars+=`<g class="bar-group"><rect class="bar-rect" x="${x}" y="${y}" width="${bW*0.85}" height="${h}" fill="${d.fill}" rx="2"/><text class="bar-label" x="${x+bW*0.42}" y="${y-4}" text-anchor="middle" font-size="8.5">${d.v>=1e6?(Math.round(d.v/1000000*10)/10)+'M':(Math.round(d.v/1e3))+'K'}</text></g>`;
     });
@@ -2296,7 +2507,7 @@ function drawLojasChartIcms(svgId, lojas, janDebitos, fevDebitos, marDebitos = [
   });
 
   const legY=H-10;
-  svg.innerHTML=`<g>${yLines}${bars}${xLabels}<rect x="${padL}" y="${legY-12}" width="12" height="12" fill="#0a1f5c" rx="2"/><text class="axis-label" x="${padL+16}" y="${legY}" font-size="10.5">Jan/2026</text><rect x="${padL+100}" y="${legY-12}" width="12" height="12" fill="#c0112b" rx="2"/><text class="axis-label" x="${padL+116}" y="${legY}" font-size="10.5">Fev/2026</text><rect x="${padL+200}" y="${legY-12}" width="12" height="12" fill="#2b5be0" rx="2"/><text class="axis-label" x="${padL+216}" y="${legY}" font-size="10.5">Mar/2026</text></g>`;
+  svg.innerHTML=`<g>${yLines}${bars}${xLabels}<rect x="${padL}" y="${legY-12}" width="12" height="12" fill="#0a1f5c" rx="2"/><text class="axis-label" x="${padL+16}" y="${legY}" font-size="10.5">Jan/2026</text><rect x="${padL+100}" y="${legY-12}" width="12" height="12" fill="#c0112b" rx="2"/><text class="axis-label" x="${padL+116}" y="${legY}" font-size="10.5">Fev/2026</text><rect x="${padL+200}" y="${legY-12}" width="12" height="12" fill="#2b5be0" rx="2"/><text class="axis-label" x="${padL+216}" y="${legY}" font-size="10.5">Mar/2026</text><rect x="${padL+300}" y="${legY-12}" width="12" height="12" fill="#16a34a" rx="2"/><text class="axis-label" x="${padL+316}" y="${legY}" font-size="10.5">Abr/2026</text></g>`;
 }
 
 // ══════════════════════════════════════════
@@ -2488,8 +2699,8 @@ window.addEventListener('load', function() {
     setKpisIcms();
     buildTables();
     drawEvolutionIcms();
-    drawLojasChartIcms('chart-lojas-go', LOJAS_GO, goJanTotalDeb, goFevTotalDeb, goMarTotalDeb);
-    drawLojasChartIcms('chart-lojas-df', LOJAS_DF, dfJanTotalDeb, dfFevTotalDeb, dfMarTotalDeb);
+    drawLojasChartIcms('chart-lojas-go', LOJAS_GO, goJanTotalDeb, goFevTotalDeb, goMarTotalDeb, goAbrTotalDeb);
+    drawLojasChartIcms('chart-lojas-df', LOJAS_DF, dfJanTotalDeb, dfFevTotalDeb, dfMarTotalDeb, dfAbrTotalDeb);
 
     // 4. Verifica o Modo Escuro
     if (localStorage.getItem('temaCentroOeste') === 'escuro') {
