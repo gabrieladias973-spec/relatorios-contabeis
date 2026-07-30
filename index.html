@@ -1294,6 +1294,18 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
     <div class="sec-title"><h2>VENDAS — DF</h2><span class="sec-pill red">Mai/2026</span></div>
     <div class="icms-table-wrap" id="tbl-df-mai-vnd"></div>
   </div>
+  <div class="icms-panel" id="icms-go-jun">
+    <div class="sec-title"><h2>ENTRADAS — GO</h2><span class="sec-pill">Jun/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-jun-ent"></div>
+    <div class="sec-title"><h2>VENDAS — GO</h2><span class="sec-pill red">Jun/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-go-jun-vnd"></div>
+  </div>
+  <div class="icms-panel" id="icms-df-jun">
+    <div class="sec-title"><h2>ENTRADAS — DF</h2><span class="sec-pill">Jun/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-jun-ent"></div>
+    <div class="sec-title"><h2>VENDAS — DF</h2><span class="sec-pill red">Jun/2026</span></div>
+    <div class="icms-table-wrap" id="tbl-df-jun-vnd"></div>
+  </div>
   <div class="icms-panel" id="icms-empty">
     <div class="icms-empty" id="icms-empty-text">Apuração ainda não cadastrada.</div>
   </div>
@@ -1793,6 +1805,7 @@ function showIcmsMonth(month, element) {
 // --- COLE ESTE BLOCO AQUI ---
 const LOJAS_GO = ['CAMPINAS','PAPILLON','PORTAL','GARAVELO','T7','CENTRO','ÁGUAS LINDAS-01','ÁGUAS LINDAS-02','LUZIÂNIA'];
 const LOJAS_DF = ['STA MARIA','SAM NORTE','SAM SUL','RECANTO','CEILÂNDIA','VICENTE PIRES','EPTG','MONTE MAR','TRANSPORTES'];
+const LOJAS_DF_JUN = ['STA MARIA','SAM NORTE','SAM SUL','RECANTO','CEILÂNDIA','VICENTE PIRES','EPTG','SOBRADINHO','MONTE MAR','TRANSPORTES'];
 
 // GO - JANEIRO ENTRADAS E VENDAS
 const goJanEnt = {
@@ -1898,6 +1911,26 @@ const goMaiVnd = {
 };
 const goMaiTotalDeb = LOJAS_GO.map((_,i)=> goMaiVnd.debitoIcms[i]+goMaiVnd.estornoCredito[i]+goMaiVnd.difal[i]);
 const goMaiAPagar = LOJAS_GO.map((_,i)=> goMaiTotalDeb[i]-goMaiTotalCred[i]);
+
+// GO - JUNHO ENTRADAS E VENDAS
+const goJunEnt = {
+  icmsCredito:   [1253061.16, 1380561.83, 831621.04, 1696285.03, 1035158.52, 1194774.76, 1195134.55, 1701239.62, 1745914.95],
+  ciap:          [1394.47, 1281.75, 544.10, 1638.41, 978.38, 1052.93, 775.61, 240.15, 1110.49],
+  icmsAntecipado:[45.57, 69.86, 65.16, 0, 51.03, 98.11, 86173.93, 142621.79, 157774.87],
+  acumulado:     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  valorContabil: [19489236.05, 18440296.22, 11990289.09, 22687130.67, 14822376.31, 16400180.41, 14529325.07, 20135113.67, 21819188.41],
+  baseCalculo:   [10956264.10, 11206310.01, 6827585.77, 13885264.36, 8559368.41, 9907895.35, 10263256.28, 14297995.53, 15625992.08]
+};
+const goJunTotalCred = LOJAS_GO.map((_,i)=> goJunEnt.icmsCredito[i]+goJunEnt.ciap[i]+goJunEnt.icmsAntecipado[i]+goJunEnt.acumulado[i]);
+const goJunVnd = {
+  debitoIcms:    [1936850.43, 2471544.48, 1565693.94, 2937564.61, 1798315.56, 2033757.47, 1623004.06, 2439583.22, 2375213.21],
+  estornoCredito:[26980.50, 22936.85, 16456.14, 26677.58, 23582.13, 24069.74, 126228.02, 109988.42, 122383.34],
+  difal:         [14413.57, 256.67, 2048.67, 2119.87, 444.89, 1854.65, 4850.09, 11205.45, 13950.99],
+  valorContabil: [18969960.85, 21570512.78, 13870235.89, 26454999.34, 17508023.16, 18817294.83, 16284585.59, 23119588.33, 23850391.95],
+  baseCalculo:   [12319596.36, 15568743.68, 9865852.04, 18851850.26, 11428788.10, 12797906.84, 10650105.23, 15983089.32, 15465960.93]
+};
+const goJunTotalDeb = LOJAS_GO.map((_,i)=> goJunVnd.debitoIcms[i]+goJunVnd.estornoCredito[i]+goJunVnd.difal[i]);
+const goJunAPagar = LOJAS_GO.map((_,i)=> goJunTotalDeb[i]-goJunTotalCred[i]);
 
 // DF - MARÇO ENTRADAS
 const dfMarEnt = {
@@ -2015,6 +2048,31 @@ const dfMaiTotalDeb = LOJAS_DF.map((_,i)=> dfMaiVnd.debitoIcms[i]+dfMaiVnd.estor
 const dfMaiAPagar = LOJAS_DF.map((_,i)=> dfMaiTotalDeb[i]-dfMaiTotalCred[i]);
 const dfMaiAPagarGeral = 1869345.453;
 
+// DF - JUNHO ENTRADAS E VENDAS
+const dfJunEnt = {
+  icmsCredito:    [1609356.25, 1137152.33, 471343.60, 881778.22, 1179424.41, 1193855.04, 775247.01, null, 9537818.15, null],
+  simplesNacionalCredito: [0, 0, null, null, null, null, null, null, null, null],
+  icmsAntecipado: [36524.62, 22531.13, 1439.99, 21877.80, 27754.68, 28780.94, 14429.06, null, null, null],
+  estornoDebitoDevolucaoIcmsSt: [3584.84, 2395.46, 2746.29, 4739.56, 1311.01, 3623.75, 3755.50, null, null, null],
+  ciap:           [4388.05, 1569.94, 83.56, 243.01, 552.87, 4498.49, 960.44, null, null, 2866.89],
+  creditoAnterior:[null, 1083473.86, null, 0, null, null, null, null, null, null],
+  valorContabil:  [28768028.16, 28673732.09, 9748868.88, 15686455.34, 21393270.62, 21783296.22, 13662841.78, 4078789.80, 37416985.33, 537998.63],
+  baseCalculo:    [8766455.59, 6761337.21, 2458055.18, 4785570.56, 6416290.09, 6629959.73, 4175509.49, null, 36181345.03, null]
+};
+const dfJunTotalCred = LOJAS_DF_JUN.map((_,i)=> (dfJunEnt.icmsCredito[i]||0)+(dfJunEnt.icmsAntecipado[i]||0)+(dfJunEnt.estornoDebitoDevolucaoIcmsSt[i]||0)+(dfJunEnt.ciap[i]||0)+(dfJunEnt.creditoAnterior[i]||0));
+const dfJunTotalCredGeral = 18037950.34;
+const dfJunVnd = {
+  debitoIcms:    [1856272.53, 1216064.54, 602306.26, 986697.90, 1337626.63, 1346998.96, 877451.23, null, 9876835.54, 92879.83],
+  estornoCredito:[30912.61, 13533.51, 993.93, 25601.34, 18897.24, 21814.98, 11167.93, null, null, null],
+  difal:         [113.51, 391.05, null, 6189.17, 1407.41, 4286.27, 87.95, 160079.27, null, 1958.34],
+  icmsSt:        [688.66, 581.16, 763.26, 572.43, 581.16, 3907.40, 563.70, null, null, null],
+  valorContabil: [32063579.87, 30982658.55, 10944529.25, 17141140.94, 23674713.09, 24422904.00, 15456823.59, null, 38306324.02, 650099.10],
+  baseCalculo:   [9304313.92, 6109712.01, 3027015.33, 4950691.67, 6715947.94, 6765486.31, 4403466.77, null, 35103271.01, 650099.10]
+};
+const dfJunTotalDeb = LOJAS_DF_JUN.map((_,i)=> (dfJunVnd.debitoIcms[i]||0)+(dfJunVnd.estornoCredito[i]||0)+(dfJunVnd.difal[i]||0));
+const dfJunAPagar = LOJAS_DF_JUN.map((_,i)=> dfJunTotalDeb[i]-dfJunTotalCred[i]);
+const dfJunAPagarGeral = 1447594.80;
+
 const fmt = v => v == null || isNaN(v) ? '—' : 'R$ ' + Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const sum = arr => arr.reduce((a,b)=>a+(b||0),0);
 const sumPos = arr => arr.filter(v => v > 0).reduce((a,b)=>a+b,0);
@@ -2025,6 +2083,7 @@ const ICMS_MONTHS = [
   {key:'mar', label:'Março', short:'Mar', go:{ent:goMarEnt, vnd:goMarVnd, cred:goMarTotalCred, deb:goMarTotalDeb, pagar:goMarAPagar}, df:{ent:dfMarEnt, vnd:dfMarVnd, cred:dfMarTotalCred, deb:dfMarTotalDeb, pagar:dfMarAPagar}},
   {key:'abr', label:'Abril', short:'Abr', go:{ent:goAbrEnt, vnd:goAbrVnd, cred:goAbrTotalCred, deb:goAbrTotalDeb, pagar:goAbrAPagar}, df:{ent:dfAbrEnt, vnd:dfAbrVnd, cred:dfAbrTotalCred, deb:dfAbrTotalDeb, pagar:dfAbrAPagar, credTotal:dfAbrTotalCredGeral, pagarTotal:dfAbrAPagarGeral}},
   {key:'mai', label:'Maio', short:'Mai', go:{ent:goMaiEnt, vnd:goMaiVnd, cred:goMaiTotalCred, deb:goMaiTotalDeb, pagar:goMaiAPagar}, df:{ent:dfMaiEnt, vnd:dfMaiVnd, cred:dfMaiTotalCred, deb:dfMaiTotalDeb, pagar:dfMaiAPagar, credTotal:dfMaiTotalCredGeral, pagarTotal:dfMaiAPagarGeral}},
+  {key:'jun', label:'Junho', short:'Jun', go:{ent:goJunEnt, vnd:goJunVnd, cred:goJunTotalCred, deb:goJunTotalDeb, pagar:goJunAPagar}, df:{ent:dfJunEnt, vnd:dfJunVnd, cred:dfJunTotalCred, deb:dfJunTotalDeb, pagar:dfJunAPagar, credTotal:dfJunTotalCredGeral, pagarTotal:dfJunAPagarGeral}},
 ];
 
 function monthUfMetrics(month, uf) {
@@ -2513,6 +2572,27 @@ function buildTables() {
     {label:'% Faturamento', values: goMaiAPagar, denominator: goMaiVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
   ]);
 
+  // GO JUN ENTRADAS
+  makeTable('tbl-go-jun-ent', LOJAS_GO, [
+    {label:'Valor Contábil', values: goJunEnt.valorContabil},
+    {label:'Base de Cálculo', values: goJunEnt.baseCalculo},
+    {label:'ICMS Crédito', values: goJunEnt.icmsCredito},
+    {label:'CIAP', values: goJunEnt.ciap},
+    {label:'ICMS Antecipado', values: goJunEnt.icmsAntecipado},
+    {label:'ICMS Acumulado Entrada', values: goJunEnt.acumulado},
+    {label:'TOTAL CRÉDITOS', values: goJunTotalCred, type:'total'},
+  ]);
+  makeTable('tbl-go-jun-vnd', LOJAS_GO, [
+    {label:'Valor Contábil', values: goJunVnd.valorContabil},
+    {label:'Base de Cálculo', values: goJunVnd.baseCalculo},
+    {label:'Débito ICMS', values: goJunVnd.debitoIcms},
+    {label:'Estorno de Crédito', values: goJunVnd.estornoCredito},
+    {label:'DIFAL', values: goJunVnd.difal},
+    {label:'TOTAL DÉBITO', values: goJunTotalDeb, type:'total'},
+    {label:'TOTAL A PAGAR', values: goJunAPagar, type:'pagar'},
+    {label:'% Faturamento', values: goJunAPagar, denominator: goJunVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
+  ]);
+
   // DF JAN ENTRADAS
   makeTable('tbl-df-jan-ent', LOJAS_DF, [
     {label:'Valor Contábil', values: dfJanEnt.valorContabil},
@@ -2623,6 +2703,30 @@ function buildTables() {
     {label:'TOTAL DÉBITO', values: dfMaiTotalDeb, type:'total', totalOverride: 18586738.153},
     {label:'TOTAL A PAGAR', values: dfMaiAPagar, type:'pagar', totalOverride: dfMaiAPagarGeral},
     {label:'% Faturamento', values: dfMaiAPagar, denominator: dfMaiVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
+  ]);
+
+  // DF JUN ENTRADAS
+  makeTable('tbl-df-jun-ent', LOJAS_DF_JUN, [
+    {label:'Valor Contábil', values: dfJunEnt.valorContabil, totalOverride: 181750266.85},
+    {label:'Base de Cálculo', values: dfJunEnt.baseCalculo, totalOverride: 76174522.88},
+    {label:'ICMS Crédito', values: dfJunEnt.icmsCredito, totalOverride: 16785975.01},
+    {label:'Simples Nacional Crédito', values: dfJunEnt.simplesNacionalCredito, totalOverride: 0},
+    {label:'CIAP', values: dfJunEnt.ciap, totalOverride: 15163.25},
+    {label:'ICMS Antecipado', values: dfJunEnt.icmsAntecipado, totalOverride: 153338.22},
+    {label:'Estorno de Débito Devolução ICMS ST', values: dfJunEnt.estornoDebitoDevolucaoIcmsSt, totalOverride: 22156.41},
+    {label:'Crédito Período Anterior', values: dfJunEnt.creditoAnterior, totalOverride: 1083473.86},
+    {label:'TOTAL CRÉDITOS', values: dfJunTotalCred, type:'total', totalOverride: dfJunTotalCredGeral},
+  ]);
+  makeTable('tbl-df-jun-vnd', LOJAS_DF_JUN, [
+    {label:'Valor Contábil', values: dfJunVnd.valorContabil, totalOverride: 193642772.41},
+    {label:'Base de Cálculo', values: dfJunVnd.baseCalculo, totalOverride: 77030004.06},
+    {label:'Débito ICMS', values: dfJunVnd.debitoIcms, totalOverride: 18193133.42},
+    {label:'Estorno de Crédito', values: dfJunVnd.estornoCredito, totalOverride: 122921.54},
+    {label:'DIFAL', values: dfJunVnd.difal, totalOverride: 174512.97},
+    {label:'ICMS ST', values: dfJunVnd.icmsSt, totalOverride: 7657.77},
+    {label:'TOTAL DÉBITO', values: dfJunTotalDeb, type:'total', totalOverride: 18490567.93},
+    {label:'TOTAL A PAGAR', values: dfJunAPagar, type:'pagar', totalOverride: dfJunAPagarGeral},
+    {label:'% Faturamento', values: dfJunAPagar, denominator: dfJunVnd.valorContabil, type:'highlight', format:'percent', usePositives:true},
   ]);
 }
 
@@ -2896,7 +3000,10 @@ window.addEventListener('load', function() {
     buildTables();
     drawEvolutionIcms();
     drawLojasChartIcms('chart-lojas-go', LOJAS_GO, ICMS_MONTHS.map(m => ({label:m.short, values:m.go.deb})));
-    drawLojasChartIcms('chart-lojas-df', LOJAS_DF, ICMS_MONTHS.map(m => ({label:m.short, values:m.df.deb})));
+    drawLojasChartIcms('chart-lojas-df', LOJAS_DF_JUN, ICMS_MONTHS.map(m => ({
+      label:m.short,
+      values:m.key === 'jun' ? m.df.deb : [...m.df.deb.slice(0,7), 0, ...m.df.deb.slice(7)]
+    })));
 
     // 4. Verifica o Modo Escuro
     if (localStorage.getItem('temaCentroOeste') === 'escuro') {
