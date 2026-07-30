@@ -82,6 +82,11 @@ body {
 .panel.active { display: block; flex: 1 0 auto; width: 100%; }
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
+/* Painel externo de débitos SEFAZ-GO */
+#panel-sefaz{max-width:none;padding:0;height:calc(100dvh - 121px);min-height:720px;overflow:hidden;}
+#panel-sefaz.active{display:flex;}
+#panel-sefaz iframe{width:100%;height:100%;border:0;background:var(--off);}
+
 /* ── CO HEADER (TITULOS) ── */
 .co-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--gray3);}
 .co-name{font-family:'DM Serif Display',serif;font-size:26px;color:var(--b900);line-height:1.2;}
@@ -268,6 +273,27 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 #panel-icms .kpi-card-value { font-family: 'JetBrains Mono', monospace; font-size: 1.45rem; font-weight: 600; color: var(--b900); }
 #panel-icms .kpi-card-sub { font-size: .75rem; color: var(--gray5); margin-top: 4px; }
 
+#panel-icms .icms-analysis-card { background: #fff; border: 1px solid var(--gray3); border-radius: 10px; padding: 24px; box-shadow: 0 2px 16px var(--icms-sombra); margin-bottom: 30px; }
+#panel-icms .icms-analysis-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+#panel-icms .icms-analysis-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.45rem; letter-spacing: 2px; color: var(--b900); }
+#panel-icms .icms-analysis-period { color: var(--gray5); font-size: .82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+#panel-icms .icms-analysis-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 12px; margin-bottom: 18px; }
+#panel-icms .icms-analysis-metric { border-left: 4px solid var(--b400); background: var(--off); border-radius: 8px; padding: 14px 16px; min-height: 92px; }
+#panel-icms .icms-analysis-metric.red { border-left-color: var(--r600); }
+#panel-icms .icms-analysis-label { color: var(--gray5); font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 7px; }
+#panel-icms .icms-analysis-value { font-family: 'JetBrains Mono', monospace; color: var(--b900); font-size: 1rem; font-weight: 700; }
+#panel-icms .icms-analysis-sub { color: var(--gray5); font-size: .74rem; margin-top: 4px; }
+#panel-icms .icms-analysis-var.pos { color: #047857; }
+#panel-icms .icms-analysis-var.neg { color: var(--r600); }
+#panel-icms .icms-analysis-table { overflow-x: auto; border-radius: 8px; border: 1px solid var(--gray3); }
+#panel-icms .icms-analysis-table table { width: 100%; border-collapse: collapse; background: #fff; font-size: .8rem; }
+#panel-icms .icms-analysis-table th { background: var(--b900); color: #fff; padding: 11px 12px; text-align: right; white-space: nowrap; }
+#panel-icms .icms-analysis-table th:first-child, #panel-icms .icms-analysis-table td:first-child { text-align: left; }
+#panel-icms .icms-analysis-table td { padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--gray1); font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+#panel-icms .icms-analysis-table td:first-child { font-family: 'DM Sans', sans-serif; font-weight: 700; color: var(--b800); }
+#panel-icms .icms-analysis-table .pos { color: #047857; font-weight: 700; }
+#panel-icms .icms-analysis-table .neg { color: var(--r600); font-weight: 700; }
+
 #panel-icms .sec-title { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; margin-top: 36px; }
 #panel-icms .sec-title h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 2px; color: var(--b900); }
 #panel-icms .sec-pill { background: var(--b900); color: #fff; font-size: .68rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
@@ -318,6 +344,12 @@ body.dark-mode .chart-card h3 { color: #fff; background: linear-gradient(90deg, 
 body.dark-mode #panel-icms .sec-title h2 { color: #fff; background: linear-gradient(90deg, #1E293B 0%, #334155 100%); padding: 8px 12px; border-radius: 6px; }
 body.dark-mode #panel-icms .sec-pill { background: #1E293B; color: #fff; border: 1px solid #334155; }
 body.dark-mode #panel-icms .sec-pill.red { background: #7F1D1D; color: #fff; border: 1px solid #991B1B; }
+body.dark-mode #panel-icms .icms-analysis-card, body.dark-mode #panel-icms .icms-analysis-table table { background: #1E293B; border-color: #334155; }
+body.dark-mode #panel-icms .icms-analysis-metric { background: #0F172A; }
+body.dark-mode #panel-icms .icms-analysis-title, body.dark-mode #panel-icms .icms-analysis-value { color: #fff; }
+body.dark-mode #panel-icms .icms-analysis-table th { background: #0F172A; }
+body.dark-mode #panel-icms .icms-analysis-table td { color: #fff; border-bottom-color: #334155; }
+body.dark-mode #panel-icms .icms-analysis-table td:first-child { color: #E2E8F0; }
 body.dark-mode #panel-icms .kpi-card-value { color: #fff; }
 body.dark-mode #panel-icms .icms-table-wrap thead th { background: #0F172A; color: #fff; }
 body.dark-mode #panel-icms .icms-table-wrap thead th.total-col { background: #334155; }
@@ -388,6 +420,7 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
 <div class="nav">
   <div class="tab tax-tab active" onclick="show('impostos', this)">⚡ Impostos</div>
   <div class="tab" onclick="show('icms', this)" style="color: #6A9AF5;">📊 ICMS 2026</div>
+  <div class="tab" onclick="show('sefaz', this)" style="color: #F59E0B;">Débitos SEFAZ-GO</div>
   <div class="tab" onclick="show('geral', this)">Visão Geral</div>
   <div class="tab" onclick="show('alim', this)">Tatico</div>
   <div class="tab" onclick="show('montemar', this)">Monte Mar</div>
@@ -1131,6 +1164,18 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
   </div>
 
   <div class="icms-panel active" id="icms-visao-geral">
+    <div class="icms-analysis-card">
+      <div class="icms-analysis-head">
+        <div>
+          <div class="icms-analysis-title">Variação Mensal ICMS</div>
+          <div class="icms-analysis-period" id="icms-analysis-period"></div>
+        </div>
+        <span class="sec-pill" id="icms-analysis-pill">Automático</span>
+      </div>
+      <div class="icms-analysis-grid" id="icms-analysis-grid"></div>
+      <div class="icms-analysis-table" id="icms-analysis-table"></div>
+    </div>
+
     <div class="kpi-grid">
       <div class="kpi-card">
         <div class="kpi-card-label">Débito Total ICMS GO</div>
@@ -1253,6 +1298,14 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
     <div class="icms-empty" id="icms-empty-text">Apuração ainda não cadastrada.</div>
   </div>
 
+</div>
+
+<div class="panel" id="panel-sefaz">
+  <iframe
+    src="painel_debitos_sefaz_go.html"
+    title="Painel de Débitos SEFAZ-GO"
+    loading="lazy">
+  </iframe>
 </div>
 
 <script>
@@ -1952,19 +2005,140 @@ const fmt = v => v == null || isNaN(v) ? '—' : 'R$ ' + Number(v).toLocaleStrin
 const sum = arr => arr.reduce((a,b)=>a+(b||0),0);
 const sumPos = arr => arr.filter(v => v > 0).reduce((a,b)=>a+b,0);
 
+const ICMS_MONTHS = [
+  {key:'jan', label:'Janeiro', short:'Jan', go:{ent:goJanEnt, vnd:goJanVnd, cred:goJanTotalCred, deb:goJanTotalDeb, pagar:goJanAPagar}, df:{ent:dfJanEnt, vnd:dfJanVnd, cred:dfJanTotalCred, deb:dfJanTotalDeb, pagar:dfJanAPagar}},
+  {key:'fev', label:'Fevereiro', short:'Fev', go:{ent:goFevEnt, vnd:goFevVnd, cred:goFevTotalCred, deb:goFevTotalDeb, pagar:goFevAPagar}, df:{ent:dfFevEnt, vnd:dfFevVnd, cred:dfFevTotalCred, deb:dfFevTotalDeb, pagar:dfFevAPagar}},
+  {key:'mar', label:'Março', short:'Mar', go:{ent:goMarEnt, vnd:goMarVnd, cred:goMarTotalCred, deb:goMarTotalDeb, pagar:goMarAPagar}, df:{ent:dfMarEnt, vnd:dfMarVnd, cred:dfMarTotalCred, deb:dfMarTotalDeb, pagar:dfMarAPagar}},
+  {key:'abr', label:'Abril', short:'Abr', go:{ent:goAbrEnt, vnd:goAbrVnd, cred:goAbrTotalCred, deb:goAbrTotalDeb, pagar:goAbrAPagar}, df:{ent:dfAbrEnt, vnd:dfAbrVnd, cred:dfAbrTotalCred, deb:dfAbrTotalDeb, pagar:dfAbrAPagar, credTotal:dfAbrTotalCredGeral, pagarTotal:dfAbrAPagarGeral}},
+  {key:'mai', label:'Maio', short:'Mai', go:{ent:goMaiEnt, vnd:goMaiVnd, cred:goMaiTotalCred, deb:goMaiTotalDeb, pagar:goMaiAPagar}, df:{ent:dfMaiEnt, vnd:dfMaiVnd, cred:dfMaiTotalCred, deb:dfMaiTotalDeb, pagar:dfMaiAPagar, credTotal:dfMaiTotalCredGeral, pagarTotal:dfMaiAPagarGeral}},
+];
+
+function monthUfMetrics(month, uf) {
+  const data = month[uf];
+  const faturamento = sum(data.vnd.valorContabil);
+  const debito = sum(data.deb);
+  const credito = data.credTotal ?? sum(data.cred);
+  const pagar = data.pagarTotal ?? (uf === 'df' ? sumPos(data.pagar) : sum(data.pagar));
+  return { faturamento, debito, credito, pagar };
+}
+
+function monthMetrics(month) {
+  const go = monthUfMetrics(month, 'go');
+  const df = monthUfMetrics(month, 'df');
+  return {
+    label: month.label,
+    short: month.short,
+    go,
+    df,
+    total: {
+      faturamento: go.faturamento + df.faturamento,
+      debito: go.debito + df.debito,
+      credito: go.credito + df.credito,
+      pagar: go.pagar + df.pagar
+    }
+  };
+}
+
+function pctChange(current, previous) {
+  if (!previous) return null;
+  return ((current - previous) / Math.abs(previous)) * 100;
+}
+
+function vertical(current, base) {
+  if (!base) return null;
+  return (current / base) * 100;
+}
+
+function fmtSignedPct(v) {
+  if (v == null || isNaN(v)) return '—';
+  const sign = v > 0 ? '+' : '';
+  return sign + Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '%';
+}
+
+function varClass(v) {
+  if (v == null || isNaN(v) || v === 0) return '';
+  return v > 0 ? 'pos' : 'neg';
+}
+
+function renderIcmsMonthlyAnalysis() {
+  if (ICMS_MONTHS.length < 2) return;
+  const previous = monthMetrics(ICMS_MONTHS[ICMS_MONTHS.length - 2]);
+  const current = monthMetrics(ICMS_MONTHS[ICMS_MONTHS.length - 1]);
+  const period = document.getElementById('icms-analysis-period');
+  const pill = document.getElementById('icms-analysis-pill');
+  const grid = document.getElementById('icms-analysis-grid');
+  const table = document.getElementById('icms-analysis-table');
+  if (!period || !pill || !grid || !table) return;
+
+  period.innerText = `${current.label}/2026 comparado com ${previous.label}/2026`;
+  pill.innerText = `${previous.short} → ${current.short}`;
+
+  const cards = [
+    ['Faturamento Consolidado', current.total.faturamento, pctChange(current.total.faturamento, previous.total.faturamento), vertical(current.total.faturamento, current.total.faturamento)],
+    ['Débito ICMS Consolidado', current.total.debito, pctChange(current.total.debito, previous.total.debito), vertical(current.total.debito, current.total.faturamento)],
+    ['Crédito ICMS Consolidado', current.total.credito, pctChange(current.total.credito, previous.total.credito), vertical(current.total.credito, current.total.faturamento)],
+    ['Total a Pagar Consolidado', current.total.pagar, pctChange(current.total.pagar, previous.total.pagar), vertical(current.total.pagar, current.total.faturamento), 'red'],
+  ];
+
+  grid.innerHTML = cards.map(([label, value, ah, av, cls]) => `
+    <div class="icms-analysis-metric ${cls || ''}">
+      <div class="icms-analysis-label">${label}</div>
+      <div class="icms-analysis-value">${fmt(value)}</div>
+      <div class="icms-analysis-sub">AH <span class="icms-analysis-var ${varClass(ah)}">${fmtSignedPct(ah)}</span> · AV atual ${fmtPct(av)}</div>
+    </div>
+  `).join('');
+
+  const rows = [
+    ['GO', current.go, previous.go],
+    ['DF', current.df, previous.df],
+    ['Consolidado', current.total, previous.total],
+  ];
+  table.innerHTML = `<table>
+    <thead><tr><th>Visão</th><th>Faturamento</th><th>AH Fat.</th><th>Débito</th><th>AH Déb.</th><th>AV Déb. Ant.</th><th>AV Déb. Atual</th><th>Crédito</th><th>AH Créd.</th><th>AV Créd. Ant.</th><th>AV Créd. Atual</th><th>A Pagar</th><th>AH Pagar</th><th>AV Pagar Ant.</th><th>AV Pagar Atual</th></tr></thead>
+    <tbody>${rows.map(([label, cur, prev]) => {
+      const ahFat = pctChange(cur.faturamento, prev.faturamento);
+      const ahDeb = pctChange(cur.debito, prev.debito);
+      const ahCred = pctChange(cur.credito, prev.credito);
+      const ahPagar = pctChange(cur.pagar, prev.pagar);
+      return `<tr>
+        <td>${label}</td>
+        <td>${fmt(cur.faturamento)}</td>
+        <td class="${varClass(ahFat)}">${fmtSignedPct(ahFat)}</td>
+        <td>${fmt(cur.debito)}</td>
+        <td class="${varClass(ahDeb)}">${fmtSignedPct(ahDeb)}</td>
+        <td>${fmtPct(vertical(prev.debito, prev.faturamento))}</td>
+        <td>${fmtPct(vertical(cur.debito, cur.faturamento))}</td>
+        <td>${fmt(cur.credito)}</td>
+        <td class="${varClass(ahCred)}">${fmtSignedPct(ahCred)}</td>
+        <td>${fmtPct(vertical(prev.credito, prev.faturamento))}</td>
+        <td>${fmtPct(vertical(cur.credito, cur.faturamento))}</td>
+        <td>${fmt(cur.pagar)}</td>
+        <td class="${varClass(ahPagar)}">${fmtSignedPct(ahPagar)}</td>
+        <td>${fmtPct(vertical(prev.pagar, prev.faturamento))}</td>
+        <td>${fmtPct(vertical(cur.pagar, cur.faturamento))}</td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table>`;
+}
+
 function setKpisIcms() {
-  const goJanDeb = sum(goJanTotalDeb); const goFevDeb = sum(goFevTotalDeb); const goMarDeb = sum(goMarTotalDeb); const goAbrDeb = typeof goAbrTotalDeb !== 'undefined' ? sum(goAbrTotalDeb) : 0; const goMaiDeb = typeof goMaiTotalDeb !== 'undefined' ? sum(goMaiTotalDeb) : 0;
-  const goJanCred = sum(goJanTotalCred); const goFevCred = sum(goFevTotalCred); const goMarCred = sum(goMarTotalCred); const goAbrCred = typeof goAbrTotalCred !== 'undefined' ? sum(goAbrTotalCred) : 0; const goMaiCred = typeof goMaiTotalCred !== 'undefined' ? sum(goMaiTotalCred) : 0;
-  const dfJanDeb = sum(dfJanTotalDeb); const dfFevDeb = sum(dfFevTotalDeb); const dfMarDeb = typeof dfMarTotalDeb !== 'undefined' ? sum(dfMarTotalDeb) : 0; const dfAbrDeb = typeof dfAbrTotalDeb !== 'undefined' ? sum(dfAbrTotalDeb) : 0; const dfMaiDeb = typeof dfMaiTotalDeb !== 'undefined' ? sum(dfMaiTotalDeb) : 0;
-  const dfJanCred = sum(dfJanTotalCred); const dfFevCred = sum(dfFevTotalCred); const dfMarCred = typeof dfMarTotalCred !== 'undefined' ? sum(dfMarTotalCred) : 0; const dfAbrCred = typeof dfAbrTotalCredGeral !== 'undefined' ? dfAbrTotalCredGeral : sum(dfAbrTotalCred); const dfMaiCred = typeof dfMaiTotalCredGeral !== 'undefined' ? dfMaiTotalCredGeral : sum(dfMaiTotalCred);
+  const total = ICMS_MONTHS.map(monthMetrics).reduce((acc, month) => {
+    acc.go.debito += month.go.debito;
+    acc.go.credito += month.go.credito;
+    acc.go.pagar += month.go.pagar;
+    acc.df.debito += month.df.debito;
+    acc.df.credito += month.df.credito;
+    acc.df.pagar += month.df.pagar;
+    return acc;
+  }, {go:{debito:0, credito:0, pagar:0}, df:{debito:0, credito:0, pagar:0}});
 
-  preencher('kpi-debito-go', fmt(goJanDeb+goFevDeb+goMarDeb+goAbrDeb+goMaiDeb));
-  preencher('kpi-credito-go', fmt(goJanCred+goFevCred+goMarCred+goAbrCred+goMaiCred));
-  preencher('kpi-pagar-go', fmt(sum(goJanAPagar)+sum(goFevAPagar)+sum(goMarAPagar)+sum(goAbrAPagar)+sum(goMaiAPagar)));
+  preencher('kpi-debito-go', fmt(total.go.debito));
+  preencher('kpi-credito-go', fmt(total.go.credito));
+  preencher('kpi-pagar-go', fmt(total.go.pagar));
 
-  preencher('kpi-debito-df', fmt(dfJanDeb+dfFevDeb+dfMarDeb+dfAbrDeb+dfMaiDeb));
-  preencher('kpi-credito-df', fmt(dfJanCred+dfFevCred+dfMarCred+dfAbrCred+dfMaiCred));
-  preencher('kpi-pagar-df', fmt(sumPos(dfJanAPagar)+sumPos(dfFevAPagar)+ (typeof dfMarAPagar !== 'undefined' ? sumPos(dfMarAPagar) : 0) + (typeof dfAbrAPagarGeral !== 'undefined' ? dfAbrAPagarGeral : sumPos(dfAbrAPagar)) + (typeof dfMaiAPagarGeral !== 'undefined' ? dfMaiAPagarGeral : sumPos(dfMaiAPagar))));
+  preencher('kpi-debito-df', fmt(total.df.debito));
+  preencher('kpi-credito-df', fmt(total.df.credito));
+  preencher('kpi-pagar-df', fmt(total.df.pagar));
 }
 
 // ══════════════════════════════════════════
@@ -2446,11 +2620,12 @@ function drawEvolutionIcms() {
   if(!svg) return;
   const W=820, H=280, padL=70, padB=50, padT=30, padR=20;
   const chartW = W-padL-padR, chartH = H-padT-padB;
-  const months = ['Jan/2026','Fev/2026','Mar/2026','Abr/2026'];
-  const goDebitos = [sum(goJanTotalDeb), sum(goFevTotalDeb), sum(goMarTotalDeb), sum(goAbrTotalDeb)];
-  const dfDebitos = [sum(dfJanTotalDeb), sum(dfFevTotalDeb), sum(dfMarTotalDeb), sum(dfAbrTotalDeb)];
-  const goCreditos = [sum(goJanTotalCred), sum(goFevTotalCred), sum(goMarTotalCred), sum(goAbrTotalCred)];
-  const dfCreditos = [sum(dfJanTotalCred), sum(dfFevTotalCred), sum(dfMarTotalCred), dfAbrTotalCredGeral];
+  const data = ICMS_MONTHS.map(monthMetrics);
+  const months = data.map(m => `${m.short}/2026`);
+  const goDebitos = data.map(m => m.go.debito);
+  const dfDebitos = data.map(m => m.df.debito);
+  const goCreditos = data.map(m => m.go.credito);
+  const dfCreditos = data.map(m => m.df.credito);
   const allVals = [...goDebitos,...dfDebitos,...goCreditos,...dfCreditos];
   const maxV = Math.max(...allVals) || 1;
   const groupW = chartW/months.length;
@@ -2481,14 +2656,15 @@ function drawEvolutionIcms() {
   svg.innerHTML = `<g>${yLines}${bars}${xLabels}${legSVG}</g>`;
 }
 
-function drawLojasChartIcms(svgId, lojas, janDebitos, fevDebitos, marDebitos = [], abrDebitos = []) {
+function drawLojasChartIcms(svgId, lojas, monthDebitos) {
   const svg = document.getElementById(svgId);
   if(!svg) return;
   const W=820, H=300, padL=90, padB=80, padT=30, padR=20;
   const chartW=W-padL-padR, chartH=H-padT-padB;
   const n=lojas.length;
-  const maxV=Math.max(...janDebitos,...fevDebitos,...marDebitos,...abrDebitos) || 1;
-  const groupW=chartW/n, bW=groupW/5;
+  const maxV=Math.max(...monthDebitos.flatMap(m => m.values)) || 1;
+  const groupW=chartW/n, bW=groupW/(monthDebitos.length + 1);
+  const colors = ['#0a1f5c', '#c0112b', '#2b5be0', '#16a34a', '#9333ea', '#f59e0b', '#0891b2', '#64748b'];
 
   let bars='',xLabels='',yLines='';
   for(let t=0;t<=4;t++){
@@ -2498,7 +2674,8 @@ function drawLojasChartIcms(svgId, lojas, janDebitos, fevDebitos, marDebitos = [
 
   lojas.forEach((l,i)=>{
     const gx=padL+i*groupW+bW*0.2;
-    [{v:janDebitos[i],fill:'#0a1f5c'},{v:fevDebitos[i],fill:'#c0112b'},{v:marDebitos[i]||0,fill:'#2b5be0'},{v:abrDebitos[i]||0,fill:'#16a34a'}].forEach((d,di)=>{
+    monthDebitos.forEach((month,di)=>{
+      const d = {v: month.values[i] || 0, fill: colors[di % colors.length]};
       const x=gx+di*bW, h=d.v?chartH*(d.v/maxV):2, y=padT+chartH-h;
       bars+=`<g class="bar-group"><rect class="bar-rect" x="${x}" y="${y}" width="${bW*0.85}" height="${h}" fill="${d.fill}" rx="2"/><text class="bar-label" x="${x+bW*0.42}" y="${y-4}" text-anchor="middle" font-size="8.5">${d.v>=1e6?(Math.round(d.v/1000000*10)/10)+'M':(Math.round(d.v/1e3))+'K'}</text></g>`;
     });
@@ -2507,7 +2684,11 @@ function drawLojasChartIcms(svgId, lojas, janDebitos, fevDebitos, marDebitos = [
   });
 
   const legY=H-10;
-  svg.innerHTML=`<g>${yLines}${bars}${xLabels}<rect x="${padL}" y="${legY-12}" width="12" height="12" fill="#0a1f5c" rx="2"/><text class="axis-label" x="${padL+16}" y="${legY}" font-size="10.5">Jan/2026</text><rect x="${padL+100}" y="${legY-12}" width="12" height="12" fill="#c0112b" rx="2"/><text class="axis-label" x="${padL+116}" y="${legY}" font-size="10.5">Fev/2026</text><rect x="${padL+200}" y="${legY-12}" width="12" height="12" fill="#2b5be0" rx="2"/><text class="axis-label" x="${padL+216}" y="${legY}" font-size="10.5">Mar/2026</text><rect x="${padL+300}" y="${legY-12}" width="12" height="12" fill="#16a34a" rx="2"/><text class="axis-label" x="${padL+316}" y="${legY}" font-size="10.5">Abr/2026</text></g>`;
+  const legend = monthDebitos.map((month, i) => {
+    const lx = padL + i * 95;
+    return `<rect x="${lx}" y="${legY-12}" width="12" height="12" fill="${colors[i % colors.length]}" rx="2"/><text class="axis-label" x="${lx+16}" y="${legY}" font-size="10.5">${month.label}/2026</text>`;
+  }).join('');
+  svg.innerHTML=`<g>${yLines}${bars}${xLabels}${legend}</g>`;
 }
 
 // ══════════════════════════════════════════
@@ -2696,11 +2877,12 @@ window.addEventListener('load', function() {
     carregarTodosOsImpostos();
 
     // 3. Inicializa Gráficos e ICMS 2026
+    renderIcmsMonthlyAnalysis();
     setKpisIcms();
     buildTables();
     drawEvolutionIcms();
-    drawLojasChartIcms('chart-lojas-go', LOJAS_GO, goJanTotalDeb, goFevTotalDeb, goMarTotalDeb, goAbrTotalDeb);
-    drawLojasChartIcms('chart-lojas-df', LOJAS_DF, dfJanTotalDeb, dfFevTotalDeb, dfMarTotalDeb, dfAbrTotalDeb);
+    drawLojasChartIcms('chart-lojas-go', LOJAS_GO, ICMS_MONTHS.map(m => ({label:m.short, values:m.go.deb})));
+    drawLojasChartIcms('chart-lojas-df', LOJAS_DF, ICMS_MONTHS.map(m => ({label:m.short, values:m.df.deb})));
 
     // 4. Verifica o Modo Escuro
     if (localStorage.getItem('temaCentroOeste') === 'escuro') {
