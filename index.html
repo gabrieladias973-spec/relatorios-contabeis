@@ -1304,11 +1304,25 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
   <iframe
     src="painel_debitos_sefaz_go.html"
     title="Painel de Débitos SEFAZ-GO"
-    loading="lazy">
+    loading="lazy"
+    onload="ajustarPainelSefaz(this)">
   </iframe>
 </div>
 
 <script>
+function ajustarPainelSefaz(frame) {
+  try {
+    const doc = frame.contentDocument;
+    if (!doc || doc.getElementById('ajuste-embed-sefaz')) return;
+    const style = doc.createElement('style');
+    style.id = 'ajuste-embed-sefaz';
+    style.textContent = '.hdr{display:none!important}.nav{top:0!important}';
+    doc.head.appendChild(style);
+  } catch (erro) {
+    console.warn('Não foi possível ajustar o cabeçalho do painel SEFAZ-GO.', erro);
+  }
+}
+
 /* ══════════════════════════════════════════════════════════
    1. FUNÇÕES DE NAVEGAÇÃO DO PAINEL GERAL
 ══════════════════════════════════════════════════════════ */

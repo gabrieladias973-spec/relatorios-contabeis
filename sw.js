@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dashboard-centro-oeste-v1';
+const CACHE_NAME = 'dashboard-centro-oeste-v2';
 const APP_SHELL = [
   './',
   './index.html',

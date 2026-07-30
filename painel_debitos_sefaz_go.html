@@ -179,7 +179,16 @@ footer{text-align:center;font-size:10px;color:var(--gray5);padding:18px;letter-s
   .kpi:hover{transform:none;box-shadow:none;}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+/* Remove o cabeçalho duplicado quando este painel é exibido no index.html. */
+html.embedded .hdr{display:none;}
+html.embedded .nav{top:0;}
 </style>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+}
+</script>
 </head>
 <body>
 <header class="hdr">
