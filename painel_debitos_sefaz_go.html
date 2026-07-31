@@ -136,10 +136,28 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 .pay-note{font-size:10px;color:var(--gray5);line-height:1.5;margin-top:8px;}
 .pay-table td:first-child{font-weight:600;color:var(--b800);}
 .pay-table .zero{color:var(--gray3);}
-.pay-kpis{grid-template-columns:repeat(5,1fr);}
-.sphere-line{display:flex;justify-content:space-between;gap:8px;align-items:baseline;padding:4px 0;border-bottom:1px solid var(--gray1);font-size:10px;color:var(--gray5);}
-.sphere-line:last-child{border-bottom:0;}
-.sphere-line b{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--b900);}
+.sphere-highlight{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px;}
+.sphere-card{border-radius:14px;padding:25px 28px;color:#fff;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(10,27,66,.16);}
+.sphere-card::after{content:'';position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.08);right:-45px;top:-55px;}
+.sphere-card.state{background:linear-gradient(135deg,var(--b900),var(--b600));}
+.sphere-card.federal{background:linear-gradient(135deg,#78350F,var(--amber));}
+.sphere-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;opacity:.78;margin-bottom:8px;}
+.sphere-value{font-family:'JetBrains Mono',monospace;font-size:25px;font-weight:700;line-height:1.15;}
+.sphere-sub{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.25);}
+.sphere-sub span{font-size:10px;text-transform:uppercase;letter-spacing:.8px;opacity:.75;display:block;margin-bottom:3px;}
+.sphere-sub b{font-family:'JetBrains Mono',monospace;font-size:13px;}
+.sphere-share{font-size:11px;margin-top:8px;opacity:.78;}
+.sphere-chart{background:#fff;border:1px solid var(--gray3);border-radius:12px;padding:20px 22px 16px;margin-bottom:24px;overflow-x:auto;}
+.sphere-legend{display:flex;gap:18px;justify-content:flex-end;flex-wrap:wrap;margin-bottom:16px;font-size:10px;font-weight:700;color:var(--gray5);text-transform:uppercase;letter-spacing:.6px;}
+.sphere-legend span{display:flex;align-items:center;gap:6px;}.sphere-dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+.sphere-bars{display:grid;grid-template-columns:repeat(7,minmax(105px,1fr));gap:14px;align-items:end;min-width:760px;}
+.sphere-month{height:235px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px;}
+.sphere-group{height:185px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:7px;border-bottom:1px solid var(--gray2);}
+.sphere-bar{width:22px;min-height:3px;border-radius:5px 5px 1px 1px;position:relative;transition:filter .15s;}
+.sphere-bar:hover{filter:brightness(1.15);}
+.sphere-bar.df{background:var(--b400);}.sphere-bar.go{background:var(--b800);}.sphere-bar.fed{background:var(--amber);}
+.sphere-month-label{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gray5);letter-spacing:.7px;}
+.sphere-month-total{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--b800);font-weight:600;white-space:nowrap;}
 
 /* STATUS PILL DENTRO DE TABELA */
 .pill{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:3px 8px;border-radius:4px;white-space:nowrap;}
@@ -185,6 +203,7 @@ footer{text-align:center;font-size:10px;color:var(--gray5);padding:18px;letter-s
   .nav{top:auto;position:static;}
   .hdr{position:static;}
   .pay-chart{grid-template-columns:repeat(7,90px);}
+  .sphere-highlight{grid-template-columns:1fr;}
 }
 @media print{
   .nav,.btn-pdf,.filters{display:none!important;}
@@ -471,25 +490,45 @@ function renderPagamentos(){
   const nomesFederal = ['PERT','RFB - DÉBITO EM CONTA','RFB - ENVIADO NO E-MAIL','PGFN CONV','TRANSAÇÃO'];
   const totalEsfera = nomes => PAGAMENTOS_2026.reduce((s,m) => s + m.itens.filter(i => nomes.includes(tipoPagamento(i[0]))).reduce((a,i) => a+i[2],0),0);
   const totalDF = totalEsfera(nomesDF), totalGO = totalEsfera(nomesGO), totalEstadual = totalDF + totalGO, totalFederal = totalEsfera(nomesFederal);
+  const totalMesEsfera = (m, nomes) => m.itens.filter(i => nomes.includes(tipoPagamento(i[0]))).reduce((s,i) => s+i[2],0);
+  const mensalDF = PAGAMENTOS_2026.map(m => totalMesEsfera(m, nomesDF));
+  const mensalGO = PAGAMENTOS_2026.map(m => totalMesEsfera(m, nomesGO));
+  const mensalFederal = PAGAMENTOS_2026.map(m => totalMesEsfera(m, nomesFederal));
+  const maiorEsferaMes = Math.max(...mensalDF, ...mensalGO, ...mensalFederal);
   return `<div class="co-head">
     <div><div class="co-name">Pagamentos mensais de parcelamentos</div>
       <div class="co-cnpj">Valores pagos de janeiro a julho · conforme Resumo parcelamento 2026.xlsx</div>
       <span class="co-sector">Parcelamentos 2026</span><span class="co-sector warn">Atualizado até julho</span></div>
     <div class="co-period"><span>Total acumulado em 2026</span><strong>${brl(acumulado)}</strong></div>
   </div>
-  <div class="kpi-row pay-kpis">
+  <div class="kpi-row">
     <div class="kpi ck"><div class="kpi-lbl">Total pago no período</div><div class="kpi-v">${compact(acumulado)}</div><div class="kpi-v2">${brl(acumulado)}</div></div>
     <div class="kpi gk"><div class="kpi-lbl">Média mensal</div><div class="kpi-v">${compact(media)}</div><div class="kpi-v2">7 meses informados</div></div>
     <div class="kpi ak"><div class="kpi-lbl">Maior pagamento mensal</div><div class="kpi-v">${compact(maior)}</div><div class="kpi-v2">${PAGAMENTOS_2026[totais.indexOf(maior)].referencia}</div></div>
     <div class="kpi dk"><div class="kpi-lbl">Último mês informado</div><div class="kpi-v">${compact(totais.at(-1))}</div><div class="kpi-v2">Julho/2026</div></div>
-    <div class="kpi ck"><div class="kpi-lbl">Total pago por esfera</div>
-      <div class="sphere-line"><span>Estadual</span><b>${brl(totalEstadual)}</b></div>
-      <div class="sphere-line"><span>DF ${brl(totalDF)} · GO ${brl(totalGO)}</span></div>
-      <div class="sphere-line"><span>Federal</span><b>${brl(totalFederal)}</b></div>
+  </div>
+  <div class="sec">Pagamentos por esfera <small>acumulado de janeiro a julho de 2026</small></div>
+  <div class="sphere-highlight">
+    <div class="sphere-card state"><div class="sphere-label">Total pago estadual</div><div class="sphere-value">${brl(totalEstadual)}</div>
+      <div class="sphere-share">${pct(totalEstadual, acumulado)} do total pago</div>
+      <div class="sphere-sub"><div><span>Distrito Federal</span><b>${brl(totalDF)}</b></div><div><span>Goiás</span><b>${brl(totalGO)}</b></div></div>
+    </div>
+    <div class="sphere-card federal"><div class="sphere-label">Total pago federal</div><div class="sphere-value">${brl(totalFederal)}</div>
+      <div class="sphere-share">${pct(totalFederal, acumulado)} do total pago</div>
+      <div class="sphere-sub"><div><span>Quantidade de tipos</span><b>5</b></div><div><span>Média mensal</span><b>${compact(totalFederal/PAGAMENTOS_2026.length)}</b></div></div>
     </div>
   </div>
-  <div class="sec">Evolução mensal <small>valor total pago por mês</small></div>
-  <div class="pay-chart">${PAGAMENTOS_2026.map((m,i) => `<div class="pay-col"><div class="pay-value">${compact(totais[i])}</div><div class="pay-bar" style="height:${Math.round(150*totais[i]/maior)}px"></div><div class="pay-month">${m.mes}</div></div>`).join('')}</div>
+  <div class="sec">Evolução mensal por esfera <small>DF × GO × Federal</small></div>
+  <div class="sphere-chart">
+    <div class="sphere-legend"><span><i class="sphere-dot" style="background:var(--b400)"></i>DF</span><span><i class="sphere-dot" style="background:var(--b800)"></i>GO</span><span><i class="sphere-dot" style="background:var(--amber)"></i>Federal</span></div>
+    <div class="sphere-bars">${PAGAMENTOS_2026.map((m,i)=>`<div class="sphere-month">
+      <div class="sphere-month-total">Total ${compact(totais[i])}</div>
+      <div class="sphere-group">
+        <div class="sphere-bar df" title="DF: ${brl(mensalDF[i])}" style="height:${Math.max(3,Math.round(175*mensalDF[i]/maiorEsferaMes))}px"></div>
+        <div class="sphere-bar go" title="GO: ${brl(mensalGO[i])}" style="height:${Math.max(3,Math.round(175*mensalGO[i]/maiorEsferaMes))}px"></div>
+        <div class="sphere-bar fed" title="Federal: ${brl(mensalFederal[i])}" style="height:${Math.max(3,Math.round(175*mensalFederal[i]/maiorEsferaMes))}px"></div>
+      </div><div class="sphere-month-label">${m.mes}</div></div>`).join('')}</div>
+  </div>
   <div class="sec">Detalhamento por parcelamento <small>valor e vencimento em cada mês</small></div>
   <div class="tc full pay-table"><div class="tc-hdr">Pagamentos mensais <span class="hint">Passe o cursor sobre um valor para ver a observação</span></div>
     <table><thead><tr><th>Tipo de parcelamento</th>${PAGAMENTOS_2026.map(m=>`<th>${m.mes}</th>`).join('')}<th>Total</th></tr></thead><tbody>
