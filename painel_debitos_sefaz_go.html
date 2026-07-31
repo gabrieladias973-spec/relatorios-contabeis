@@ -153,8 +153,12 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 .sphere-bars{display:grid;grid-template-columns:repeat(7,minmax(105px,1fr));gap:14px;align-items:end;min-width:760px;}
 .sphere-month{height:235px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px;}
 .sphere-group{height:185px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:7px;border-bottom:1px solid var(--gray2);}
-.sphere-bar{width:22px;min-height:3px;border-radius:5px 5px 1px 1px;position:relative;transition:filter .15s;}
-.sphere-bar:hover{filter:brightness(1.15);}
+.sphere-bar{width:26px;min-height:3px;border-radius:5px 5px 1px 1px;position:relative;transition:filter .15s,transform .15s;cursor:pointer;outline:none;}
+.sphere-bar:hover,.sphere-bar:focus,.sphere-bar.selected{filter:brightness(1.15);transform:scaleX(1.08);z-index:20;}
+.sphere-bar::after{content:attr(data-tooltip);position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%) translateY(4px);background:var(--b900);color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;line-height:1.35;white-space:nowrap;padding:7px 9px;border-radius:6px;box-shadow:0 5px 16px rgba(10,27,66,.28);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .15s,transform .15s;}
+.sphere-bar::before{content:'';position:absolute;left:50%;bottom:calc(100% + 3px);transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--b900);opacity:0;visibility:hidden;transition:opacity .15s;}
+.sphere-bar:hover::after,.sphere-bar:focus::after,.sphere-bar.selected::after{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}
+.sphere-bar:hover::before,.sphere-bar:focus::before,.sphere-bar.selected::before{opacity:1;visibility:visible;}
 .sphere-bar.df{background:var(--b400);}.sphere-bar.go{background:var(--b800);}.sphere-bar.fed{background:var(--amber);}
 .sphere-month-label{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gray5);letter-spacing:.7px;}
 .sphere-month-total{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--b800);font-weight:600;white-space:nowrap;}
@@ -477,6 +481,12 @@ const PAGAMENTOS_2026 = [
 
 function totalPagamento(m){ return m.itens.reduce((s,i) => s+i[2], 0); }
 function tipoPagamento(tipo){ return tipo.startsWith('DIVERSOS') ? 'DIVERSOS' : tipo; }
+function toggleBarTooltip(event, bar){
+  event.stopPropagation();
+  const abrir = !bar.classList.contains('selected');
+  document.querySelectorAll('.sphere-bar.selected').forEach(el => el.classList.remove('selected'));
+  if (abrir) bar.classList.add('selected');
+}
 
 function renderPagamentos(){
   const totais = PAGAMENTOS_2026.map(totalPagamento);
@@ -524,9 +534,9 @@ function renderPagamentos(){
     <div class="sphere-bars">${PAGAMENTOS_2026.map((m,i)=>`<div class="sphere-month">
       <div class="sphere-month-total">Total ${compact(totais[i])}</div>
       <div class="sphere-group">
-        <div class="sphere-bar df" title="DF: ${brl(mensalDF[i])}" style="height:${Math.max(3,Math.round(175*mensalDF[i]/maiorEsferaMes))}px"></div>
-        <div class="sphere-bar go" title="GO: ${brl(mensalGO[i])}" style="height:${Math.max(3,Math.round(175*mensalGO[i]/maiorEsferaMes))}px"></div>
-        <div class="sphere-bar fed" title="Federal: ${brl(mensalFederal[i])}" style="height:${Math.max(3,Math.round(175*mensalFederal[i]/maiorEsferaMes))}px"></div>
+        <div class="sphere-bar df" tabindex="0" role="button" aria-label="DF em ${m.referencia}: ${brl(mensalDF[i])}" data-tooltip="DF · ${m.mes}: ${brl(mensalDF[i])}" onclick="toggleBarTooltip(event,this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleBarTooltip(event,this)}" style="height:${Math.max(3,Math.round(175*mensalDF[i]/maiorEsferaMes))}px"></div>
+        <div class="sphere-bar go" tabindex="0" role="button" aria-label="GO em ${m.referencia}: ${brl(mensalGO[i])}" data-tooltip="GO · ${m.mes}: ${brl(mensalGO[i])}" onclick="toggleBarTooltip(event,this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleBarTooltip(event,this)}" style="height:${Math.max(3,Math.round(175*mensalGO[i]/maiorEsferaMes))}px"></div>
+        <div class="sphere-bar fed" tabindex="0" role="button" aria-label="Federal em ${m.referencia}: ${brl(mensalFederal[i])}" data-tooltip="Federal · ${m.mes}: ${brl(mensalFederal[i])}" onclick="toggleBarTooltip(event,this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleBarTooltip(event,this)}" style="height:${Math.max(3,Math.round(175*mensalFederal[i]/maiorEsferaMes))}px"></div>
       </div><div class="sphere-month-label">${m.mes}</div></div>`).join('')}</div>
   </div>
   <div class="sec">Detalhamento por parcelamento <small>valor e vencimento em cada mês</small></div>
@@ -640,6 +650,9 @@ TABS.forEach((t,i) => {
   panel.id = 'panel-' + t.id;
   panel.innerHTML = t.id === 'geral' ? renderGeral() : t.id === 'pagamentos' ? renderPagamentos() : renderEmpresa(DATA.empresas.find(e => e.id === t.id));
   main.appendChild(panel);
+});
+document.addEventListener('click', () => {
+  document.querySelectorAll('.sphere-bar.selected').forEach(el => el.classList.remove('selected'));
 });
 document.getElementById('ref-date').textContent = 'Extrato · ' + new Date().toLocaleDateString('pt-BR', {month:'short', year:'numeric'}).toUpperCase();
 
