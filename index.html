@@ -1030,11 +1030,11 @@ body.dark-mode #panel-icms .bar-label { fill: #fff; }
 
   <div class="sec">Consolidado — Grupo 2026</div>
   <div class="tax-grid-top">
-    <div class="tax-kpi"><div class="tax-kpi-lbl">Tatico</div><div class="tax-kpi-v">R$ 37,0 M</div><div class="tax-kpi-v2">2025: R$ 124,8 M</div><div class="badge dn">▼ 238%</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">Monte Mar</div><div class="tax-kpi-v">R$ 5,7 M</div><div class="tax-kpi-v2">2025: R$ 17,4 M</div><div class="badge dn">▼ 208%</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">Transportes</div><div class="tax-kpi-v">R$ 714,1 mil</div><div class="tax-kpi-v2">2025: R$ 2,2 M</div><div class="badge dn">▼ 212%</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">JE Agropecuária</div><div class="tax-kpi-v">R$ 1.663</div><div class="tax-kpi-v2">2025: R$ 2,94 M</div><div class="badge dn">▼ 176.775%</div></div>
-    <div class="tax-kpi"><div class="tax-kpi-lbl">J&E Brasil</div><div class="tax-kpi-v">R$ 631</div><div class="tax-kpi-v2">2025: R$ 6.713</div><div class="badge dn">▼ 963%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">Tatico</div><div class="tax-kpi-v">R$ 76,2 M</div><div class="tax-kpi-v2">2025: R$ 124,8 M</div><div class="badge dn">▼ 39,0%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">Monte Mar</div><div class="tax-kpi-v">R$ 10,3 M</div><div class="tax-kpi-v2">2025: R$ 17,4 M</div><div class="badge dn">▼ 40,7%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">Transportes</div><div class="tax-kpi-v">R$ 1,56 M</div><div class="tax-kpi-v2">2025: R$ 2,2 M</div><div class="badge dn">▼ 30,2%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">JE Agropecuária</div><div class="tax-kpi-v">R$ 3.326</div><div class="tax-kpi-v2">2025: R$ 2,94 M</div><div class="badge dn">▼ 99,9%</div></div>
+    <div class="tax-kpi"><div class="tax-kpi-lbl">J&E Brasil</div><div class="tax-kpi-v">R$ 3.549</div><div class="tax-kpi-v2">2025: R$ 6.714</div><div class="badge dn">▼ 47,1%</div></div>
   </div>
 
   <div class="sec">Detalhamento Impostos por Empresa</div>
@@ -1575,8 +1575,11 @@ const impostosMonteMar = Object.assign(_fillMonths(_m9), {
   jan_24: {fat:"33.513.278",pis:"—",cof:"—",prev:"7.126",irpj:"—",csll:"—",icst:"825.329",icdf:"392.281",tot:"1.224.736"},
   fev_24: {fat:"35.506.710",pis:"—",cof:"—",prev:"6.610",irpj:"—",csll:"—",icst:"909.834",icdf:"360.233",tot:"1.276.677"},
   mar_24: {fat:"41.899.126",pis:"—",cof:"—",prev:"6.614",irpj:"1.294.665",csll:"468.239",icst:"996.778",icdf:"387.243",tot:"3.153.539"},
+  abr_24: {fat:"35.859.799",pis:"—",cof:"—",prev:"6.757",irpj:"—",csll:"—",icst:"872.048",icdf:"343.400",tot:"1.222.205"},
+  mai_24: {fat:"36.000.753",pis:"—",cof:"—",prev:"7.451",irpj:"—",csll:"—",icst:"839.385",icdf:"362.981",tot:"1.209.817"},
+  jun_24: {fat:"35.366.462",pis:"—",cof:"—",prev:"7.555",irpj:"765.884",csll:"277.878",icst:"863.795",icdf:"339.017",tot:"2.254.131"},
   tot_25: {fat:"354.306.982",pis:"—",cof:"—",prev:"76.839",irpj:"3.737.739",csll:"1.352.066",icst:"9.081.953",icdf:"3.177.807",tot:"17.426.404"},
-  tot_24: {fat:"110.919.115",pis:"—",cof:"—",prev:"20.351",irpj:"1.294.665",csll:"468.239",icst:"2.731.941",icdf:"1.139.758",tot:"5.654.953"},
+  tot_24: {fat:"218.146.129",pis:"—",cof:"—",prev:"42.113",irpj:"2.060.549",csll:"746.118",icst:"5.307.169",icdf:"2.185.157",tot:"10.341.106"},
   tot_var:{fat:"+32,3%",pis:"—",cof:"—",prev:"—",irpj:"+31,9%",csll:"+62,1%",icst:"—",icdf:"—",tot:"-26,6%"}
 });
 
@@ -1593,11 +1596,14 @@ const impostosTatico = Object.assign(_fillMonths(_m9), {
   out_25: {fat:"297.550.905",pis:"128.991",cof:"594.140",prev:"2.084.981",irpj:"—",csll:"—",icst:"5.619.317",icdf:"76.261",tot:"8.503.689"},
   nov_25: {fat:"301.030.799",pis:"251.908",cof:"1.160.303",prev:"2.347.738",irpj:"—",csll:"—",icst:"7.388.435",icdf:"524.011",tot:"11.672.395"},
   dez_25: {fat:"326.263.213",pis:"302.073",cof:"1.391.368",prev:"2.297.617",irpj:"—",csll:"—",icst:"5.801.982",icdf:"652.507",tot:"10.445.548"},
-  jan_24: {fat:"295.535.544",pis:"274.422",cof:"1.264.003",prev:"2.964.752",irpj:"—",csll:"—",icst:"7.383.601",icdf:"1.192.418",tot:"13.079.195"},
-  fev_24: {fat:"282.621.152",pis:"239.667",cof:"1.103.921",prev:"2.812.097",irpj:"—",csll:"—",icst:"6.302.220",icdf:"1.339.764",tot:"11.797.669"},
-  mar_24: {fat:"310.841.301",pis:"170.100",cof:"783.493",prev:"2.933.668",irpj:"—",csll:"—",icst:"6.900.275",icdf:"1.320.225",tot:"12.107.762"},
+  jan_24: {fat:"295.535.544",pis:"—",cof:"—",prev:"2.964.752",irpj:"—",csll:"—",icst:"7.383.601",icdf:"724.576",tot:"11.072.929"},
+  fev_24: {fat:"282.621.152",pis:"—",cof:"—",prev:"2.812.097",irpj:"—",csll:"—",icst:"6.302.220",icdf:"893.875",tot:"10.008.193"},
+  mar_24: {fat:"310.841.301",pis:"—",cof:"—",prev:"2.933.668",irpj:"5.374.317",csll:"1.936.914",icst:"6.900.275",icdf:"805.881",tot:"17.951.055"},
+  abr_24: {fat:"317.055.871",pis:"—",cof:"—",prev:"3.037.137",irpj:"—",csll:"—",icst:"7.806.879",icdf:"469.903",tot:"11.313.919"},
+  mai_24: {fat:"333.726.623",pis:"—",cof:"—",prev:"3.334.804",irpj:"—",csll:"—",icst:"9.643.155",icdf:"1.420.148",tot:"14.398.107"},
+  jun_24: {fat:"305.382.707",pis:"—",cof:"—",prev:"3.134.149",irpj:"—",csll:"—",icst:"7.302.306",icdf:"1.016.606",tot:"11.453.061"},
   tot_25: {fat:"3.477.564.056",pis:"2.842.890",cof:"13.094.525",prev:"25.492.130",irpj:"5.783.785",csll:"2.088.643",icst:"68.104.173",icdf:"7.442.375",tot:"124.848.520"},
-  tot_24: {fat:"888.997.997",pis:"684.189",cof:"3.151.417",prev:"8.710.517",irpj:"—",csll:"—",icst:"20.586.096",icdf:"3.852.407",tot:"36.984.626"},
+  tot_24: {fat:"1.845.163.197",pis:"—",cof:"—",prev:"18.216.606",irpj:"5.374.317",csll:"1.936.914",icst:"45.338.436",icdf:"5.330.990",tot:"76.197.264"},
   tot_var:{fat:"+18,1%",pis:"—",cof:"—",prev:"-18,2%",irpj:"-82,2%",csll:"-82,2%",icst:"+3,1%",icdf:"-44,4%",tot:"-19,4%"}
 });
 
@@ -1617,8 +1623,11 @@ const impostosTransportes = Object.assign(_fillMonths(_m9), {
   jan_24: {fat:"956.524",pis:"8.634",cof:"39.770",prev:"65.582",irpj:"—",csll:"—",icst:"75.561",icdf:"21.298",tot:"210.844"},
   fev_24: {fat:"1.218.068",pis:"12.529",cof:"57.709",prev:"59.802",irpj:"—",csll:"—",icst:"85.655",icdf:"29.942",tot:"245.638"},
   mar_24: {fat:"1.404.396",pis:"11.472",cof:"52.840",prev:"60.961",irpj:"39.733",csll:"16.464",icst:"127.419",icdf:"34.095",tot:"342.983"},
+  abr_24: {fat:"1.457.028",pis:"11.039",cof:"50.848",prev:"63.000",irpj:"—",csll:"—",icst:"121.465",icdf:"32.085",tot:"278.437"},
+  mai_24: {fat:"1.159.404",pis:"6.648",cof:"30.623",prev:"65.880",irpj:"—",csll:"—",icst:"86.216",icdf:"27.775",tot:"217.143"},
+  jun_24: {fat:"1.232.899",pis:"8.545",cof:"39.357",prev:"60.322",irpj:"21.105",csll:"9.758",icst:"91.971",icdf:"29.140",tot:"260.198"},
   tot_25: {fat:"10.708.640",pis:"75.609",cof:"348.239",prev:"563.943",irpj:"141.188",csll:"57.311",icst:"1.042.014",icdf:"—",tot:"2.228.303"},
-  tot_24: {fat:"3.578.988",pis:"32.635",cof:"150.319",prev:"186.345",irpj:"39.733",csll:"16.464",icst:"288.634",icdf:"—",tot:"714.130"},
+  tot_24: {fat:"7.428.319",pis:"58.867",cof:"271.147",prev:"375.548",irpj:"60.838",csll:"26.222",icst:"588.286",icdf:"174.335",tot:"1.555.242"},
   tot_var:{fat:"+698,5%",pis:"—",cof:"—",prev:"—",irpj:"—",csll:"—",icst:"—",icdf:"+100%",tot:"+271,3%"}
 });
 
@@ -1638,8 +1647,11 @@ const impostosAgro = Object.assign(_fillMonths(_m8), {
   jan_24: {fat:"14.337.000",pis:"—",cof:"—",prev:"554",irpj:"—",csll:"—",icdf:"—",tot:"554"},
   fev_24: {fat:"8.365.542",pis:"—",cof:"—",prev:"554",irpj:"—",csll:"—",icdf:"—",tot:"554"},
   mar_24: {fat:"16.024.400",pis:"—",cof:"—",prev:"554",irpj:"—",csll:"—",icdf:"—",tot:"554"},
+  abr_24: {fat:"16.422.385",pis:"—",cof:"—",prev:"554",irpj:"—",csll:"—",icdf:"—",tot:"554"},
+  mai_24: {fat:"16.759.110",pis:"—",cof:"—",prev:"554",irpj:"—",csll:"—",icdf:"—",tot:"554"},
+  jun_24: {fat:"19.972.203",pis:"—",cof:"—",prev:"554",irpj:"—",csll:"—",icdf:"—",tot:"554"},
   tot_25: {fat:"156.734.672",pis:"—",cof:"—",prev:"5.565",irpj:"2.157.243",csll:"778.768",icdf:"—",tot:"2.941.576"},
-  tot_24: {fat:"38.726.942",pis:"—",cof:"—",prev:"1.663",irpj:"—",csll:"—",icdf:"—",tot:"1.663"},
+  tot_24: {fat:"91.880.640",pis:"—",cof:"—",prev:"3.326",irpj:"—",csll:"—",icdf:"—",tot:"3.326"},
   tot_var:{fat:"+266,2%",pis:"—",cof:"—",prev:"+100%",irpj:"+1,2%",csll:"+0,9%",icdf:"—",tot:"+37,3%"}
 });
 
@@ -1648,8 +1660,11 @@ const impostosJeBrasil = Object.assign(_fillMonths(_mjb), {
   jan_24: {fat:"1.911",pis:"32",cof:"145",irpj:"—",csll:"—",icms:"—",iss:"96",tot:"272"},
   fev_24: {fat:"5.789",pis:"—",cof:"—",irpj:"—",csll:"—",icms:"—",iss:"289",tot:"289"},
   mar_24: {fat:"1.394",pis:"—",cof:"—",irpj:"—",csll:"—",icms:"—",iss:"70",tot:"70"},
+  abr_24: {fat:"1.950",pis:"—",cof:"—",irpj:"—",csll:"—",icms:"—",iss:"98",tot:"98"},
+  mai_24: {fat:"7.525",pis:"—",cof:"—",irpj:"—",csll:"—",icms:"—",iss:"376",tot:"376"},
+  jun_24: {fat:"5.552",pis:"—",cof:"—",irpj:"1.354",csll:"812",icms:"—",iss:"278",tot:"2.444"},
   tot_25: {fat:"17.553",pis:"290",cof:"1.334",irpj:"2.633",csll:"1.580",icms:"—",iss:"878",tot:"6.714"},
-  tot_24: {fat:"9.094",pis:"32",cof:"145",irpj:"—",csll:"—",icms:"—",iss:"455",tot:"631"},
+  tot_24: {fat:"24.122",pis:"32",cof:"145",irpj:"1.354",csll:"812",icms:"—",iss:"1.206",tot:"3.549"},
   tot_var:{fat:"+100%",pis:"—",cof:"—",irpj:"—",csll:"—",icms:"—",iss:"—",tot:"+100%"}
 });
 
