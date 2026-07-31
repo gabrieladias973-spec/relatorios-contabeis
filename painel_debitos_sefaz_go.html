@@ -136,6 +136,10 @@ tr.tot td{font-weight:700;background:var(--b100);color:var(--b800);border-top:2p
 .pay-note{font-size:10px;color:var(--gray5);line-height:1.5;margin-top:8px;}
 .pay-table td:first-child{font-weight:600;color:var(--b800);}
 .pay-table .zero{color:var(--gray3);}
+.pay-kpis{grid-template-columns:repeat(5,1fr);}
+.sphere-line{display:flex;justify-content:space-between;gap:8px;align-items:baseline;padding:4px 0;border-bottom:1px solid var(--gray1);font-size:10px;color:var(--gray5);}
+.sphere-line:last-child{border-bottom:0;}
+.sphere-line b{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--b900);}
 
 /* STATUS PILL DENTRO DE TABELA */
 .pill{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:3px 8px;border-radius:4px;white-space:nowrap;}
@@ -453,32 +457,43 @@ const PAGAMENTOS_2026 = [
 ];
 
 function totalPagamento(m){ return m.itens.reduce((s,i) => s+i[2], 0); }
+function tipoPagamento(tipo){ return tipo.startsWith('DIVERSOS') ? 'DIVERSOS' : tipo; }
 
 function renderPagamentos(){
   const totais = PAGAMENTOS_2026.map(totalPagamento);
   const acumulado = totais.reduce((s,v) => s+v, 0);
   const media = acumulado / totais.length;
   const maior = Math.max(...totais);
-  const tipos = [...new Set(PAGAMENTOS_2026.flatMap(m => m.itens.map(i => i[0])))];
-  const totalTipos = tipos.map(tipo => PAGAMENTOS_2026.reduce((s,m) => s + m.itens.filter(i => i[0]===tipo).reduce((a,i) => a+i[2],0),0));
+  const tipos = [...new Set(PAGAMENTOS_2026.flatMap(m => m.itens.map(i => tipoPagamento(i[0]))))];
+  const totalTipos = tipos.map(tipo => PAGAMENTOS_2026.reduce((s,m) => s + m.itens.filter(i => tipoPagamento(i[0])===tipo).reduce((a,i) => a+i[2],0),0));
+  const nomesDF = ['SEFAZ DF'];
+  const nomesGO = ['PRECATÓRIO','20.939-20','ICMS GO','11.651-91','DIVERSOS'];
+  const nomesFederal = ['PERT','RFB - DÉBITO EM CONTA','RFB - ENVIADO NO E-MAIL','PGFN CONV','TRANSAÇÃO'];
+  const totalEsfera = nomes => PAGAMENTOS_2026.reduce((s,m) => s + m.itens.filter(i => nomes.includes(tipoPagamento(i[0]))).reduce((a,i) => a+i[2],0),0);
+  const totalDF = totalEsfera(nomesDF), totalGO = totalEsfera(nomesGO), totalEstadual = totalDF + totalGO, totalFederal = totalEsfera(nomesFederal);
   return `<div class="co-head">
     <div><div class="co-name">Pagamentos mensais de parcelamentos</div>
       <div class="co-cnpj">Valores pagos de janeiro a julho · conforme Resumo parcelamento 2026.xlsx</div>
       <span class="co-sector">Parcelamentos 2026</span><span class="co-sector warn">Atualizado até julho</span></div>
     <div class="co-period"><span>Total acumulado em 2026</span><strong>${brl(acumulado)}</strong></div>
   </div>
-  <div class="kpi-row">
+  <div class="kpi-row pay-kpis">
     <div class="kpi ck"><div class="kpi-lbl">Total pago no período</div><div class="kpi-v">${compact(acumulado)}</div><div class="kpi-v2">${brl(acumulado)}</div></div>
     <div class="kpi gk"><div class="kpi-lbl">Média mensal</div><div class="kpi-v">${compact(media)}</div><div class="kpi-v2">7 meses informados</div></div>
     <div class="kpi ak"><div class="kpi-lbl">Maior pagamento mensal</div><div class="kpi-v">${compact(maior)}</div><div class="kpi-v2">${PAGAMENTOS_2026[totais.indexOf(maior)].referencia}</div></div>
     <div class="kpi dk"><div class="kpi-lbl">Último mês informado</div><div class="kpi-v">${compact(totais.at(-1))}</div><div class="kpi-v2">Julho/2026</div></div>
+    <div class="kpi ck"><div class="kpi-lbl">Total pago por esfera</div>
+      <div class="sphere-line"><span>Estadual</span><b>${brl(totalEstadual)}</b></div>
+      <div class="sphere-line"><span>DF ${brl(totalDF)} · GO ${brl(totalGO)}</span></div>
+      <div class="sphere-line"><span>Federal</span><b>${brl(totalFederal)}</b></div>
+    </div>
   </div>
   <div class="sec">Evolução mensal <small>valor total pago por mês</small></div>
   <div class="pay-chart">${PAGAMENTOS_2026.map((m,i) => `<div class="pay-col"><div class="pay-value">${compact(totais[i])}</div><div class="pay-bar" style="height:${Math.round(150*totais[i]/maior)}px"></div><div class="pay-month">${m.mes}</div></div>`).join('')}</div>
   <div class="sec">Detalhamento por parcelamento <small>valor e vencimento em cada mês</small></div>
   <div class="tc full pay-table"><div class="tc-hdr">Pagamentos mensais <span class="hint">Passe o cursor sobre um valor para ver a observação</span></div>
     <table><thead><tr><th>Tipo de parcelamento</th>${PAGAMENTOS_2026.map(m=>`<th>${m.mes}</th>`).join('')}<th>Total</th></tr></thead><tbody>
-    ${tipos.map((tipo,ti)=>`<tr><td>${tipo}</td>${PAGAMENTOS_2026.map(m=>{const i=m.itens.find(x=>x[0]===tipo);return i?`<td title="${i[3]||''}">${brl(i[2])}<br><span style="font-size:9px;color:var(--gray5)">${i[1]}</span></td>`:'<td class="zero">—</td>';}).join('')}<td><b>${brl(totalTipos[ti])}</b></td></tr>`).join('')}
+    ${tipos.map((tipo,ti)=>`<tr><td>${tipo}</td>${PAGAMENTOS_2026.map(m=>{const itens=m.itens.filter(x=>tipoPagamento(x[0])===tipo);const valor=itens.reduce((s,i)=>s+i[2],0);return itens.length?`<td title="${itens.map(i=>i[3]).filter(Boolean).join(' · ')}">${brl(valor)}<br><span style="font-size:9px;color:var(--gray5)">${itens.map(i=>i[1]).join(' · ')}</span></td>`:'<td class="zero">—</td>';}).join('')}<td><b>${brl(totalTipos[ti])}</b></td></tr>`).join('')}
     <tr class="tot"><td>Total mensal</td>${totais.map(v=>`<td>${brl(v)}</td>`).join('')}<td>${brl(acumulado)}</td></tr>
     </tbody></table>
   </div>
